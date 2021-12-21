@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const ResultsScreen = () => {
+const CameraScreen = () => {
     return (
         <View>
             <Text>Results from scan</Text>
@@ -9,4 +9,4 @@ const ResultsScreen = () => {
     )
 }
 
-export default ResultsScreen
+export default CameraScreen

@@ -1,32 +1,40 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet } from "react-native";
+import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
 import useAuth from "../hooks/useAuth";
 import AccountScreen from "../screens/AccountScreen";
 import FavouritesScreen from "../screens/FavouritesScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
-import ResultsScreen from "../screens/ResultsScreen";
-
+import {
+  AntDesign,
+  MaterialIcons,
+  Ionicons,
+  MaterialCommunityIcons,
+  Entypo,
+} from "@expo/vector-icons";
+import CameraScreen from "../screens/CameraScreen";
+import tw from "tailwind-rn";
 
 const Tab = createBottomTabNavigator();
-const Stack= createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
   const { user } = useAuth();
 
   // showing a login screen if user is not logged
-  if(!user){
+  if (!user) {
     return (
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen}/>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
-    )
+    );
   }
   // showing home screen if user is logged in
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarShowLabel: true,
         tabBarStyle: {
           position: "absolute",
           bottom: 25,
@@ -39,10 +47,79 @@ const MenuTabs = () => {
         },
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Results" component={ResultsScreen} />
-      <Tab.Screen name="Favorites" component={FavouritesScreen} />
-      <Tab.Screen name="Account" component={AccountScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarLabelStyle: { top: 10 },
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <Ionicons
+                style={{ top: 10 }}
+                name="home-sharp"
+                size={30}
+                color="black"
+              />
+            ) : (
+              <Ionicons
+                style={{ top: 10 }}
+                name="home-outline"
+                size={30}
+                color="black"
+              />
+            ),
+        }}
+      />
+      <Tab.Screen
+        name="Camera"
+        component={CameraScreen}
+        options={{
+          tabBarLabel: "Scan",
+          tabBarButton: () => (
+            <TouchableOpacity
+              style={[
+                tw(" rounded-full w-20 h-20"),
+                {
+                  top: -30,
+                  marginHorizontal: "20%",
+                  shadowColor: "white",
+                  shadowOffset: { width: -2, height: 4 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 3,
+                },
+              ]}
+            >
+              <Ionicons
+                name="scan-circle"
+                size={80}
+                color="black"
+                style={{ left: 2 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      {/* <Tab.Screen name="Favorites" component={FavouritesScreen} options={{
+          tabBarLabel: "Home",
+          tabBarIcon: () => (
+            <MaterialIcons name="favorite-border" size={24} color="black" />
+          ),
+        }}/> */}
+      <Tab.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{
+          tabBarLabel: "Account",
+          tabBarLabelStyle: { top: 10 },
+          tabBarIcon: () => (
+            <Image
+              style={[tw("w-10 h-10 rounded-full "), { top: 10 }]}
+              source={{ uri: user.photoURL }}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
