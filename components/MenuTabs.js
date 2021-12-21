@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet } from "react-native";
+import useAuth from "../hooks/useAuth";
 import AccountScreen from "../screens/AccountScreen";
 import FavouritesScreen from "../screens/FavouritesScreen";
 import HomeScreen from "../screens/HomeScreen";
@@ -11,7 +12,8 @@ import ResultsScreen from "../screens/ResultsScreen";
 const Tab = createBottomTabNavigator();
 const Stack= createNativeStackNavigator();
 const MenuTabs = () => {
-  const user = false;
+  const { user } = useAuth();
+
   // showing a login screen if user is not logged
   if(!user){
     return (

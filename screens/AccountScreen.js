@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
+import useAuth from '../hooks/useAuth'
 
 const AccountScreen = () => {
+    const {logout} = useAuth();
     return (
         <View>
             <Text>Account</Text>
+            <Button title='Logout' onPress={logout}/>
         </View>
     )
 }
