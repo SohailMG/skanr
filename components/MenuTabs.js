@@ -15,6 +15,7 @@ import {
 } from "@expo/vector-icons";
 import CameraScreen from "../screens/CameraScreen";
 import tw from "tailwind-rn";
+import SplashScreen from "../screens/SplashScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ const MenuTabs = () => {
   if (!user) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     );
