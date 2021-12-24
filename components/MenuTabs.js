@@ -1,6 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import useAuth from "../hooks/useAuth";
 import AccountScreen from "../screens/AccountScreen";
 import FavouritesScreen from "../screens/FavouritesScreen";
@@ -16,6 +22,7 @@ import {
 import CameraScreen from "../screens/CameraScreen";
 import tw from "tailwind-rn";
 import SplashScreen from "../screens/SplashScreen";
+import ScanButton from "./ScanButton";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,7 +50,7 @@ const MenuTabs = () => {
           left: 20,
           right: 20,
           elevation: 0,
-          backgroundColor: "#ffffff",
+          backgroundColor: "#19191c",
           borderRadius: 15,
           height: 90,
         },
@@ -54,21 +61,21 @@ const MenuTabs = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
-          tabBarLabelStyle: { top: 10 },
+          tabBarLabelStyle: { top: 10, color: "white" },
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Ionicons
                 style={{ top: 10 }}
                 name="home-sharp"
                 size={30}
-                color="black"
+                color="yellow"
               />
             ) : (
               <Ionicons
                 style={{ top: 10 }}
                 name="home-outline"
                 size={30}
-                color="black"
+                color="white"
               />
             ),
         }}
@@ -77,47 +84,21 @@ const MenuTabs = () => {
         name="Camera"
         component={CameraScreen}
         options={{
-          tabBarLabel: "Scan",
-          tabBarButton: () => (
-            <TouchableOpacity
-              style={[
-                tw(" rounded-full w-20 h-20"),
-                {
-                  top: -30,
-                  marginHorizontal: "20%",
-                  shadowColor: "white",
-                  shadowOffset: { width: -2, height: 4 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 3,
-                },
-              ]}
-            >
-              <Ionicons
-                name="scan-circle"
-                size={80}
-                color="black"
-                style={{ left: 2 }}
-              />
-            </TouchableOpacity>
-          ),
+          tabBarButton: (props) => <ScanButton {...props} />,
         }}
       />
-      {/* <Tab.Screen name="Favorites" component={FavouritesScreen} options={{
-          tabBarLabel: "Home",
-          tabBarIcon: () => (
-            <MaterialIcons name="favorite-border" size={24} color="black" />
-          ),
-        }}/> */}
       <Tab.Screen
         name="Account"
         component={AccountScreen}
         options={{
           tabBarLabel: "Account",
-          tabBarLabelStyle: { top: 10 },
-          tabBarIcon: () => (
-            <Image
-              style={[tw("w-10 h-10 rounded-full "), { top: 10 }]}
-              source={{ uri: user.photoURL }}
+          tabBarLabelStyle: { top: 20, color: "white" },
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              name="account-settings-outline"
+              size={40}
+              color="white"
+              style={{ left: 2, top: 10 }}
             />
           ),
         }}
