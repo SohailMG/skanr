@@ -23,18 +23,27 @@ import CameraScreen from "../screens/CameraScreen";
 import tw from "tailwind-rn";
 import SplashScreen from "../screens/SplashScreen";
 import ScanButton from "./ScanButton";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
   const { user } = useAuth();
-
+  const { message } = useSelector((state) => state.message);
   // showing a login screen if user is not logged
   if (!user) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
+    );
+  }
+  if (message) {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     );
   }

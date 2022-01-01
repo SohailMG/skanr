@@ -11,7 +11,14 @@
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.7.1",
+    "@tensorflow-models/mobilenet": "^2.1.0",
+    "@tensorflow/tfjs": "^3.12.0",
+    "@tensorflow/tfjs-converter": "^3.12.0",
+    "@tensorflow/tfjs-react-native": "^0.8.0",
+    "axios": "^0.24.0",
     "expo": "~44.0.0",
+    "expo-camera": "~12.1.0",
     "expo-google-app-auth": "~8.3.0",
     "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
@@ -27,6 +34,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "^12.1.1",
     "react-native-web": "0.17.1",
+    "react-redux": "^7.2.6",
     "tailwind-rn": "^3.0.1"
   },
   "devDependencies": {

@@ -1,7 +1,8 @@
 import { View, Text } from 'react-native'
 import * as Location from "expo-location";
 import { useEffect, useState } from 'react';
-
+import PlaceContainer from './PlaceContainer';
+import tw from 'tailwind-rn'
 const RecommendedPlaces = () => {
     const [location, setLocation] = useState(null);
     const [latitude, setlatitude] = useState(null);
@@ -21,9 +22,8 @@ const RecommendedPlaces = () => {
       })();
     }, []);
     return (
-      <View >
-        <Text >{longitude}</Text>
-        <Text >{latitude}</Text>
+      <View style={tw('flex-1')}>
+        <PlaceContainer longitude={longitude} latitude={latitude}/>
       </View>
     );
 }

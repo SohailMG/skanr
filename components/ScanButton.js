@@ -1,9 +1,12 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import tw from "tailwind-rn";
+import { useDispatch, useSelector } from "react-redux";
+import { setMessage } from "../slices/locationSlice";
 const ScanButton = ({ children, onPress }) => {
+ const dispatch = useDispatch();
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={()=> dispatch(setMessage(true))}
       style={[
         tw("    "),
         {

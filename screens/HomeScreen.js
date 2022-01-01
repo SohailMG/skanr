@@ -7,9 +7,11 @@ import { GOOGLE_PLACES_API_KEY } from "@env";
 import HomeHeader from "../components/HomeHeader";
 import { AntDesign } from "@expo/vector-icons";
 import RecommendedPlaces from "../components/RecommendedPlaces";
+import ClassifyImg from "../components/ClassifyImg";
 
 const HomeScreen = () => {
   const { user } = useAuth();
+  
   return (
     <View style={tw("flex-1 ")}>
       {/* Top scanner */}
@@ -20,7 +22,7 @@ const HomeScreen = () => {
         <Text
           style={[
             tw("font-bold text-gray-800"),
-            {fontSize:"40px" },
+            {fontSize:40 },
           ]}
         >
           Search or Scan
@@ -58,6 +60,7 @@ const HomeScreen = () => {
       {/* Recomended*/}
       <View style={tw('flex-1')}>
         <RecommendedPlaces/>
+        <ClassifyImg/>
       </View>
     </View>
   );

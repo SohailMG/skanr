@@ -7,16 +7,21 @@ LogBox.ignoreAllLogs(); // Ignore log notification by message
 import MenuTabs from "./components/MenuTabs";
 import { AuthProvider } from "./hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import {Provider} from 'react-redux'
+import { store } from "./store";
 export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
         {/* HOC - Higher order component */}
         {/* <KeyboardAvoidingView> */}
+        <Provider store={store}>
+
           <AuthProvider>
             {/* Passes down the core auth to child components */}
             <MenuTabs />
           </AuthProvider>
+        </Provider>
         {/* </KeyboardAvoidingView> */}
       </SafeAreaProvider>
     </NavigationContainer>
