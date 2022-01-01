@@ -29,7 +29,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
   const { user } = useAuth();
-  const { message } = useSelector((state) => state.message);
+  const { message } = useSelector((state) => state.appReducer);
   // showing a login screen if user is not logged
   if (!user) {
     return (

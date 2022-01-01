@@ -3,6 +3,6 @@ import messageReducer from "./slices/locationSlice";
 
 export const store = configureStore({
   reducer: {
-    message: messageReducer,
+    appReducer: messageReducer,
   },
 });

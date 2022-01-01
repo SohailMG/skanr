@@ -4,9 +4,13 @@ const appSlice = createSlice({
   name: "message",
   initialState: {
     message: false,
-    isScanning:false,
+    imageUri: null,
+    isScanning: false,
   },
   reducers: {
+    setImageUri(state, action) {
+      state.imageUri = action.payload;
+    },
     setMessage(state, action) {
       state.message = action.payload;
     },
@@ -16,5 +20,5 @@ const appSlice = createSlice({
   },
 });
 
-export const { setMessage,setIsScanning } = appSlice.actions;
+export const { setMessage, setIsScanning, setImageUri } = appSlice.actions;
 export default appSlice.reducer;

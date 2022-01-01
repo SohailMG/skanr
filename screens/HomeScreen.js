@@ -8,10 +8,12 @@ import HomeHeader from "../components/HomeHeader";
 import { AntDesign } from "@expo/vector-icons";
 import RecommendedPlaces from "../components/RecommendedPlaces";
 import ClassifyImg from "../components/ClassifyImg";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const { user } = useAuth();
-  
+   const { imageUri } = useSelector((state) => state.appReducer);
+   console.log(imageUri)
   return (
     <View style={tw("flex-1 ")}>
       {/* Top scanner */}
@@ -59,7 +61,8 @@ const HomeScreen = () => {
       </View>
       {/* Recomended*/}
       <View style={tw('flex-1')}>
-        <RecommendedPlaces/>
+        {/* <RecommendedPlaces/> */}
+        {imageUri && <Image source={{ uri: imageUri }} style={{width:200,height:400}}/>}
         <ClassifyImg/>
       </View>
     </View>

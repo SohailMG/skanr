@@ -29,6 +29,7 @@
     "react-native-dotenv": "^3.3.1",
     "react-native-elements": "^3.4.2",
     "react-native-google-places-autocomplete": "^2.4.1",
+    "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
