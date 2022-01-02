@@ -12,21 +12,16 @@ import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const { user } = useAuth();
-   const { imageUri } = useSelector((state) => state.appReducer);
-   console.log(imageUri)
+  const { imageUri } = useSelector((state) => state.appReducer);
+  //  console.log(imageUri)
   return (
     <View style={tw("flex-1 ")}>
       {/* Top scanner */}
       <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
         <HomeHeader />
       </View>
-      <View style={[tw("mx-5 mb-4 h-32 p-2"),{width:155}]}>
-        <Text
-          style={[
-            tw("font-bold text-gray-800"),
-            {fontSize:40 },
-          ]}
-        >
+      <View style={[tw("mx-5 mb-4 h-32 p-2"), { width: 155 }]}>
+        <Text style={[tw("font-bold text-gray-800"), { fontSize: 40 }]}>
           Search or Scan
         </Text>
       </View>
@@ -60,10 +55,15 @@ const HomeScreen = () => {
         />
       </View>
       {/* Recomended*/}
-      <View style={tw('flex-1')}>
+      <View style={tw("flex-1")}>
         {/* <RecommendedPlaces/> */}
-        {imageUri && <Image source={{ uri: imageUri }} style={{width:200,height:400}}/>}
-        <ClassifyImg/>
+        {imageUri && (
+          <Image
+            source={{ uri: imageUri }}
+            style={{ width: 200, height: 400 }}
+          />
+        )}
+        <ClassifyImg />
       </View>
     </View>
   );

@@ -3,10 +3,18 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 import tw from "tailwind-rn";
 import { useDispatch } from "react-redux";
-import { setImageUri, setIsScanning, setMessage } from "../slices/locationSlice";
+import {
+  setImageUri,
+  setIsScanning,
+  setMessage,
+} from "../slices/locationSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
+import cloudVision from "../cloude-vision";
+import * as ImageManipulator from "expo-image-manipulator";
+import * as FileSystem from "expo-file-system";
+
 const CameraScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -15,19 +23,52 @@ const CameraScreen = () => {
   const [scanning, setScanning] = useState(false);
   const [imagePath, setImagePath] = useState(null);
 
- 
-
   const camRef = useRef(null);
 
   // taking a picture
   const takePicture = async () => {
     setScanning(true);
     const options = { quality: 0.5, base64: true, skipProcessing: false };
-    const photo = await camRef.current.takePictureAsync();
-    const source = photo.uri;
+    // capturing the picture
+    const photo = await camRef.current.takePictureAsync(options);
+    // storing image url to global redux store
+    dispatch(setImageUri(photo.uri));
+    // resizing image and decoding to base64
+    const base64 = await resizeImage(photo);
+    // performing object detection on decoded image
+    let result = await fetchImageLabels(base64);
+    // text blocks detected in the image
+    const { textAnnotations } = result.responses[0];
     setScanning(false);
-    dispatch(setImageUri(source));
-    console.log(source);
+  };
+
+  const fetchImageLabels = async (base64) => {
+    cloudVision.reqBody.requests[0].image.content = base64;
+    return await fetch(cloudVision.url + cloudVision.apiKey, {
+      method: "POST",
+      body: JSON.stringify(cloudVision.reqBody),
+    }).then(
+      (response) => {
+        return response.json();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  };
+
+  // resize image to cloud vision's preference 640x640
+  const resizeImage = async (image) => {
+    const resizedImgObject = await ImageManipulator.manipulateAsync(
+      image.localUri || image.uri,
+      [{ resize: { width: 500, height: 500 } }],
+      { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
+    );
+
+    const base64 = await FileSystem.readAsStringAsync(resizedImgObject.uri, {
+      encoding: "base64",
+    });
+    return base64;
   };
 
   useEffect(() => {
