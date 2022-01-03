@@ -24,6 +24,7 @@ import tw from "tailwind-rn";
 import SplashScreen from "../screens/SplashScreen";
 import ScanButton from "./ScanButton";
 import { useSelector } from "react-redux";
+import ResultsScreen from "../screens/ResultsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,6 +44,7 @@ const MenuTabs = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     );
@@ -104,8 +106,8 @@ const MenuTabs = () => {
           tabBarLabelStyle: { top: 20, color: "white" },
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
-              name="account-settings-outline"
-              size={40}
+              name="account-cog-outline"
+              size={30}
               color="white"
               style={{ left: 2, top: 10 }}
             />

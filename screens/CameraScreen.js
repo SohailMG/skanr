@@ -2,18 +2,23 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 import tw from "tailwind-rn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setImageUri,
   setIsScanning,
   setMessage,
-} from "../slices/locationSlice";
+  setPlaceId,
+  setPlaceIds,
+  setScannedText,
+} from "../slices/appSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
-import cloudVision from "../cloude-vision";
+import CLOUD_VISION from "../cloude-vision";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
+import { GOOGLE_PLACES_API_KEY } from "@env";
+import axios from "axios";
 
 const CameraScreen = () => {
   const dispatch = useDispatch();
@@ -22,6 +27,8 @@ const CameraScreen = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [imagePath, setImagePath] = useState(null);
+  const latitude = 51.57069107350924;
+  const longitude = -0.374277452081281;
 
   const camRef = useRef(null);
 
@@ -36,17 +43,23 @@ const CameraScreen = () => {
     // resizing image and decoding to base64
     const base64 = await resizeImage(photo);
     // performing object detection on decoded image
-    let result = await fetchImageLabels(base64);
+    const result = await fetchImageLabels(base64);
     // text blocks detected in the image
-    const { textAnnotations } = result.responses[0];
+    const { labelAnnotations, textAnnotations } = result.responses[0];
+    const extractedText = textAnnotations[0].description;
+    dispatch(setScannedText(extractedText));
+    const placeId = await fetchPlaceIds(textAnnotations);
+    dispatch(setPlaceId(placeId));
     setScanning(false);
+
+    navigation.navigate("Results");
   };
 
   const fetchImageLabels = async (base64) => {
-    cloudVision.reqBody.requests[0].image.content = base64;
-    return await fetch(cloudVision.url + cloudVision.apiKey, {
+    CLOUD_VISION.reqBody.requests[0].image.content = base64;
+    return await fetch(CLOUD_VISION.url + CLOUD_VISION.apiKey, {
       method: "POST",
-      body: JSON.stringify(cloudVision.reqBody),
+      body: JSON.stringify(CLOUD_VISION.reqBody),
     }).then(
       (response) => {
         return response.json();
@@ -69,6 +82,31 @@ const CameraScreen = () => {
       encoding: "base64",
     });
     return base64;
+  };
+
+  const fetchPlaceIds = async (extractedText) => {
+    return axios
+      .get(
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
+      )
+      .then((response) => {
+        const { results } = response.data;
+        for (let place of results) {
+          for (let textBlock of extractedText) {
+            console.log(textBlock.description, place.name);
+            if (
+              place.name
+                .toLowerCase()
+                .includes(textBlock.description.toLowerCase().trim())
+            ) {
+              console.log("from camera -M " + place.place_id);
+              return place.place_id;
+            }
+          }
+        }
+        // checkMatchingPlace(results);
+        // setPlaceIds(results);
+      });
   };
 
   useEffect(() => {
