@@ -20,12 +20,22 @@ const AccountScreen = () => {
           style={tw("h-20 w-20 rounded-full")}
           source={{ uri: user.photoURL }}
         />
-        <Text style={[tw("mt-4 font-semibold text-gray-800")]}>
-          Name : {user.displayName}
-        </Text>
-        <Text style={[tw("mt-4 font-semibold text-gray-800")]}>
-          Email: {user.email}
-        </Text>
+        <View style={tw("self-start m-2 p-2 flex")}>
+          <Text style={tw("mb-2 mt-2")}>Name</Text>
+          <Text
+            style={tw("text-lg mb-2  text-gray-400 bg-white p-2 rounded-lg")}
+          >
+            {user.displayName}
+          </Text>
+          <Text style={tw("mb-2 mt-2")}>Email</Text>
+          <Text
+            style={tw(
+              "text-lg  text-lg text-gray-400 bg-white p-2 rounded-lg"
+            )}
+          >
+            {user.email}
+          </Text>
+        </View>
         <TouchableOpacity
           style={[
             tw("flex flex-row items-center mt-10 bg-white p-2 rounded-full"),

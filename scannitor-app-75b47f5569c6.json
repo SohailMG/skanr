@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "scannitor-app",
+  "private_key_id": "75b47f5569c649e3eff45d4815e3d2c918e6af3f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCvigyRjoi9R0Y6\nwae604izy/pPw6T7+8YfVhNEai8IeKPAbiBct1xhNKehuUlLigIXL5Ocn2nyc0fV\nS6ntRPaUHkj1Rp9gsFotCxvCKnKzFmkHHVtfwGXSDwaQL9M/FrJfuLEXFmjV+Jr/\nUw6s6zJOHTAAJmHck0iHXvOhCKWBZ1j3uKYpEwYkvjmD0YZC0TL1RGjBzVNIPgov\n1h26iQnytjcAzF9QPP1xbG20z7XHrHDzN+gJSuy0vTOwBNSm9olAXKAJ2bd3QpOc\nnVRppbXWkgjHvSSZGEX9jClQZ0yQ6kX0jzvrhwiLVQOElZXo2oOL6PWLpVXBBSHF\n4g9za6WpAgMBAAECggEABg2e6Mcp46Anhaied5WKX8FMxnu1l7OPqGPA3R0mtfEE\nYzv6urX7wnsHoQeqKRmGY+4uWWwiiP1LQK0W/7sX5zw6Hix8/3u6q+Qwj83LQcNg\ny3bYo/ZBrJsX7ZF+2aV6xjBba2xW5+tYPy4RNYq++S0qYIYOwYW9ke0HBV+8rcY9\nMivmbmNL+IcKKMB32dH9wQFtWEu8qB/QMdlSYBbVMZmMOL7feAEtwIwHMMF8jlTZ\nunypLrUFv27cxCE2Sh0ZiFN6hYrEOiOT1PaHsbYRDz5uFPmTsZPxau3wyAzAE+v6\nrAS+P1pvgyhtGD/I26jh2lY1ExcTJw1hq7iewHF1NwKBgQDh7KtPJL3qtqumLNX1\n9xAL8836RLrT+wsGTRJVH1j8SuvSz7uEcMcjrSzhZuc9aNWozOe2HOyN4loqPlW+\nfhsUxArqJ4ZI1UATH9UgBz7s07v49DC120IbgTVWdjZ/tgTSnGGklm4VjfVMskjh\nDj6S80FrFcezTXolzkWkgj419wKBgQDG6EpSW9t1DVUshtJQF30bxDdAouw3CK0i\nxfCvZ+TGGNucYBceGQ0lr+IckX7fiUP8nYmRzvgJMhZWmwa4y4EX+mOZsDZSJ4Qz\ngtOYqfgqIt6fE3geNYrcwrTjlKXALHfel8ySFEt3lSWjJeY0JV636f/eipDjEvoC\nIRNC11OZXwKBgATtGSsnnPCCPSnpblznnzTzgvlDCGPY5HulsJGkllch9xRorSkN\nIHp5qzHbAY3IPGhq116UMOBDID4tj8cQjtycDbTfWcE6zSPdnNMO9WNKlp2uDWXZ\nuw5IefZBq5yLRn2lJUfmc84Kg1/Bv28Q1XJ01WdVWT5ioRgz8DbPFDYvAoGAQJaz\nc5TyaUsACmppJqrJ7FdF3c5JyAEgP3dpFXw2FIGD5n5pY1OdKky3rrEsMqgfFIuP\nXXKIpmvGRy8l+qHSdJfQ+dn3eavtSNDFpwAiXoReJ+epjJ20TsVG+dOOEx4deoFu\nY00FyHn888JdwzcTT8NDW99A9wt1dXWKDJ1hPx8CgYBW1bZ24GSpO50vtDzkxUar\ntWnWBIkuYx6BvF4PnljQeP5lAWobH8eMYtP5C/QL4If1pYF4lvie+3b+nr21zKiQ\ng7vnYKRowI4OTTyFqtaLmP3BF2Z+thJ9yk+zOn4qkytDq2esKYRGKwp9IE7GYQl0\npCHdFn6nhPjUiEgnVPJBPg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "skanr-service-account-694@scannitor-app.iam.gserviceaccount.com",
+  "client_id": "115135140226904948772",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/skanr-service-account-694%40scannitor-app.iam.gserviceaccount.com"
+}
