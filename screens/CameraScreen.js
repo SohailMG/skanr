@@ -93,13 +93,13 @@ const CameraScreen = () => {
         const { results } = response.data;
         for (let place of results) {
           for (let textBlock of extractedText) {
-            console.log(textBlock.description, place.name);
+            // console.log(textBlock.description, place.name);
             if (
               place.name
                 .toLowerCase()
                 .includes(textBlock.description.toLowerCase().trim())
             ) {
-              console.log("from camera -M " + place.place_id);
+              // console.log("from camera -M " + place.place_id);
               return place.place_id;
             }
           }

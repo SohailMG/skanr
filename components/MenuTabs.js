@@ -31,6 +31,7 @@ const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
   const { user } = useAuth();
   const { message } = useSelector((state) => state.appReducer);
+  const { placeData } = useSelector((state) => state.placeReducer);
   // showing a login screen if user is not logged
   if (!user) {
     return (
@@ -44,6 +45,14 @@ const MenuTabs = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Results" component={ResultsScreen} />
+      </Stack.Navigator>
+    );
+  }
+  if (placeData) {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>

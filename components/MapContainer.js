@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import MapView, { Marker ,} from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import tw from "tailwind-rn";
 const MapContainer = ({ location, restaurant }) => {
   const { lat, lng } = location;
@@ -12,11 +12,9 @@ const MapContainer = ({ location, restaurant }) => {
         latitudeDelta: 0.0005,
         longitudeDelta: 0.0005,
       }}
-      
     >
       {lat && (
         <Marker
-          anchor
           title={restaurant}
           coordinate={{
             latitude: lat,

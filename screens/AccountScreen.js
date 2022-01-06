@@ -8,14 +8,14 @@ import { AntDesign } from "@expo/vector-icons";
 const AccountScreen = () => {
   const { logout, user } = useAuth();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "#EEEAD8", flex: 1 }}>
       {/* Header */}
       <View style={tw("items-center")}>
         <Text style={tw("font-semibold text-md ")}>Account</Text>
       </View>
 
       {/* Account details */}
-      <View style={tw("items-center mt-20 flex")}>
+      <View style={[tw("items-center mt-20 flex")]}>
         <Image
           style={tw("h-20 w-20 rounded-full")}
           source={{ uri: user.photoURL }}
@@ -29,9 +29,7 @@ const AccountScreen = () => {
           </Text>
           <Text style={tw("mb-2 mt-2")}>Email</Text>
           <Text
-            style={tw(
-              "text-lg  text-lg text-gray-400 bg-white p-2 rounded-lg"
-            )}
+            style={tw("text-lg  text-lg text-gray-400 bg-white p-2 rounded-lg")}
           >
             {user.email}
           </Text>

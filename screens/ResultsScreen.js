@@ -23,6 +23,7 @@ const ResultsScreen = () => {
   const { scannedText, placeId, imageUri } = useSelector(
     (state) => state.appReducer
   );
+  const { placeData } = useSelector((state) => state.placeReducer);
   const latitude = 51.57069107350924;
   const longitude = -0.374277452081281;
   const [nearbyHalalPLaces, setNearbyHalalPLaces] = useState([]);
@@ -44,9 +45,15 @@ const ResultsScreen = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const reviews = await fetchPlaceDetails();
-      const sentiment = await analyseReviews(reviews);
-      setAnalysedReviews(sentiment);
+      if (!placeData) {
+        const reviews = await fetchPlaceDetails();
+        const sentiment = await analyseReviews(reviews);
+        setAnalysedReviews(sentiment);
+      } else {
+        const sentiment = await analyseReviews(placeData.reviews);
+        setAnalysedReviews(sentiment);
+        setPlaceDetails(placeData);
+      }
     };
     fetchData();
   }, []);
