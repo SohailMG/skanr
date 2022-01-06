@@ -44,9 +44,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[tw("flex-1 "), { backgroundColor: "#EEEAD8" }]}
-    >
+    <View style={[tw("flex-1 relative"), { backgroundColor: "#EEEAD8" }]}>
       {/* Top scanner */}
       <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
         <HomeHeader />
@@ -87,7 +85,7 @@ const HomeScreen = () => {
       <View style={tw("flex-1")}>
         <RecommendedPlaces />
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

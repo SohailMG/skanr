@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import tw from "tailwind-rn";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../slices/appSlice";
+import { Ionicons } from "@expo/vector-icons";
 const ScanButton = ({ children, onPress }) => {
   const dispatch = useDispatch();
   return (
@@ -13,7 +14,7 @@ const ScanButton = ({ children, onPress }) => {
           justifyContent: "center",
           alignItems: "center",
           top: -30,
-          shadowColor: "white",
+          shadowColor: "gray",
           shadowOffset: { width: -2, height: 4 },
           shadowOpacity: 0.2,
           shadowRadius: 3,
@@ -21,20 +22,21 @@ const ScanButton = ({ children, onPress }) => {
       ]}
     >
       <View
-        style={{
-          width: 70,
-          height: 70,
-          borderRadius: 35,
-          backgroundColor: "#F9FE02",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={[
+          tw("flex items-center justify-center"),
+          {
+            width: 70,
+            height: 70,
+            borderRadius: 35,
+            backgroundColor: "#202120",
+          },
+        ]}
       >
-        <Image
-          source={require("../assets/scanIcon.png")}
-          resizeMode="cover"
-          width={70}
-          height={70}
+        <Ionicons
+          style={tw("ml-1 ")}
+          name="ios-scan-outline"
+          size={50}
+          color="white"
         />
       </View>
     </TouchableOpacity>

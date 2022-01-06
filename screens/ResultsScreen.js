@@ -18,6 +18,17 @@ import { ScrollView } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import MapContainer from "../components/MapContainer";
 import { TouchableOpacity } from "react-native";
+import BackHomeButton from "../components/BackHomeButton";
+import StatsCircle from "../components/StatsCircle";
+import PlaceInfo from "../components/PlaceInfo";
+
+const priceLevels = {
+  0: ["Free", 10],
+  1: ["Inexpensive", 35],
+  2: ["Moderate", 50],
+  3: ["Expensive", 80],
+  4: ["Very Expensive", 100],
+};
 
 const ResultsScreen = () => {
   const { scannedText, placeId, imageUri } = useSelector(
@@ -38,9 +49,9 @@ const ResultsScreen = () => {
   const [placeDetails, setPlaceDetails] = useState(null);
   const [sentimentTag, setsentimentTag] = useState(null);
   const [analysedReviews, setAnalysedReviews] = useState([]);
-  const [isHalal, setIsHalal] = useState(false);
+  const [isHalal, setIsHalal] = useState(null);
   const [fields, setfields] = useState(
-    "name%2Cgeometry%2Crating%2Cformatted_phone_number%2Cphotos%2Creviews"
+    "name%2Cgeometry%2Crating%2Cformatted_phone_number%2Cprice_level%2Cphotos%2Creviews"
   );
 
   useEffect(() => {
@@ -54,9 +65,12 @@ const ResultsScreen = () => {
         setAnalysedReviews(sentiment);
         setPlaceDetails(placeData);
       }
+      const halalStatus = await fetchHalalPlacesNearby();
+      // console.log(placeDetails?.priceLevel);
+      setIsHalal(halalStatus);
     };
     fetchData();
-  }, []);
+  }, [isHalal]);
   const fetchHalalPlacesNearby = async () => {
     var config = {
       method: "get",
@@ -66,11 +80,21 @@ const ResultsScreen = () => {
         Authorization: FOURSQUARE_API_KEY,
       },
     };
-    axios(config)
+    return axios(config)
       .then(function (response) {
-        const data = response.data.results;
-
-        setNearbyHalalPLaces(data);
+        const places = response.data.results;
+        // console.log(places);
+        for (let place of places) {
+          const { name, categories } = place;
+          if (categories[0].id == "13191") {
+            console.log(placeDetails.name, name);
+            if (name.toLowerCase() == placeDetails.name.toLowerCase()) {
+              console.log("is Halal");
+              return true;
+            }
+          }
+        }
+        return false;
       })
       .catch(function (error) {
         console.log(error);
@@ -110,6 +134,7 @@ const ResultsScreen = () => {
         name,
         rating,
         geometry,
+        price_level,
       } = response.data.result;
       const newPlaceDetails = {
         name: name,
@@ -118,6 +143,7 @@ const ResultsScreen = () => {
         reviews: reviews,
         photos: photos,
         location: geometry.location,
+        priceLevel: price_level,
       };
       console.log(name);
       setPlaceDetails(newPlaceDetails);
@@ -133,13 +159,13 @@ const ResultsScreen = () => {
       const { text } = review;
       reviewBlock += text + " . ";
     });
-    var formdata = new FormData();
+    const formdata = new FormData();
     formdata.append("key", "442359eba32966a4f2447cccb837593a");
     formdata.append("lang", "en");
     formdata.append("model", "general");
     formdata.append("txt", reviewBlock);
 
-    var requestOptions = {
+    const requestOptions = {
       method: "POST",
       body: formdata,
       redirect: "follow",
@@ -166,65 +192,43 @@ const ResultsScreen = () => {
   };
 
   return (
-    <View style={tw("flex-1 ")}>
+    <View style={[tw("flex-1 "), { backgroundColor: "#EEEAD8" }]}>
       {/* top half */}
-      <View style={[tw("h-1/2 bg-gray-800")]}>
+      <View style={[tw("relative h-2/3 "), { backgroundColor: "#B9D8C8" }]}>
         {/* <ImageBackground source={{ uri: imageUri }} style={{ flex: 1 }}> */}
         <SafeAreaView style={[tw("flex  items-center justify-center")]}>
-          {sentimentTag && (
-            <AnimatedCircularProgress
-              style={[
-                tw("mt-4"),
-                {
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowOpacity: 0.25,
-                  shadowRadius: 3.84,
-                  elevation: 5,
-                },
-              ]}
-              size={150}
-              width={10}
-              arcSweepAngle={200}
-              rotation={260}
-              fill={sentimentTags[sentimentTag][1]}
-              tintColor="#F9C53A"
-              backgroundColor="#FBFBFB"
-            >
-              {(fill) => (
-                <View style={tw("flex flex-col items-center justify-center")}>
-                  <Text style={tw("text-3xl")}>
-                    {sentimentTags[sentimentTag][0]}
-                  </Text>
-                  <Text style={tw("text-sm font-semibold text-white")}>
-                    {sentimentTags[sentimentTag][2]}
-                  </Text>
-                </View>
-              )}
-            </AnimatedCircularProgress>
-          )}
-          <Text
-            style={tw(
-              "mb-2 text-3xl text-center text-white font-semibold truncate"
-            )}
-          >
-            <MaterialIcons name="food-bank" size={24} color="white" />
-            {placeDetails?.name}
-          </Text>
-          {/* rating */}
-          <View
-            style={tw(
-              "flex mb-4 flex-row items-center bg-gray-600 rounded-md p-2 self-start ml-10"
-            )}
-          >
-            <Text style={tw("text-lg mr-2 font-semibold text-white")}>
-              {placeDetails?.rating}
-            </Text>
-            <AntDesign name="star" size={24} color="yellow" />
+          <View style={tw("absolute top-12 left-5")}>
+            <BackHomeButton />
           </View>
+          <View
+            style={[
+              tw("flex flex-row  mt-10"),
+              { alignContent: "space-around" },
+            ]}
+          >
+            {sentimentTag && (
+              <StatsCircle
+                title={"Customer Satisfaction"}
+                fillLevel={sentimentTags[sentimentTag][1]}
+                hasEmoji={sentimentTags[sentimentTag][0]}
+                label={sentimentTags[sentimentTag][2]}
+                color={"#F9C53A"}
+              />
+            )}
+            {placeDetails?.priceLevel && (
+              <StatsCircle
+                title={"Price Level"}
+                hasEmoji={"💸"}
+                fillLevel={priceLevels[placeDetails?.priceLevel][1]}
+                label={priceLevels[placeDetails?.priceLevel][0]}
+                color={"#2FB89D"}
+              />
+            )}
+          </View>
+          {placeDetails && (
+            <PlaceInfo isHalal={isHalal} placeDetails={placeDetails} />
+          )}
+          {/* rating */}
           {/* review tags */}
         </SafeAreaView>
         {/* </ImageBackground> */}
@@ -239,23 +243,40 @@ const ResultsScreen = () => {
         )}
       </View>
       <View style={tw("mt-4 flex flex-row")}>
+        {/* see images button */}
         <TouchableOpacity
           style={[
             tw("mx-6 mt-6 flex items-center w-40 py-4 rounded-md bg-white"),
-            styles.shadowStyle,
+            ,
           ]}
         >
           <Entypo name="images" size={50} color="green" />
           <Text style={tw("text-sm font-semibold")}>Food Images</Text>
         </TouchableOpacity>
+        {/* Read reviews buttons */}
         <TouchableOpacity
           style={[
-            tw("mx-6 mt-6 flex items-center w-40 py-4 rounded-md bg-white"),
-            styles.shadowStyle,
+            tw(
+              "mx-6 mt-6 flex items-center justify-center w-40 py-4 rounded-md bg-white"
+            ),
+            ,
           ]}
         >
-          <MaterialIcons name="rate-review" size={50} color="orange" />
-          <Text style={tw("text-sm font-semibold ")}>Read Reviews</Text>
+          <View style={tw("flex flex-row items-center ")}>
+            {placeDetails?.reviews
+              .slice(0, 4)
+              .map(({ profile_photo_url }, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: profile_photo_url }}
+                  style={tw("h-8 w-8 -ml-4 rounded-full")}
+                />
+              ))}
+            <Text style={tw("text-sm font-semibold text-gray-500")}>
+              +{placeDetails?.reviews.length}
+            </Text>
+          </View>
+          <Text style={tw("text-sm font-semibold ")}>customer reviews</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -55,6 +55,7 @@ const MenuTabs = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Camera" component={CameraScreen} />
       </Stack.Navigator>
     );
   }
@@ -70,7 +71,7 @@ const MenuTabs = () => {
           left: 20,
           right: 20,
           elevation: 0,
-          backgroundColor: "#19191c",
+          backgroundColor: "#B9D8C8",
           borderRadius: 15,
           height: 90,
         },
@@ -81,14 +82,14 @@ const MenuTabs = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
-          tabBarLabelStyle: { top: 10, color: "white" },
+          tabBarLabelStyle: { top: 10, color: "#202120" },
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Ionicons
                 style={{ top: 10 }}
                 name="home-sharp"
                 size={30}
-                color="yellow"
+                color="#202120"
               />
             ) : (
               <Ionicons

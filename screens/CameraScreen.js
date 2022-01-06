@@ -19,6 +19,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import axios from "axios";
+import BackHomeButton from "../components/BackHomeButton";
 
 const CameraScreen = () => {
   const dispatch = useDispatch();
@@ -144,20 +145,7 @@ const CameraScreen = () => {
         >
           {/* return to screen button */}
           <View style={tw("absolute bottom-5 left-4 ")}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Home");
-                dispatch(setMessage(false));
-              }}
-              style={[
-                tw(
-                  "bg-white w-20 rounded-full mb-10 flex items-center justify-center"
-                ),
-                {},
-              ]}
-            >
-              <Ionicons name="ios-return-down-back" size={24} color="black" />
-            </TouchableOpacity>
+            <BackHomeButton />
           </View>
           {/* take a picture button */}
           <View>
