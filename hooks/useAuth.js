@@ -13,17 +13,15 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
-
+import { ANDRIOD_CLIENTID, IOS_CLIENTID } from "@env";
 const AuthContext = createContext({
   // initial state
 });
 
 // firebase config
 const config = {
-  androidClientId:
-    "498207515476-579d4moqa8inc8nbrk0qusdt49liua1h.apps.googleusercontent.com",
-  iosClientId:
-    "498207515476-535gi2up0moaubl8glf87pgbk270k7o4.apps.googleusercontent.com",
+  androidClientId: ANDRIOD_CLIENTID,
+  iosClientId: IOS_CLIENTID,
   scopes: ["profile", "email"],
   permissions: ["public_profile", "email", "gender", "location"],
 };
@@ -59,10 +57,14 @@ export const AuthProvider = ({ children }) => {
           await signInWithCredential(auth, credentials);
         } else {
           // show error message
+          console.log(loginResult);
           return Promise.reject();
         }
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        console.log(error);
+        setError(error);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -73,9 +75,6 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
-
-
-  
   const memoedValue = useMemo(
     () => ({
       user,

@@ -1,46 +1,37 @@
 {
-  "type": "service_account",
   "project_info": {
-    "project_number": "498207515476",
-    "project_id": "scannitor-app",
-    "storage_bucket": "scannitor-app.appspot.com"
+    "project_number": "1062052978371",
+    "project_id": "skanr-app",
+    "storage_bucket": "skanr-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:498207515476:android:9f50dfcc1ed28b59a29ec1",
+        "mobilesdk_app_id": "1:1062052978371:android:b2bb51302c45dc1f608c76",
         "android_client_info": {
           "package_name": "host.exp.exponent"
         }
       },
       "oauth_client": [
         {
-          "client_id": "498207515476-579d4moqa8inc8nbrk0qusdt49liua1h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "host.exp.exponent",
-            "certificate_hash": "1613e25c49c7d3fe7bb57d598bd91be638da40f8"
-          }
-        },
-        {
-          "client_id": "498207515476-k83areir3re1ot3h9kter6qmsr02mfj6.apps.googleusercontent.com",
+          "client_id": "1062052978371-iqqgg4cafjn98qfc0aidaj4fddomelbf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAiwahbXeEYIGixpjBtYGcHuGF4YeVJ_Bk"
+          "current_key": "AIzaSyDaVTT07OB7DRWvZDRxmvnOrFPAQLll98Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "498207515476-k83areir3re1ot3h9kter6qmsr02mfj6.apps.googleusercontent.com",
+              "client_id": "1062052978371-iqqgg4cafjn98qfc0aidaj4fddomelbf.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "498207515476-535gi2up0moaubl8glf87pgbk270k7o4.apps.googleusercontent.com",
+              "client_id": "1062052978371-mumpiu4q5lf9am715ebofrrohsqlfa8f.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "host.exp.exponent"

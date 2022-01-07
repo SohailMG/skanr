@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1062052978371-mumpiu4q5lf9am715ebofrrohsqlfa8f.apps.googleusercontent.com</string>
+	<string>498207515476-535gi2up0moaubl8glf87pgbk270k7o4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1062052978371-mumpiu4q5lf9am715ebofrrohsqlfa8f</string>
+	<string>com.googleusercontent.apps.498207515476-535gi2up0moaubl8glf87pgbk270k7o4</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDuBm9vHAsrqZKXP-9haURoMZbpHCPXCk4</string>
+	<string>AIzaSyAgbjN5-SXwRERkpeUqc0Vp8IzDw7soDds</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1062052978371</string>
+	<string>498207515476</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>host.exp.exponent</string>
 	<key>PROJECT_ID</key>
-	<string>skanr-app</string>
+	<string>scannitor-app</string>
 	<key>STORAGE_BUCKET</key>
-	<string>skanr-app.appspot.com</string>
+	<string>scannitor-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1062052978371:ios:112d7a3e6eca3209608c76</string>
+	<string>1:498207515476:ios:59af6e373150b1b2a29ec1</string>
 </dict>
 </plist>

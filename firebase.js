@@ -8,13 +8,12 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAQXAkT6lN2C6n76wch2xiIMGZC21POErY",
-  authDomain: "scannitor-app.firebaseapp.com",
-  projectId: "scannitor-app",
-  storageBucket: "scannitor-app.appspot.com",
-  messagingSenderId: "498207515476",
-  appId: "1:498207515476:web:0e4819bc9903869ba29ec1",
-  measurementId: "G-P6692XFKGD",
+  apiKey: "AIzaSyAXUKIPnZ6XpxtoJej3KwhgLgy3o5Dmxoc",
+  authDomain: "skanr-app.firebaseapp.com",
+  projectId: "skanr-app",
+  storageBucket: "skanr-app.appspot.com",
+  messagingSenderId: "1062052978371",
+  appId: "1:1062052978371:web:ffad0d7db314ae63608c76",
 };
 
 // Initialize Firebase
@@ -22,4 +21,4 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
-export {auth,db}
+export { auth, db };
