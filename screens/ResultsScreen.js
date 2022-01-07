@@ -13,7 +13,7 @@ import { FOURSQUARE_API_KEY } from "@env";
 import { useEffect } from "react";
 import axios from "axios";
 import { GOOGLE_PLACES_API_KEY, SENTIMENT_API_KEY } from "@env";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ScrollView } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import MapContainer from "../components/MapContainer";
@@ -21,7 +21,11 @@ import { TouchableOpacity } from "react-native";
 import BackHomeButton from "../components/BackHomeButton";
 import StatsCircle from "../components/StatsCircle";
 import PlaceInfo from "../components/PlaceInfo";
-
+import { setRecentScans } from "../slices/recentsSlice";
+import { setDoc, doc, serverTimestamp, updateDoc } from "@firebase/firestore";
+import { db } from "../firebase";
+import useAuth from "../hooks/useAuth";
+import { storePlaceToRecents } from "../db-controllers";
 const priceLevels = {
   0: ["Free", 10],
   1: ["Inexpensive", 35],
@@ -34,6 +38,8 @@ const ResultsScreen = () => {
   const { scannedText, placeId, imageUri } = useSelector(
     (state) => state.appReducer
   );
+  const { user } = useAuth();
+  const dispatch = useDispatch();
   const { placeData } = useSelector((state) => state.placeReducer);
   const latitude = 51.57069107350924;
   const longitude = -0.374277452081281;
@@ -57,20 +63,23 @@ const ResultsScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!placeData) {
-        const reviews = await fetchPlaceDetails();
-        const sentiment = await analyseReviews(reviews);
+        const newPlaceDetails = await fetchPlaceDetails();
+        const sentiment = await analyseReviews(newPlaceDetails.reviews);
         setAnalysedReviews(sentiment);
+        setPlaceDetails(newPlaceDetails);
+        storePlaceToRecents(user, newPlaceDetails);
       } else {
         const sentiment = await analyseReviews(placeData.reviews);
         setAnalysedReviews(sentiment);
         setPlaceDetails(placeData);
+        storePlaceToRecents(user, placeData);
       }
       const halalStatus = await fetchHalalPlacesNearby();
-      // console.log(placeDetails?.priceLevel);
       setIsHalal(halalStatus);
+      dispatch(setRecentScans(placeData));
     };
     fetchData();
-  }, [isHalal]);
+  }, []);
   const fetchHalalPlacesNearby = async () => {
     var config = {
       method: "get",
@@ -87,8 +96,7 @@ const ResultsScreen = () => {
         for (let place of places) {
           const { name, categories } = place;
           if (categories[0].id == "13191") {
-            console.log(placeDetails.name, name);
-            if (name.toLowerCase() == placeDetails.name.toLowerCase()) {
+            if (name.toLowerCase() == placeDetails?.name.toLowerCase()) {
               console.log("is Halal");
               return true;
             }
@@ -147,7 +155,7 @@ const ResultsScreen = () => {
       };
       console.log(name);
       setPlaceDetails(newPlaceDetails);
-      return reviews;
+      return newPlaceDetails;
     });
   };
 
@@ -237,8 +245,8 @@ const ResultsScreen = () => {
       <View style={[tw("h-40 mx-4 -mt-20"), { borderRadius: 10 }]}>
         {placeDetails && (
           <MapContainer
-            location={placeDetails.location}
-            restaurant={placeDetails.name}
+            location={placeDetails?.location}
+            restaurant={placeDetails?.name}
           />
         )}
       </View>

@@ -5,8 +5,8 @@ import useAuth from "../hooks/useAuth";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import HomeHeader from "../components/HomeHeader";
-import { AntDesign } from "@expo/vector-icons";
-import RecommendedPlaces from "../components/RecommendedPlaces";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import RecentScans from "../components/RecentScans";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingView } from "react-native";
 import { setPlaceData } from "../slices/placeDataSlice";
@@ -51,7 +51,7 @@ const HomeScreen = () => {
       </View>
 
       {/* Google places autocomplete  */}
-      <View style={[tw("flex-1 mx-5 mt-4"), {}]}>
+      <View style={[tw("flex mb-10 mx-5 mt-4"), {}]}>
         <GooglePlacesAutocomplete
           fetchDetails={true}
           onPress={(data, details = null) => fetchPlaceData(data, details)}
@@ -76,14 +76,15 @@ const HomeScreen = () => {
           }}
         />
       </View>
-      <View style={[tw("flex items-center"), {}]}>
-        <Text style={[tw("font-light p-2"), { fontSize: 40 }]}>
-          Search or scan front of restaurant
-        </Text>
-      </View>
       {/* Recomended*/}
-      <View style={tw("flex-1")}>
-        <RecommendedPlaces />
+      <View style={tw("flex-1 mt-2 mx-4")}>
+        <View style={tw("flex flex-row items-center")}>
+          <Text style={tw("ml-6 mr-2 text-xl text-gray-800 font-semibold")}>
+            Recent Scans
+          </Text>
+          <MaterialIcons name="history-toggle-off" size={20} color="green" />
+        </View>
+        <RecentScans />
       </View>
     </View>
   );

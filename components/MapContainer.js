@@ -3,9 +3,11 @@ import MapView, { Marker } from "react-native-maps";
 import tw from "tailwind-rn";
 const MapContainer = ({ location, restaurant }) => {
   const { lat, lng } = location;
+  // console.log(location);
   return (
     <MapView
-      style={tw("flex-1 rounded-lg")}
+      scrollEnabled={false}
+      style={[tw("flex-1"), { borderRadius: 20, height: 150 }]}
       initialRegion={{
         latitude: lat,
         longitude: lng,
