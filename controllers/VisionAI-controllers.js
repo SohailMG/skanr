@@ -43,9 +43,9 @@ export const fetchPlaceImages = async (placeDetails) => {
 
   return Promise.all(promises).then((responses) => {
     const photoUrls = [];
-    responses.forEach((response) => {
+    responses.forEach((response, index) => {
       const photoUrl = response.request.responseURL;
-      photoUrls.push(photoUrl);
+      photoUrls.push({ src: photoUrl, id: index + 100 });
     });
     return photoUrls;
     // console.log(response.length);

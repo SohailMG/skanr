@@ -25,6 +25,7 @@ import SplashScreen from "../screens/SplashScreen";
 import ScanButton from "./ScanButton";
 import { useSelector } from "react-redux";
 import ResultsScreen from "../screens/ResultsScreen";
+import PlaceGallery from "../screens/PlaceGallery";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -55,6 +56,7 @@ const MenuTabs = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Gallery" component={PlaceGallery} />
         <Stack.Screen name="Camera" component={CameraScreen} />
       </Stack.Navigator>
     );

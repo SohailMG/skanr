@@ -26,10 +26,13 @@ import {
   fetchPlaceImages,
 } from "../controllers/VisionAI-controllers";
 import { analyseReviews } from "../controllers/sentiment-controller";
+import { setPlaceImages } from "../slices/placeDataSlice";
+import { useNavigation } from "@react-navigation/native";
 const ResultsScreen = () => {
   const { scannedText, placeId, imageUri } = useSelector(
     (state) => state.appReducer
   );
+  const navigation = useNavigation();
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { placeData } = useSelector((state) => state.placeReducer);
@@ -69,12 +72,15 @@ const ResultsScreen = () => {
         longitude,
         placeDetails
       );
-      const images = await fetchPlaceImages(placeDetails);
-      console.log(images);
+      // console.log(placeDetails, placeData);
+      const placeImages = await fetchPlaceImages(
+        placeDetails ? placeDetails : placeData
+      );
+      console.log(placeImages);
       setIsHalal(halalStatus);
-      dispatch(setRecentScans(placeData));
+      dispatch(setPlaceImages(placeImages));
     };
-    fetchData();
+    (async () => await fetchData())();
   }, []);
 
   //   perform sentiment analysis on customer reviews
@@ -133,6 +139,7 @@ const ResultsScreen = () => {
       <View style={tw("mt-4 flex flex-row")}>
         {/* see images button */}
         <TouchableOpacity
+          onPress={() => navigation.navigate("Gallery")}
           style={[
             tw("mx-6 mt-6 flex items-center w-40 py-4 rounded-md bg-white"),
             ,
