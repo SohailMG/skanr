@@ -3,7 +3,7 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import tw from "tailwind-rn";
-import { fetchRecentsFromDb } from "../db-controllers";
+import { fetchRecentsFromDb } from "../controllers/db-controllers";
 import useAuth from "../hooks/useAuth";
 import MapContainer from "./MapContainer";
 import MapView, { Marker } from "react-native-maps";
@@ -40,27 +40,33 @@ const RecentScans = () => {
     })();
   }, []);
 
+  // const parsePlaceDetails = (placeDetails) => {
+  //   const parsedData = [];
+  //   placeDetails
+
+  // }
   return (
     <ScrollView style={tw("flex-1 ml-2")}>
-      {recentScans.map(({ placeDetails, timestamp }, index) => (
-        <View
-          key={index}
-          style={[tw(" m-2 w-90  rounded-3xl p-4 "), styles.shadowStyle]}
-        >
-          <View style={tw("flex-1 mb-4")}>
-            <MapContainer
-              location={JSON.parse(placeDetails)["location"]}
-              restaurant={JSON.parse(placeDetails)["name"]}
-            />
+      {recentScans &&
+        recentScans.map(({ placeDetails, timestamp }, index) => (
+          <View
+            key={index}
+            style={[tw("bg-gray-100 m-2 rounded-3xl p-4 "), styles.shadowStyle]}
+          >
+            <View style={tw("flex-1 mb-4")}>
+              <MapContainer
+                location={placeDetails["location"]}
+                restaurant={placeDetails["name"]}
+              />
+            </View>
+            <Text style={tw("text-lg text-gray-800 font-semibold")}>
+              {placeDetails["name"]}
+            </Text>
+            <Text style={tw("text-xs text-gray-400 font-semibold")}>
+              {new Date(timestamp?.toDate()).toDateString()}
+            </Text>
           </View>
-          <Text style={tw("text-xs font-semibold")}>
-            {JSON.parse(placeDetails)["name"]}
-          </Text>
-          <Text style={tw("text-xs text-gray-400 font-semibold")}>
-            {new Date(timestamp?.toDate()).toDateString()}
-          </Text>
-        </View>
-      ))}
+        ))}
     </ScrollView>
   );
 };
@@ -73,7 +79,6 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    backgroundColor: "white",
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 

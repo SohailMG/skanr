@@ -5,18 +5,18 @@ import {
   updateDoc,
   getDoc,
 } from "@firebase/firestore";
-import { db } from "./firebase";
+import { db } from "../firebase";
 
 export const storePlaceToRecents = async (user, newPlaceData) => {
   //   console.log(user.uid);
   const results = await fetchRecentsFromDb(user);
-  //   console.log(results[0]);
+  // console.log(results);
 
   if (results) {
     let exists;
     results.forEach(({ placeDetails }) => {
-      const { name } = JSON.parse(placeDetails);
-      // console.log(name === newPlaceData.name);
+      const { name } = placeDetails;
+      console.log(name === newPlaceData.name);
       if (name === newPlaceData.name) {
         exists = true;
         return;
@@ -40,7 +40,7 @@ export const addToDb = async (user, placeData) => {
     placeData: [
       {
         timestamp: new Date(),
-        placeDetails: JSON.stringify(placeData),
+        placeDetails: placeData,
       },
     ],
   })
@@ -52,7 +52,7 @@ export const addToDb = async (user, placeData) => {
     });
 };
 export const fetchRecentsFromDb = async (user) => {
-  const docRef = doc(db, "recents", "uV4TPO1Ta0ShGEsELl0HjW83AtN2");
+  const docRef = doc(db, "recents", user.uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const { placeData, timestamp } = docSnap.data();
@@ -63,13 +63,13 @@ export const fetchRecentsFromDb = async (user) => {
 };
 
 export const updateRecents = async (placesArr, newPlaceData, user) => {
-  console.log(user);
+  // console.log(user);
   const docRef = doc(db, "recents", user.uid);
   //   console.log(recentPlacesArr);
   updateDoc(docRef, {
     placeData: [
       ...placesArr,
-      { placeDetails: JSON.stringify(newPlaceData), timestamp: new Date() },
+      { placeDetails: newPlaceData, timestamp: new Date() },
     ],
   })
     .then(() => console.log("updated recents"))

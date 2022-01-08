@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import tw from "tailwind-rn";
 import { useDispatch, useSelector } from "react-redux";
@@ -133,6 +133,9 @@ const CameraScreen = () => {
           textContent="taking picture"
           textStyle={{ color: "white" }}
         />
+        <Text style={tw("absolute mb-4 bottom-32 self-center text-white")}>
+          Take a picture of the front of the restaurant
+        </Text>
         <View
           style={[
             tw("items-end justify-center"),
@@ -144,18 +147,19 @@ const CameraScreen = () => {
           ]}
         >
           {/* return to screen button */}
+
           <View style={tw("absolute bottom-5 left-4 ")}>
             <BackHomeButton />
           </View>
           {/* take a picture button */}
-          <View>
+          <View style={tw("p-1 border border-white rounded-full mb-10")}>
             <TouchableOpacity
               onPress={takePicture}
               style={[
                 tw(
-                  "bg-white w-20 h-20 rounded-full mb-10 flex items-center justify-center"
+                  "bg-white w-20 h-20 rounded-full  flex items-center justify-center"
                 ),
-                {},
+                styles.shadowStyle,
               ]}
             >
               <Ionicons
@@ -173,3 +177,16 @@ const CameraScreen = () => {
 };
 
 export default CameraScreen;
+const styles = StyleSheet.create({
+  shadowStyle: {
+    shadowColor: "gray",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+});
