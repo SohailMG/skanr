@@ -36,17 +36,13 @@ const RecentScans = () => {
       setlatitude(location.coords.latitude);
       setlongitude(location.coords.longitude);
       const recents = await fetchRecentsFromDb(user);
+      console.log(location.coords.latitude);
       setRecentScans(recents);
     })();
   }, []);
 
-  // const parsePlaceDetails = (placeDetails) => {
-  //   const parsedData = [];
-  //   placeDetails
-
-  // }
   return (
-    <ScrollView style={tw("flex-1 ml-2")}>
+    <ScrollView showsVerticalScrollIndicator={false} style={tw("flex-1 ml-2")}>
       {recentScans &&
         recentScans.map(({ placeDetails, timestamp }, index) => (
           <View

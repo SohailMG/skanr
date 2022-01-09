@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView, Image, ImageBackground } from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import HomeHeader from "../components/HomeHeader";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import RecentScans from "../components/RecentScans";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingView } from "react-native";
@@ -45,47 +45,57 @@ const HomeScreen = () => {
 
   return (
     <View style={[tw("flex-1 relative"), { backgroundColor: "#EEEAD8" }]}>
-      {/* Top scanner */}
-      <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
-        <HomeHeader />
-      </View>
-
-      {/* Google places autocomplete  */}
-      <View style={[tw("flex mb-10 mx-5 mt-4"), {}]}>
-        <GooglePlacesAutocomplete
-          fetchDetails={true}
-          onPress={(data, details = null) => fetchPlaceData(data, details)}
-          styles={{
-            container: {
-              flex: 0,
-              backgroundColor: "#FEFFFE",
-              borderRadius: "50px",
-            },
-            textInput: {
-              borderRadius: "50px",
-              fontSize: 18,
-              // backgroundColor: "#",
-            },
-          }}
-          placeholder="Search restaurant"
-          nearbyPlacesAPI="GooglePlacesSearch"
-          debounce={300}
-          query={{
-            key: GOOGLE_PLACES_API_KEY,
-            language: "en",
-          }}
-        />
-      </View>
-      {/* Recomended*/}
-      <View style={tw("flex-1 mt-2 mx-4")}>
-        <View style={tw("flex flex-row items-center")}>
-          <Text style={tw("ml-6 mr-2 text-xl text-gray-800 font-semibold")}>
-            Recent Scans
-          </Text>
-          <MaterialIcons name="history-toggle-off" size={20} color="green" />
+      <ImageBackground
+        style={[tw("w-full h-full"), { flex: 1 }]}
+        source={require("../assets/landingScreen.png")}
+      >
+        {/* Top scanner */}
+        <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
+          <HomeHeader />
         </View>
-        <RecentScans />
-      </View>
+
+        {/* Google places autocomplete  */}
+        <View style={[tw("flex flex-row  mb-10 mx-5 mt-4"), {}]}>
+          <FontAwesome5
+            style={tw("self-start")}
+            name="search-location"
+            size={24}
+            color="gray"
+          />
+          <GooglePlacesAutocomplete
+            fetchDetails={true}
+            onPress={(data, details = null) => fetchPlaceData(data, details)}
+            styles={{
+              container: {
+                flex: 1,
+              },
+              textInput: {
+                fontSize: 18,
+                backgroundColor: "transparent",
+                borderBottomWidth: 1,
+                borderBottomColor: "white",
+              },
+            }}
+            placeholder="Search restaurant"
+            nearbyPlacesAPI="GooglePlacesSearch"
+            debounce={300}
+            query={{
+              key: GOOGLE_PLACES_API_KEY,
+              language: "en",
+            }}
+          />
+        </View>
+        {/* Recomended*/}
+        <View style={tw("flex-1 mt-2 mx-4")}>
+          <View style={tw("flex flex-row items-center")}>
+            <Text style={tw("ml-6 mr-2 text-xl text-gray-800 font-semibold")}>
+              Recent Scans
+            </Text>
+            <MaterialIcons name="history-toggle-off" size={20} color="green" />
+          </View>
+          <RecentScans />
+        </View>
+      </ImageBackground>
     </View>
   );
 };

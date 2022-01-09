@@ -20,16 +20,18 @@ import * as FileSystem from "expo-file-system";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import axios from "axios";
 import BackHomeButton from "../components/BackHomeButton";
+import useLocation from "../hooks/useLocation";
 
 const CameraScreen = () => {
+  // hooks
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [currentLocation] = useLocation();
+  // states
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [imagePath, setImagePath] = useState(null);
-  const latitude = 51.57069107350924;
-  const longitude = -0.374277452081281;
 
   const camRef = useRef(null);
 
@@ -88,7 +90,11 @@ const CameraScreen = () => {
   const fetchPlaceIds = async (extractedText) => {
     return axios
       .get(
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
+          currentLocation.coords.latitude
+        },${
+          currentLocation.coords.longitude
+        }&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
       )
       .then((response) => {
         const { results } = response.data;
@@ -109,7 +115,6 @@ const CameraScreen = () => {
         // setPlaceIds(results);
       });
   };
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
