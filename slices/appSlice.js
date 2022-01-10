@@ -6,8 +6,7 @@ const appSlice = createSlice({
     message: false,
     imageUri: null,
     isScanning: false,
-    latitude: null,
-    longitude: null,
+    userLocation: null,
     scannedText: null,
     placeId: null,
   },
@@ -21,12 +20,10 @@ const appSlice = createSlice({
     setIsScanning(state, action) {
       state.isScanning = action.payload;
     },
-    setLatitude(state, action) {
-      state.latitude = action.payload;
+    setUserLocation(state, action) {
+      state.userLocation = action.payload;
     },
-    setLongitude(state, action) {
-      state.longitude = action.payload;
-    },
+
     setScannedText(state, action) {
       state.scannedText = action.payload;
     },
@@ -40,8 +37,7 @@ export const {
   setMessage,
   setIsScanning,
   setImageUri,
-  setLatitude,
-  setLongitude,
+  setUserLocation,
   setScannedText,
   setPlaceId,
 } = appSlice.actions;

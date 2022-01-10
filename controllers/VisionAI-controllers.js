@@ -50,18 +50,6 @@ export const fetchPlaceImages = async (placeDetails) => {
     return photoUrls;
     // console.log(response.length);
   });
-  // const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${GOOGLE_PLACES_API_KEY}`;
-
-  // axios
-  //   .get(url)
-  //   .then(function (response) {
-  //     const newPlaceData = matchedPlaceDetails;
-  //     newPlaceData.photoUrl = response.request.responseURL;
-  //     setmatchedPlaceDetails(newPlaceData);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
 };
 
 // fetch places based on diatrey prefrence

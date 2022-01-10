@@ -76,7 +76,6 @@ const ResultsScreen = () => {
       const placeImages = await fetchPlaceImages(
         placeDetails ? placeDetails : placeData
       );
-      console.log(placeImages);
       setIsHalal(halalStatus);
       dispatch(setPlaceImages(placeImages));
     };

@@ -48,6 +48,7 @@ const MenuTabs = () => {
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Results" component={ResultsScreen} />
+        <Stack.Screen name="Gallery" component={PlaceGallery} />
       </Stack.Navigator>
     );
   }
@@ -55,8 +56,8 @@ const MenuTabs = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Results" component={ResultsScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Gallery" component={PlaceGallery} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
       </Stack.Navigator>
     );

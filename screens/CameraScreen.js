@@ -26,7 +26,8 @@ const CameraScreen = () => {
   // hooks
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [currentLocation] = useLocation();
+  const { userLocation } = useSelector((state) => state.appReducer);
+
   // states
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -88,12 +89,13 @@ const CameraScreen = () => {
   };
 
   const fetchPlaceIds = async (extractedText) => {
+    console.log(userLocation);
     return axios
       .get(
         `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
-          currentLocation.coords.latitude
+          userLocation?.coords.latitude
         },${
-          currentLocation.coords.longitude
+          userLocation?.coords.longitude
         }&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
       )
       .then((response) => {

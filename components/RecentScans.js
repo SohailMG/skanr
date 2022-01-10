@@ -15,28 +15,13 @@ const catagories = {
 };
 
 const RecentScans = () => {
-  const [location, setLocation] = useState(null);
-  const [latitude, setlatitude] = useState(null);
-  const [longitude, setlongitude] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [recentScans, setRecentScans] = useState([]);
   // const { recentScans } = useSelector((state) => state.recentsReducer);
   const { user } = useAuth();
-
   // console.log(recentScans);
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setlatitude(location.coords.latitude);
-      setlongitude(location.coords.longitude);
       const recents = await fetchRecentsFromDb(user);
-      console.log(location.coords.latitude);
       setRecentScans(recents);
     })();
   }, []);

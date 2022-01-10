@@ -1,21 +1,31 @@
-import React from "react";
-import { View, Text, SafeAreaView, Image, ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ImageBackground,
+  ActivityIndicator,
+} from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import HomeHeader from "../components/HomeHeader";
-import { AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import RecentScans from "../components/RecentScans";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingView } from "react-native";
 import { setPlaceData } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
-
+import useLocation from "../hooks/useLocation";
+import { setUserLocation } from "../slices/appSlice";
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigation = useNavigation();
   const { user } = useAuth();
+  const [locationRetrieved, setLocationRetrieved] = useState(false);
   //  console.log(imageUri)
   const fetchPlaceData = (data, details) => {
     // const { place_id } = data;
@@ -43,6 +53,19 @@ const HomeScreen = () => {
     navigation.navigate("Results");
   };
 
+  // get user location
+  useEffect(() => {
+    console.log(locationRetrieved);
+    (() => {
+      const [currentLocation] = location;
+
+      if (currentLocation) {
+        dispatch(setUserLocation(currentLocation));
+        setLocationRetrieved(true);
+      }
+    })();
+  }, [location]);
+
   return (
     <View style={[tw("flex-1 relative"), { backgroundColor: "#EEEAD8" }]}>
       <ImageBackground
@@ -52,6 +75,15 @@ const HomeScreen = () => {
         {/* Top scanner */}
         <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
           <HomeHeader />
+          {!locationRetrieved && (
+            <View style={[tw("flex flex-row items-center")]}>
+              <FontAwesome name="location-arrow" size={24} color="black" />
+              <Text style={tw("font-semibold text-red-500")}>
+                Getting your location{" "}
+              </Text>
+              <ActivityIndicator size="small" color="green" />
+            </View>
+          )}
         </View>
 
         {/* Google places autocomplete  */}
