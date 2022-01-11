@@ -57,7 +57,7 @@ const ResultsScreen = () => {
         setAnalysedReviews(sentimentArr);
         setsentimentTag(score_tag);
         setPlaceDetails(newPlaceDetails);
-        storePlaceToRecents(user, newPlaceDetails);
+        await storePlaceToRecents(user, newPlaceDetails);
       } else {
         const { sentimentArr, score_tag } = await analyseReviews(
           placeData.reviews
@@ -65,7 +65,7 @@ const ResultsScreen = () => {
         setAnalysedReviews(sentimentArr);
         setsentimentTag(score_tag);
         setPlaceDetails(placeData);
-        storePlaceToRecents(user, placeData);
+        await storePlaceToRecents(user, placeData);
       }
       const halalStatus = await fetchHalalPlacesNearby(
         latitude,

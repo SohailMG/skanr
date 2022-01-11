@@ -20,8 +20,10 @@ import { setPlaceData } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
 import useLocation from "../hooks/useLocation";
 import { setUserLocation } from "../slices/appSlice";
+
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { userLocation } = useSelector((state) => state.appReducer);
   const location = useLocation();
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -75,11 +77,11 @@ const HomeScreen = () => {
         {/* Top scanner */}
         <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
           <HomeHeader />
-          {!locationRetrieved && (
+          {!userLocation && (
             <View style={[tw("flex flex-row items-center")]}>
               <FontAwesome name="location-arrow" size={24} color="black" />
               <Text style={tw("font-semibold text-red-500")}>
-                Getting your location{" "}
+                Updating location{" "}
               </Text>
               <ActivityIndicator size="small" color="green" />
             </View>

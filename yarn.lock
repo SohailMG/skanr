@@ -7087,6 +7087,13 @@ react-native-indicator@^1.2.2:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-indicators@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/react-native-indicators/-/react-native-indicators-0.17.0.tgz#92f95efaf5fb53be576dfe4e1980a25655a93f55"
+  integrity sha512-s23em477GHGxWeGczWrixScAZD6tQU4mx1fttlrwhEGKOxhBgp55Kh3RoD9Wj4yna4e5W35xQNoPqoJAT6QW5A==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-lightbox-v2@^0.8.8:
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/react-native-lightbox-v2/-/react-native-lightbox-v2-0.8.8.tgz#20dd9a0231fdbd0cde111bfcc6d3844f6d9f6f9e"
@@ -7164,6 +7171,11 @@ react-native-screens@^3.4.0, react-native-screens@~3.10.1:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-scroll-menu@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-scroll-menu/-/react-native-scroll-menu-1.0.6.tgz#ee472713f770731ff04591d096fdd8a85d9d7b96"
+  integrity sha512-M+44/2RCKg2BtVS8IgCXWgGVsLFJdkIMEX/5Dv3iRNMLMnsjtgnAO5+zmQWeGmdOqT5swySfZYPewBiGfKBKBQ==
 
 react-native-size-matters@^0.3.1:
   version "0.3.1"
