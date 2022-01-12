@@ -19,6 +19,7 @@ export const fetchPlaceDetails = async (placeId, fields) => {
       rating,
       geometry,
       price_level,
+      formatted_address,
     } = response.data.result;
     const newPlaceDetails = {
       name: name,
@@ -28,6 +29,7 @@ export const fetchPlaceDetails = async (placeId, fields) => {
       photos: photos,
       location: geometry.location,
       priceLevel: price_level,
+      address: formatted_address,
     };
     return newPlaceDetails;
   });

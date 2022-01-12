@@ -131,10 +131,14 @@ const CameraScreen = () => {
   };
 
   const fetchPlaceIds = async (extractedText) => {
-    console.log(userLocation);
+    // console.log(selectedOptions);
     return axios
       .get(
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${userLocation?.coords.latitude},${userLocation?.coords.longitude}&radius=500&type=restaurant&keyword=${selectedOptions.name}&key=${GOOGLE_PLACES_API_KEY}`
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
+          userLocation?.coords.latitude
+        },${
+          userLocation?.coords.longitude
+        }&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
       )
       .then((response) => {
         const { results } = response.data;
@@ -230,6 +234,7 @@ const CameraScreen = () => {
             buttonStyle={{ borderRadius: 50 }}
             items={options}
             onPress={(e) => {
+              console.log(e);
               setSelectedOption(e);
             }}
             selected={selectedOptions?.id ? selectedOptions.id : 1}

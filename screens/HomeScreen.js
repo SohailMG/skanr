@@ -39,6 +39,7 @@ const HomeScreen = () => {
       rating,
       reviews,
       place_id,
+      formatted_address,
       price_level,
     } = details;
     const placeDetails = {
@@ -49,6 +50,7 @@ const HomeScreen = () => {
       photos: photos,
       location: geometry.location,
       priceLevel: price_level,
+      address: formatted_address,
     };
 
     dispatch(setPlaceData(placeDetails));
