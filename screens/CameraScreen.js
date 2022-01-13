@@ -28,33 +28,24 @@ import axios from "axios";
 import BackHomeButton from "../components/BackHomeButton";
 import useLocation from "../hooks/useLocation";
 import ScrollingButtonMenu from "react-native-scroll-menu";
-import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator,
-} from "react-native-indicators";
+import { WaveIndicator } from "react-native-indicators";
+import { setDiateryPref } from "../slices/placeDataSlice";
 const options = [
   {
     id: 1,
-    name: "Chicken",
+    name: "chicken",
   },
   {
     id: 2,
-    name: "Pizza",
+    name: "pizza",
   },
   {
     id: 3,
-    name: "Kebab",
+    name: "indian",
   },
   {
     id: 4,
-    name: "Indian",
+    name: "kebab",
   },
 ];
 const CameraScreen = () => {
@@ -92,7 +83,7 @@ const CameraScreen = () => {
       alert("Detection failed!.Make sure restaurant name is visible");
       return;
     }
-    console.log("success");
+
     const extractedText = textAnnotations[0].description;
     dispatch(setScannedText(extractedText));
     const placeId = await fetchPlaceIds(textAnnotations);
@@ -138,28 +129,27 @@ const CameraScreen = () => {
           userLocation?.coords.latitude
         },${
           userLocation?.coords.longitude
-        }&radius=500&type=restaurant&keyword=${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
+        }&radius=1500&type=restaurant&keyword=${
+          selectedOptions.name
+        }%2C${"halal"}&key=${GOOGLE_PLACES_API_KEY}`
       )
       .then((response) => {
         const { results } = response.data;
         for (let place of results) {
           for (let textBlock of extractedText) {
-            // console.log(textBlock.description, place.name);
             if (
               place.name
                 .toLowerCase()
                 .includes(textBlock.description.toLowerCase().trim())
             ) {
-              // console.log("from camera -M " + place.place_id);
               return place.place_id;
             }
           }
         }
-        // checkMatchingPlace(results);
-        // setPlaceIds(results);
       });
   };
   useEffect(() => {
+    dispatch(setDiateryPref(options[0].name));
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
@@ -235,6 +225,7 @@ const CameraScreen = () => {
             items={options}
             onPress={(e) => {
               console.log(e);
+              dispatch(setDiateryPref(e.name));
               setSelectedOption(e);
             }}
             selected={selectedOptions?.id ? selectedOptions.id : 1}

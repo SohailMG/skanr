@@ -3,11 +3,14 @@ import MapView, { Marker } from "react-native-maps";
 import tw from "tailwind-rn";
 const MapContainer = ({ location, restaurant }) => {
   const { lat, lng } = location;
-  // console.log(location);
+
   return (
     <MapView
       scrollEnabled={false}
-      style={[tw("flex-1"), { borderRadius: 20, height: 150 }]}
+      style={[
+        tw("flex-1"),
+        { borderRadius: 20, height: 150, backgroundColor: "#000" },
+      ]}
       initialRegion={{
         latitude: lat,
         longitude: lng,
@@ -17,6 +20,7 @@ const MapContainer = ({ location, restaurant }) => {
     >
       {lat && (
         <Marker
+          pinColor="green"
           title={restaurant}
           coordinate={{
             latitude: lat,

@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
           await signInWithCredential(auth, credentials);
         } else {
           // show error message
-          console.log(loginResult);
+
           return Promise.reject();
         }
       })

@@ -9,6 +9,7 @@ export const fetchPlaceDetails = async (placeId, fields) => {
   // console.log(placeIds);
   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=${fields}&key=${GOOGLE_PLACES_API_KEY}`;
 
+  console.log(url);
   return axios.get(url).then((response) => {
     // console.log(response.data);
     const {
@@ -30,6 +31,7 @@ export const fetchPlaceDetails = async (placeId, fields) => {
       location: geometry.location,
       priceLevel: price_level,
       address: formatted_address,
+      diatrey: { type: "Halal", isServed: true },
     };
     return newPlaceDetails;
   });

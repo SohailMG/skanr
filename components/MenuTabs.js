@@ -26,11 +26,12 @@ import ScanButton from "./ScanButton";
 import { useSelector } from "react-redux";
 import ResultsScreen from "../screens/ResultsScreen";
 import PlaceGallery from "../screens/PlaceGallery";
-
+import useLocation from "../hooks/useLocation";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
   const { user } = useAuth();
+  const [currentLocation] = useLocation();
   const { message } = useSelector((state) => state.appReducer);
   const { placeData } = useSelector((state) => state.placeReducer);
   // showing a login screen if user is not logged

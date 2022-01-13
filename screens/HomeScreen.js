@@ -28,7 +28,7 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [locationRetrieved, setLocationRetrieved] = useState(false);
-  //  console.log(imageUri)
+
   const fetchPlaceData = (data, details) => {
     // const { place_id } = data;
     const {
@@ -59,7 +59,6 @@ const HomeScreen = () => {
 
   // get user location
   useEffect(() => {
-    console.log(locationRetrieved);
     (() => {
       const [currentLocation] = location;
 

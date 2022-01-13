@@ -16,7 +16,7 @@ export const storePlaceToRecents = async (user, newPlaceData) => {
     let exists;
     results.forEach(({ placeDetails }) => {
       const { name } = placeDetails;
-      console.log(name === newPlaceData.name);
+
       if (name === newPlaceData.name) {
         exists = true;
         return;

@@ -31,12 +31,12 @@ const StatsCircle = ({ color, fillLevel, title, hasEmoji, label }) => {
         {(fill) => (
           <View style={tw("flex flex-col items-center justify-center")}>
             {hasEmoji && <Text style={{ fontSize: 20 }}>{hasEmoji}</Text>}
-            <Text style={{ fontSize: 10, color: "white" }}>{label}</Text>
+            <Text style={{ fontSize: 10, color: "black" }}>{label}</Text>
           </View>
         )}
       </AnimatedCircularProgress>
 
-      <Text style={tw("self-center text-center mt-2 ml-2 text-gray-100 ")}>
+      <Text style={tw("self-center text-center mt-2 ml-2 text-gray-800 ")}>
         {title}
       </Text>
     </View>

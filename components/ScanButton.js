@@ -3,10 +3,13 @@ import tw from "tailwind-rn";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../slices/appSlice";
 import { Ionicons } from "@expo/vector-icons";
+import useLocation from "../hooks/useLocation";
 const ScanButton = ({ children, onPress }) => {
   const dispatch = useDispatch();
+  const { userLocation } = useSelector((state) => state.appReducer);
   return (
     <TouchableOpacity
+      disabled={!userLocation}
       onPress={() => dispatch(setMessage(true))}
       style={[
         tw("    "),
