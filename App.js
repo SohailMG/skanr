@@ -9,19 +9,22 @@ import { AuthProvider } from "./hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store } from "./store";
+/* 
+Author : Sohail GSais 
+Updated : 2022/01/04
+*/
 export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
-        {/* HOC - Higher order component */}
-        {/* <KeyboardAvoidingView> */}
+        {/* Redux provider */}
         <Provider store={store}>
+        {/* HOC - Higher order component */}
           <AuthProvider>
             {/* Passes down the core auth to child components */}
             <MenuTabs />
           </AuthProvider>
         </Provider>
-        {/* </KeyboardAvoidingView> */}
       </SafeAreaProvider>
     </NavigationContainer>
   );

@@ -59,7 +59,7 @@ const CameraScreen = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [scanFailed, setScanFailed] = useState(false);
-  const [selectedOptions, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOption] = useState("chicken");
 
   const camRef = useRef(null);
 
@@ -114,7 +114,7 @@ const CameraScreen = () => {
       [{ resize: { width: 500, height: 500 } }],
       { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
     );
-
+    // converting raw image to base64
     const base64 = await FileSystem.readAsStringAsync(resizedImgObject.uri, {
       encoding: "base64",
     });
@@ -131,12 +131,16 @@ const CameraScreen = () => {
           userLocation?.coords.longitude
         }&radius=1500&type=restaurant&keyword=${
           selectedOptions.name
-        }%2C${"halal"}&key=${GOOGLE_PLACES_API_KEY}`
+        }%2C${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
       )
       .then((response) => {
+        // results of nearby places
         const { results } = response.data;
+        // looping through array of places
         for (let place of results) {
+          // looping through text blocks
           for (let textBlock of extractedText) {
+            // Comparing text block with place names
             if (
               place.name
                 .toLowerCase()
@@ -150,6 +154,7 @@ const CameraScreen = () => {
   };
   useEffect(() => {
     dispatch(setDiateryPref(options[0].name));
+    // Getting Camera permissions
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");

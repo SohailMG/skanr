@@ -17,7 +17,6 @@ import { ANDRIOD_CLIENTID, IOS_CLIENTID } from "@env";
 const AuthContext = createContext({
   // initial state
 });
-
 // firebase config
 const config = {
   androidClientId: ANDRIOD_CLIENTID,
@@ -31,7 +30,9 @@ export const AuthProvider = ({ children }) => {
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  // runs once the component mounts
   useEffect(() => {
+    // Tracking user's sign in state
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // user is logged
@@ -57,7 +58,6 @@ export const AuthProvider = ({ children }) => {
           await signInWithCredential(auth, credentials);
         } else {
           // show error message
-
           return Promise.reject();
         }
       })
