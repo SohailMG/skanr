@@ -78,7 +78,10 @@ const LoginScreen = () => {
             },
           ]}
         >
-          <TouchableOpacity style={tw("flex flex-row items-center")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Modal")}
+            style={tw("flex flex-row items-center")}
+          >
             <Ionicons name="ios-create" size={24} color="green" />
             <Text style={tw("ml-2 text-center font-semibold")}>
               Create Account

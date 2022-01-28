@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import ResultsScreen from "../screens/ResultsScreen";
 import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
+import ModalScreen from "../screens/ModalScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
@@ -38,8 +39,13 @@ const MenuTabs = () => {
   if (!user) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Group>
+          <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Group>
+        <Stack.Group screenOptions={{ presentation: "modal" }}>
+          <Stack.Screen name="Modal" component={ModalScreen} />
+        </Stack.Group>
       </Stack.Navigator>
     );
   }
