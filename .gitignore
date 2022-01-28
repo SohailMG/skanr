@@ -16,5 +16,6 @@ skanr-service-account.json
 google-services-1.json
 GoogleService-Info-1.plist
 GoogleService-Info.plist
+visionAI.json
 # macOS
 .DS_Store
