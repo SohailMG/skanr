@@ -29,20 +29,20 @@ const AccountScreen = () => {
       <View style={[tw("items-center mt-20 flex")]}>
         <Image
           style={tw("h-20 w-20 rounded-full")}
-          source={{ uri: user.photoURL }}
+          source={{ uri: user?.photoURL }}
         />
         <View style={tw("self-start m-2 p-2 flex")}>
           <Text style={tw("mb-2 mt-2")}>Name</Text>
           <Text
             style={tw("text-lg mb-2  text-gray-400 bg-white p-2 rounded-lg")}
           >
-            {user.displayName}
+            {user?.displayName}
           </Text>
           <Text style={tw("mb-2 mt-2")}>Email</Text>
           <Text
             style={tw("text-lg  text-lg text-gray-400 bg-white p-2 rounded-lg")}
           >
-            {user.email}
+            {user?.email}
           </Text>
         </View>
         {/* Prefrence options */}

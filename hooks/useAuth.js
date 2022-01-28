@@ -7,13 +7,16 @@ import React, {
 } from "react";
 import * as Google from "expo-google-app-auth";
 import {
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { ANDRIOD_CLIENTID, IOS_CLIENTID } from "@env";
+import { signInWithEmailAndPassword } from "firebase/auth";
 const AuthContext = createContext({
   // initial state
 });
@@ -34,6 +37,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Tracking user's sign in state
     onAuthStateChanged(auth, (user) => {
+      console.log(user);
       if (user) {
         // user is logged
         setUser(user);
@@ -42,7 +46,7 @@ export const AuthProvider = ({ children }) => {
       }
       setLoadingInitial(false);
     });
-  }, []);
+  }, [user]);
 
   const signInWithGoogle = async () => {
     setLoading(true);
@@ -68,6 +72,27 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  const singInWithFirebase = async (email, password, fullName, avatar) => {
+    console.log(avatar);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password).catch((err) =>
+        console.log(err)
+      );
+      await updateProfile(auth.currentUser, {
+        displayName: fullName,
+        photoURL: avatar,
+      }).catch((err) => console.log(err));
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser(credentials.user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const logout = () => {
     setLoading(true);
     signOut(auth)
@@ -79,6 +104,7 @@ export const AuthProvider = ({ children }) => {
     () => ({
       user,
       signInWithGoogle,
+      singInWithFirebase,
       loading,
       error,
       logout,

@@ -11,14 +11,18 @@ const HomeHeader = () => {
           Welcome
           <Entypo name="hand" size={20} color="orange" style={tw("ml-2")} />
         </Text>
-        <Text style={[tw("text-xl font-semibold text-gray-800")]}>
-          {user.displayName.split(" ")[0]}!
-        </Text>
+        {user.displayName && (
+          <Text style={[tw("text-xl font-semibold text-gray-800")]}>
+            {user.displayName.split(" ")[0]}!
+          </Text>
+        )}
       </View>
-      <Image
-        style={[tw("w-10 h-10 rounded-full ")]}
-        source={{ uri: user.photoURL }}
-      />
+      {user.photoURL && (
+        <Image
+          style={[tw("w-10 h-10 rounded-full ")]}
+          source={{ uri: user?.photoURL }}
+        />
+      )}
     </View>
   );
 };

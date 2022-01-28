@@ -1,10 +1,24 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import tw from "tailwind-rn";
 import axios from "axios";
 import { Colors, Button, Incubator } from "react-native-ui-lib";
+import { auth } from "../firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import useAuth from "../hooks/useAuth";
 
 const ModalScreen = () => {
+  const { singInWithFirebase } = useAuth();
   const { TextField } = Incubator;
   const [fullName, setFullName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -13,6 +27,7 @@ const ModalScreen = () => {
     "https://avatars.dicebear.com/api/male/default.png"
   );
 
+  // sets user avatar
   const fetchAvatar = async () => {
     const response = await axios.get(
       `https://avatars.dicebear.com/api/male/${fullName.toLowerCase()}.png`
@@ -20,12 +35,8 @@ const ModalScreen = () => {
     setAvatar(response.request.responseURL);
   };
 
-  const registerUser = () => {
-    console.log(fullName, email, password);
-  };
-
   return (
-    <View>
+    <KeyboardAvoidingView>
       <View style={tw("flex items-center mt-4")}>
         <Image
           source={require("../assets/appLogo.png")}
@@ -95,14 +106,14 @@ const ModalScreen = () => {
       </View>
       <View style={tw("flex items-center mt-10")}>
         <Button
-          onPress={registerUser}
+          onPress={() => singInWithFirebase(email, password, fullName, avatar)}
           backgroundColor="#FB3C62"
           label="Submit"
           borderRadius={7}
           style={{ height: 45, marginBottom: 10, width: 200 }}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
