@@ -10,6 +10,11 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
-
+google-services.json
+scannitor-app-75b47f5569c6.json
+skanr-service-account.json
+google-services-1.json
+GoogleService-Info-1.plist
+GoogleService-Info.plist
 # macOS
 .DS_Store
