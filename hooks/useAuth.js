@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   // runs once the component mounts
   useEffect(() => {
@@ -93,6 +94,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginUser = async (email, password) => {
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser(credentials.user);
+    } catch (err) {
+      console.log(err.message.includes("wrong-password"));
+      if (err.message.includes("wrong-password"))
+        setErrorMsg("Invalid password");
+      setError(error);
+      if (err.message.includes("user-not-found"))
+        setErrorMsg("Email doesn't exist'");
+      setError(error);
+    }
+  };
   const logout = () => {
     setLoading(true);
     signOut(auth)
@@ -103,11 +122,13 @@ export const AuthProvider = ({ children }) => {
   const memoedValue = useMemo(
     () => ({
       user,
+      loginUser,
       signInWithGoogle,
       singInWithFirebase,
       loading,
       error,
       logout,
+      errorMsg,
     }),
     [user, loading, error]
   );

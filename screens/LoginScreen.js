@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import useAuth from "../hooks/useAuth";
 import tw from "tailwind-rn";
+import LoginForm from "../components/LoginForm";
 // import useAuth from '../hooks/useAuth'
 
 const LoginScreen = () => {
@@ -28,7 +29,7 @@ const LoginScreen = () => {
       >
         {/* Top image */}
         {/* Welcome text */}
-        <View style={tw("flex-1 mt-12 items-start ml-10")}>
+        <View style={tw("flex mt-12 items-start ml-10")}>
           <View style={tw("flex flex-row items-center")}>
             <Image
               source={require("../assets/appLogo.png")}
@@ -42,6 +43,9 @@ const LoginScreen = () => {
           </Text>
         </View>
         {/* Sign in button */}
+        <View style={[tw("flex-1 mt-10 self-center "), { width: "100%" }]}>
+          <LoginForm />
+        </View>
         <View
           style={[
             tw("flex-1 absolute p-2 bottom-40 w-52 bg-white  rounded-full "),
