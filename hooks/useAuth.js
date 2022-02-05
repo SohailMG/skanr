@@ -73,8 +73,8 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
-  const singInWithFirebase = async (email, password, fullName, avatar) => {
-    console.log(avatar);
+  const createAccountAndLogin = async (email, password, fullName, avatar) => {
+     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password).catch((err) =>
         console.log(err)
@@ -92,9 +92,11 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false)
   };
 
   const loginUser = async (email, password) => {
+    setLoading(true)
     try {
       const credentials = await signInWithEmailAndPassword(
         auth,
@@ -111,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         setErrorMsg("Email doesn't exist'");
       setError(error);
     }
+    setLoading(false)
   };
   const logout = () => {
     setLoading(true);
@@ -124,7 +127,7 @@ export const AuthProvider = ({ children }) => {
       user,
       loginUser,
       signInWithGoogle,
-      singInWithFirebase,
+      createAccountAndLogin,
       loading,
       error,
       logout,

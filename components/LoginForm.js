@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import { Colors, Button, Incubator } from "react-native-ui-lib";
 import React, { useState, useEffect } from "react";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
@@ -7,7 +13,7 @@ import useAuth from "../hooks/useAuth";
 
 const LoginForm = () => {
   const { TextField } = Incubator;
-  const { loginUser, error } = useAuth();
+  const { loginUser, error, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,7 +44,6 @@ const LoginForm = () => {
               setEmail(text);
             }}
             autoComplete="email"
-            collapsable={true}
             floatingPlaceholder
             floatingPlaceholderColor={{
               focus: Colors.yellow5,
@@ -82,7 +87,11 @@ const LoginForm = () => {
           <Text style={tw("text-2xl font-semibold text-white mr-2")}>
             Login
           </Text>
-          <MaterialIcons name="login" size={30} color="green" />
+          {loading ? (
+            <ActivityIndicator size="small" color="green" />
+          ) : (
+            <MaterialIcons name="login" size={30} color="green" />
+          )}
         </TouchableOpacity>
       </View>
     </View>
