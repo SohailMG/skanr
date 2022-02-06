@@ -30,6 +30,7 @@ import useLocation from "../hooks/useLocation";
 import ScrollingButtonMenu from "react-native-scroll-menu";
 import { WaveIndicator } from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
+import PlaceModal from "../components/PlaceModal";
 const options = [
   {
     id: 1,
@@ -54,12 +55,16 @@ const CameraScreen = () => {
   const navigation = useNavigation();
   const { userLocation } = useSelector((state) => state.appReducer);
 
+  // ref to child component
+  const childRef = useRef();
+
   // states
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [scanFailed, setScanFailed] = useState(false);
   const [selectedOptions, setSelectedOption] = useState("chicken");
+  const [place, setPlace] = useState(null);
 
   const camRef = useRef(null);
 
@@ -83,13 +88,14 @@ const CameraScreen = () => {
       alert("Detection failed!.Make sure restaurant name is visible");
       return;
     }
-
     const extractedText = textAnnotations[0].description;
     dispatch(setScannedText(extractedText));
     const placeId = await fetchPlaceIds(textAnnotations);
+    setPlace(placeId);
     dispatch(setPlaceId(placeId));
     setScanning(false);
-    navigation.navigate("Results");
+    childRef.current.handleOpenPress(placeId);
+    // navigation.navigate("Results");
   };
 
   const fetchImageLabels = async (base64) => {
@@ -237,6 +243,7 @@ const CameraScreen = () => {
           />
         </View>
       </Camera>
+      <PlaceModal ref={childRef} placeId={place} />
     </View>
   );
 };
