@@ -2,7 +2,12 @@ import { StyleSheet, Text, View, Linking } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "tailwind-rn";
 import { fetchPlaceDetails } from "../modules/PlacesApi";
-import { AntDesign, FontAwesome5, Entypo } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome5,
+  Entypo,
+  FontAwesome,
+} from "@expo/vector-icons";
 import MapContainer from "./MapContainer";
 import { TouchableOpacity } from "react-native";
 
@@ -13,7 +18,6 @@ const PlaceDetails = ({ placeId }) => {
     (async () => {
       const response = await fetchPlaceDetails(placeId);
       setPlaceDetails(response);
-      console.log(response);
     })();
   }, [placeId]);
 
@@ -40,6 +44,7 @@ const PlaceDetails = ({ placeId }) => {
           restaurant={placeDetails?.name}
         />
       )}
+      {/* middle list view */}
       <View style={tw("flex flex-row items-center")}>
         <View
           style={tw(
@@ -81,6 +86,11 @@ const PlaceDetails = ({ placeId }) => {
           </Text>
           <Entypo name="phone" size={20} color="cyan" />
         </TouchableOpacity>
+      </View>
+      {/* address blovk */}
+      <View style={tw("flex m-2 mt-4 flex-row items-center")}>
+        <FontAwesome name="map-marker" size={24} color="orange" />
+        <Text style={[tw("ml-2 text-gray-200")]}>{placeDetails?.address}</Text>
       </View>
 
       {/* )} */}

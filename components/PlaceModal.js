@@ -64,10 +64,10 @@ const PlaceModal = (props, ref) => {
         index={index}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        backgroundStyle={{ backgroundColor: "#353839" }}
+        backgroundStyle={{ backgroundColor: "#353839", borderRadius: 30 }}
         handleIndicatorStyle={{ backgroundColor: "white" }}
       >
-        <View style={tw("flex ")}>
+        <View style={tw("flex h-full")}>
           <TouchableOpacity
             onPress={handleClosePress}
             style={tw("bg-gray-600 rounded-full p-1 self-end right-4")}
@@ -75,7 +75,7 @@ const PlaceModal = (props, ref) => {
             <Entypo name="cross" size={24} color="white" />
           </TouchableOpacity>
 
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {placeId && <PlaceDetails placeId={placeId} />}
           </ScrollView>
         </View>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: "60%",
+    height: "40%",
     padding: 24,
   },
   contentContainer: {

@@ -32,6 +32,7 @@ import { WaveIndicator } from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
 import { fetchNearbyPlaces } from "../modules/PlacesApi";
+import { classifyImage } from "../modules/VisionAi";
 const options = [
   {
     id: 1,
@@ -71,45 +72,34 @@ const CameraScreen = () => {
 
   // taking a picture
   const takePicture = async () => {
-    setScanning(true);
-    const options = { quality: 0.5, base64: true, skipProcessing: false };
-    // capturing the picture
-    const photo = await camRef.current.takePictureAsync(options);
-    // storing image url to global redux store
-    dispatch(setImageUri(photo.uri));
-    // resizing image and decoding to base64
-    const base64 = await resizeImage(photo);
-    // performing object detection on decoded image
-    const result = await fetchImageLabels(base64);
-    // text blocks detected in the image
-    const { labelAnnotations, textAnnotations } = result.responses[0];
-    if (!textAnnotations) {
-      setScanFailed(true);
-      setScanning(false);
-      alert("Detection failed!.Make sure restaurant name is visible");
-      return;
-    }
-    // getting placeId of closest match
-    const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
-    dispatch(setPlaceId(placeId));
-    setScanning(false);
-    childRef.current.handleOpenPress(placeId);
-    // navigation.navigate("Results");
-  };
-
-  const fetchImageLabels = async (base64) => {
-    CLOUD_VISION.reqBody.requests[0].image.content = base64;
-    return await fetch(CLOUD_VISION.url + CLOUD_VISION.apiKey, {
-      method: "POST",
-      body: JSON.stringify(CLOUD_VISION.reqBody),
-    }).then(
-      (response) => {
-        return response.json();
-      },
-      (err) => {
-        console.log(err);
+    try {
+      setScanning(true);
+      const options = { quality: 0.5, base64: true, skipProcessing: false };
+      // capturing the picture
+      const photo = await camRef.current.takePictureAsync(options);
+      // storing image url to global redux store
+      dispatch(setImageUri(photo.uri));
+      // resizing image and decoding to base64
+      const base64 = await resizeImage(photo);
+      // performing object detection on decoded image
+      const result = await classifyImage(base64);
+      // text blocks detected in the image
+      const { labelAnnotations, textAnnotations } = result.responses[0];
+      if (!textAnnotations) {
+        setScanFailed(true);
+        setScanning(false);
+        alert("Detection failed!.Make sure restaurant name is visible");
+        return;
       }
-    );
+      // getting placeId of closest match
+      const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
+      dispatch(setPlaceId(placeId));
+      setScanning(false);
+      childRef.current.handleOpenPress(placeId);
+      // navigation.navigate("Results");
+    } catch (err) {
+      setScanning(false);
+    }
   };
 
   // resize image to cloud vision's preference 640x640
