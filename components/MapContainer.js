@@ -6,10 +6,13 @@ const MapContainer = ({ location, restaurant }) => {
 
   return (
     <MapView
+      userInterfaceStyle={"dark"}
+      mapType={"mutedStandard"}
+      showsBuildings={false}
       scrollEnabled={false}
       style={[
         tw("flex-1"),
-        { borderRadius: 20, height: 150, backgroundColor: "#000" },
+        { borderRadius: 10, height: 150, backgroundColor: "#000" },
       ]}
       initialRegion={{
         latitude: lat,

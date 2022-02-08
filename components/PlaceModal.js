@@ -16,8 +16,13 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import tw from "tailwind-rn";
 import { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import PlaceInfo from "./PlaceInfo";
+import PlaceDetails from "./PlaceDetails";
 
-const PlaceModal = ({ placeId }, ref) => {
+const PlaceModal = (props, ref) => {
+  const { placeId } = useSelector((state) => state.appReducer);
+  console.log(placeId);
   const [closedModal, setClosedModal] = useState(true);
   const [index, setIndex] = useState(-1);
   // ref
@@ -41,7 +46,7 @@ const PlaceModal = ({ placeId }, ref) => {
   // handle modal close
   const handleClosePress = () => bottomSheetRef.current.close();
   // handle modal open
-  const handleOpenPress = (placeId) => {
+  const handleOpenPress = () => {
     console.log(placeId);
     setClosedModal(false);
     setIndex(1);
@@ -59,7 +64,7 @@ const PlaceModal = ({ placeId }, ref) => {
         index={index}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        backgroundStyle={{ backgroundColor: "black" }}
+        backgroundStyle={{ backgroundColor: "#353839" }}
         handleIndicatorStyle={{ backgroundColor: "white" }}
       >
         <View style={tw("flex ")}>
@@ -71,16 +76,7 @@ const PlaceModal = ({ placeId }, ref) => {
           </TouchableOpacity>
 
           <ScrollView>
-            {placeId && (
-              <Text
-                style={[
-                  tw("m-4 text-white"),
-                  { fontWeight: "800", fontSize: 25 },
-                ]}
-              >
-                {placeId}
-              </Text>
-            )}
+            {placeId && <PlaceDetails placeId={placeId} />}
           </ScrollView>
         </View>
       </BottomSheet>
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: "50%",
+    height: "60%",
     padding: 24,
   },
   contentContainer: {

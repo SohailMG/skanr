@@ -31,6 +31,7 @@ import ScrollingButtonMenu from "react-native-scroll-menu";
 import { WaveIndicator } from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
+import { fetchNearbyPlaces } from "../modules/PlacesApi";
 const options = [
   {
     id: 1,
@@ -88,10 +89,8 @@ const CameraScreen = () => {
       alert("Detection failed!.Make sure restaurant name is visible");
       return;
     }
-    const extractedText = textAnnotations[0].description;
-    dispatch(setScannedText(extractedText));
-    const placeId = await fetchPlaceIds(textAnnotations);
-    setPlace(placeId);
+    // getting placeId of closest match
+    const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
     dispatch(setPlaceId(placeId));
     setScanning(false);
     childRef.current.handleOpenPress(placeId);
