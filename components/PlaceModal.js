@@ -56,7 +56,7 @@ const PlaceModal = ({ placeId }, ref) => {
     return <View />;
   }
   return (
-    <View style={styles.container}>
+    <View onPress={() => console.log("touch")} style={styles.container}>
       <BottomSheet
         enablePanDownToClose
         ref={bottomSheetRef}
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: "40%",
+    height: "60%",
     padding: 24,
   },
   contentContainer: {

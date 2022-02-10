@@ -86,3 +86,27 @@ export async function fetchNearbyPlaces(userLocation, extractedText) {
     return getBestMatch(places, extractedText);
   });
 }
+
+/**
+ * fetches images of place using photo refrence object
+ * @param {Object} placeDetails google place details object
+ * @returns {Array<string>} array of image uris
+ */
+export async function fetchPlaceImages(placeDetails) {
+  const promises = [];
+  placeDetails.photos.slice(0, 10).forEach(({ photo_reference }) => {
+    promises.push(
+      axios.get(
+        PlacePhotosEndpoint + photo_reference + "&key=" + GOOGLE_PLACES_API_KEY
+      )
+    );
+  });
+  return Promise.all(promises).then((responses) => {
+    const photoUrls = [];
+    responses.forEach((response, index) => {
+      const photoUrl = response.request.responseURL;
+      photoUrls.push({ src: photoUrl, id: index + 100 });
+    });
+    return photoUrls;
+  });
+}
