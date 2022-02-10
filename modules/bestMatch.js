@@ -32,7 +32,7 @@ export function getBestMatch(places, textBlocks) {
       // updating best matching score
       if (currentMatchScore > bestScore) {
         bestScore = currentMatchScore;
-        bestPlaceMatch = place;
+        bestPlaceMatch = place.place_id;
       }
     }
   }
@@ -42,6 +42,7 @@ export function getBestMatch(places, textBlocks) {
     return false;
   } else {
     // returning the best matching string
+    console.log(bestPlaceMatch);
     return bestPlaceMatch;
   }
 }

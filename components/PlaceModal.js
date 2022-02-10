@@ -20,10 +20,12 @@ import { useSelector } from "react-redux";
 import PlaceInfo from "./PlaceInfo";
 import PlaceDetails from "./PlaceDetails";
 
-const PlaceModal = (props, ref) => {
-  const { placeId } = useSelector((state) => state.appReducer);
+const PlaceModal = ({ placeId }, ref) => {
+  console.log("MODAL ", placeId);
+  // const { placeId } = useSelector((state) => state.appReducer);
   const [closedModal, setClosedModal] = useState(true);
   const [index, setIndex] = useState(-1);
+  console.log(placeId);
   // ref
   const bottomSheetRef = useRef();
 

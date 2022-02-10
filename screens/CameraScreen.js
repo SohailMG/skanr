@@ -94,6 +94,7 @@ const CameraScreen = () => {
       // getting placeId of closest match
       const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
       setScanning(false);
+      setPlace(placeId);
       childRef.current.handleOpenPress(placeId);
       // navigation.navigate("Results");
     } catch (err) {
