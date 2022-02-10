@@ -32,7 +32,7 @@ import { WaveIndicator } from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
 import { fetchNearbyPlaces } from "../modules/PlacesApi";
-import { classifyImage } from "../modules/VisionAi";
+import { classifyImage, resizeImage } from "../modules/VisionAi";
 const options = [
   {
     id: 1,
@@ -93,7 +93,6 @@ const CameraScreen = () => {
       }
       // getting placeId of closest match
       const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
-      dispatch(setPlaceId(placeId));
       setScanning(false);
       childRef.current.handleOpenPress(placeId);
       // navigation.navigate("Results");
@@ -103,50 +102,7 @@ const CameraScreen = () => {
   };
 
   // resize image to cloud vision's preference 640x640
-  const resizeImage = async (image) => {
-    const resizedImgObject = await ImageManipulator.manipulateAsync(
-      image.localUri || image.uri,
-      [{ resize: { width: 500, height: 500 } }],
-      { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
-    );
-    // converting raw image to base64
-    const base64 = await FileSystem.readAsStringAsync(resizedImgObject.uri, {
-      encoding: "base64",
-    });
-    return base64;
-  };
 
-  const fetchPlaceIds = async (extractedText) => {
-    // console.log(selectedOptions);
-    return axios
-      .get(
-        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
-          userLocation?.coords.latitude
-        },${
-          userLocation?.coords.longitude
-        }&radius=1500&type=restaurant&keyword=${
-          selectedOptions.name
-        }%2C${"chicken"}&key=${GOOGLE_PLACES_API_KEY}`
-      )
-      .then((response) => {
-        // results of nearby places
-        const { results } = response.data;
-        // looping through array of places
-        for (let place of results) {
-          // looping through text blocks
-          for (let textBlock of extractedText) {
-            // Comparing text block with place names
-            if (
-              place.name
-                .toLowerCase()
-                .includes(textBlock.description.toLowerCase().trim())
-            ) {
-              return place.place_id;
-            }
-          }
-        }
-      });
-  };
   useEffect(() => {
     dispatch(setDiateryPref(options[0].name));
     // Getting Camera permissions

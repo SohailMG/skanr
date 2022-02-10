@@ -1,5 +1,6 @@
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import axios from "axios";
+import { getBestMatch } from "./bestMatch";
 const PlaceDetailsEndpoint = `https://maps.googleapis.com/maps/api/place/details/json?`;
 const PlacePhotosEndpoint = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=`;
 const PlacesNearbyEndpoint = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
@@ -78,17 +79,10 @@ function urlBuilder(placeId) {
  * @returns {Promise<string>} placeId
  */
 export async function fetchNearbyPlaces(userLocation, extractedText) {
-  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&keyword=chicken&key=${GOOGLE_PLACES_API_KEY}`;
+  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}`;
 
   return axios.get(requestUrl).then((response) => {
     const places = response.data.results;
-    for (let place of places) {
-      for (let textBlock of extractedText) {
-        const placeName = place.name.toLowerCase();
-        if (placeName.includes(textBlock.description.toLowerCase().trim())) {
-          return place.place_id;
-        }
-      }
-    }
+    return getBestMatch(places, extractedText);
   });
 }

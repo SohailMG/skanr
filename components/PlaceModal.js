@@ -22,7 +22,6 @@ import PlaceDetails from "./PlaceDetails";
 
 const PlaceModal = (props, ref) => {
   const { placeId } = useSelector((state) => state.appReducer);
-  console.log(placeId);
   const [closedModal, setClosedModal] = useState(true);
   const [index, setIndex] = useState(-1);
   // ref
@@ -39,7 +38,6 @@ const PlaceModal = (props, ref) => {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    console.log(index);
     if (index === -1) setClosedModal(true);
   }, []);
 
@@ -47,7 +45,6 @@ const PlaceModal = (props, ref) => {
   const handleClosePress = () => bottomSheetRef.current.close();
   // handle modal open
   const handleOpenPress = () => {
-    console.log(placeId);
     setClosedModal(false);
     setIndex(1);
   };
