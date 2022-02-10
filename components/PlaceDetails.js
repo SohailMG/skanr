@@ -15,11 +15,15 @@ import {
   FontAwesome5,
   Entypo,
   FontAwesome,
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import MapContainer from "./MapContainer";
 import { TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { DotIndicator } from "react-native-indicators";
+import Stars from "react-native-stars";
 
 const PlaceDetails = ({ placeId }) => {
   const [placeDetails, setPlaceDetails] = useState(null);
@@ -123,6 +127,11 @@ const PlaceDetails = ({ placeId }) => {
         <Text style={[tw("ml-2 text-gray-200")]}>{placeDetails?.address}</Text>
       </View>
       {/* Place images */}
+      <View style={tw("border-t border-gray-600 mx-4 my-2")}></View>
+      <View style={tw("m-4 flex flex-row items-center")}>
+        <Text style={tw("text-gray-200 mr-2 font-bold text-xl")}>Gallery</Text>
+        <Ionicons name="image" size={24} color="orange" />
+      </View>
       <View style={tw("flex m-2 mt-4 flex-row items-center")}>
         <ScrollView horizontal>
           {placeGallery?.slice(0, 2).map((imageUri) => (
@@ -132,7 +141,7 @@ const PlaceDetails = ({ placeId }) => {
             />
           ))}
           <ImageBackground
-            source={{ uri: placeGallery[2].src }}
+            source={{ uri: placeGallery[2]?.src }}
             style={[tw("mx-2 rounded-md flex "), { width: 110, height: 110 }]}
           >
             <View
@@ -154,6 +163,65 @@ const PlaceDetails = ({ placeId }) => {
         </ScrollView>
       </View>
 
+      {/* Place reviews */}
+      <View style={tw("border-t border-gray-600 mx-4 my-2")}></View>
+      <View style={tw("m-4 flex flex-row items-center")}>
+        <Text style={tw("text-gray-200 mr-2 font-bold text-xl")}>Reviews</Text>
+        <MaterialCommunityIcons
+          name="comment-quote"
+          size={24}
+          color="lightblue"
+        />
+      </View>
+      <View style={[tw("mx-4  rounded-xl"), { backgroundColor: "#494d4f" }]}>
+        {placeDetails && (
+          <View>
+            <View style={tw("flex flex-row items-center")}>
+              <Image
+                style={[tw("m-2"), { width: 40, height: 40 }]}
+                source={{ uri: placeDetails.reviews[0].profile_photo_url }}
+              />
+              <View style={tw("flex items-start mt-2")}>
+                <Text style={tw("text-gray-100 font-semibold text-md")}>
+                  {placeDetails.reviews[0].author_name}
+                </Text>
+                <Text style={tw("text-gray-500 ")}>
+                  {placeDetails.reviews[0].relative_time_description}
+                </Text>
+                <View style={[tw("mt-2 ")]}>
+                  <Stars
+                    display={placeDetails?.reviews[0].rating}
+                    half={true}
+                    spacing={8}
+                    count={5}
+                    starSize={20}
+                    fullStar={
+                      <MaterialIcons name="star" size={15} color="yellow" />
+                    }
+                    emptyStar={
+                      <MaterialIcons
+                        name="star-outline"
+                        size={15}
+                        color="yellow"
+                      />
+                    }
+                    halfStar={
+                      <MaterialIcons
+                        name="star-half"
+                        size={15}
+                        color="yellow"
+                      />
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+            <Text style={tw("p-2 text-white")}>
+              {placeDetails.reviews[0].text}
+            </Text>
+          </View>
+        )}
+      </View>
       {/* )} */}
     </View>
   );
