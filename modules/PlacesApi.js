@@ -1,9 +1,12 @@
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import axios from "axios";
 import { getBestMatch } from "./bestMatch";
+
+// Google PlacesApi Endpoints
 const PlaceDetailsEndpoint = `https://maps.googleapis.com/maps/api/place/details/json?`;
 const PlacePhotosEndpoint = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=`;
 const PlacesNearbyEndpoint = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
+// Google PlacesApi Response Properties
 const fields = [
   "name",
   "formatted_address",

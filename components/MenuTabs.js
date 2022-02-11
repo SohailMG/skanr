@@ -72,7 +72,9 @@ const MenuTabs = () => {
   // showing home screen if user is logged in
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
+        tabBarActiveTintColor: "red",
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: {
@@ -81,9 +83,9 @@ const MenuTabs = () => {
           left: 20,
           right: 20,
           elevation: 0,
-          backgroundColor: "#B9D8C8",
-          borderRadius: 15,
-          height: 90,
+          backgroundColor: "#171E41",
+          borderRadius: 50,
+          height: 70,
         },
       }}
     >
@@ -93,22 +95,14 @@ const MenuTabs = () => {
         options={{
           tabBarLabel: "Home",
           tabBarLabelStyle: { top: 10, color: "#202120" },
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <Ionicons
-                style={{ top: 10 }}
-                name="home-sharp"
-                size={30}
-                color="#202120"
-              />
-            ) : (
-              <Ionicons
-                style={{ top: 10 }}
-                name="home-outline"
-                size={30}
-                color="white"
-              />
-            ),
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              style={{ top: 10 }}
+              name="home-sharp"
+              size={30}
+              color={color}
+            />
+          ),
         }}
       />
       <Tab.Screen

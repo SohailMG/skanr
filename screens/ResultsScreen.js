@@ -123,9 +123,7 @@ const ResultsScreen = () => {
             <ImageBackground
               style={{
                 width: "100%",
-
                 borderRadius: 30,
-
                 overflow: "hidden",
                 marginHorizontal: 10,
               }}

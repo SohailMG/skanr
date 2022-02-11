@@ -70,67 +70,69 @@ const HomeScreen = () => {
   }, [location]);
 
   return (
-    <View style={[tw("flex-1 relative"), { backgroundColor: "#EEEAD8" }]}>
-      <ImageBackground
-        style={[tw("w-full h-full"), { flex: 1 }]}
-        source={require("../assets/landingScreen.png")}
-      >
-        {/* Top scanner */}
-        <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
-          <HomeHeader />
-          {!userLocation && (
-            <View style={[tw("flex flex-row items-center")]}>
-              <FontAwesome name="location-arrow" size={24} color="black" />
-              <Text style={tw("font-semibold text-red-500")}>
-                Updating location{" "}
-              </Text>
-              <ActivityIndicator size="small" color="green" />
-            </View>
-          )}
-        </View>
-
-        {/* Google places autocomplete  */}
-        <View style={[tw("flex flex-row  mb-10 mx-5 mt-4"), {}]}>
-          <FontAwesome5
-            style={tw("self-start")}
-            name="search-location"
-            size={24}
-            color="gray"
-          />
-          <GooglePlacesAutocomplete
-            fetchDetails={true}
-            onPress={(data, details = null) => fetchPlaceData(data, details)}
-            styles={{
-              container: {
-                flex: 1,
-              },
-              textInput: {
-                fontSize: 18,
-                backgroundColor: "transparent",
-                borderBottomWidth: 1,
-                borderBottomColor: "white",
-              },
-            }}
-            placeholder="Search restaurant"
-            nearbyPlacesAPI="GooglePlacesSearch"
-            debounce={300}
-            query={{
-              key: GOOGLE_PLACES_API_KEY,
-              language: "en",
-            }}
-          />
-        </View>
-        {/* Recomended*/}
-        <View style={tw("flex-1 mt-2 mx-4")}>
-          <View style={tw("flex flex-row items-center")}>
-            <Text style={tw("ml-6 mr-2 text-xl text-gray-800 font-semibold")}>
-              Recent Scans
+    <View style={[tw("flex-1 relative"), { backgroundColor: "#1E284F" }]}>
+      <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
+        <HomeHeader />
+        {!userLocation && (
+          <View style={[tw("flex flex-row items-center")]}>
+            <FontAwesome name="location-arrow" size={24} color="black" />
+            <Text style={tw("font-semibold text-red-500")}>
+              Updating location{" "}
             </Text>
-            <MaterialIcons name="history-toggle-off" size={20} color="green" />
+            <ActivityIndicator size="small" color="green" />
           </View>
-          <RecentScans />
+        )}
+      </View>
+
+      {/* Google places autocomplete  */}
+      <View
+        style={[
+          tw("flex flex-row  mb-10 mx-5 mt-4"),
+          {
+            backgroundColor: "#171E41",
+            borderRadius: 20,
+            padding: 10,
+          },
+        ]}
+      >
+        <FontAwesome5
+          style={tw("self-center")}
+          name="search-location"
+          size={24}
+          color="#505C7D"
+        />
+        <GooglePlacesAutocomplete
+          fetchDetails={true}
+          onPress={(data, details = null) => fetchPlaceData(data, details)}
+          styles={{
+            container: {
+              flex: 1,
+            },
+            textInput: {
+              borderRadius: 20,
+              fontSize: 18,
+              backgroundColor: "transparent",
+            },
+          }}
+          placeholder="Search restaurant"
+          nearbyPlacesAPI="GooglePlacesSearch"
+          debounce={300}
+          query={{
+            key: GOOGLE_PLACES_API_KEY,
+            language: "en",
+          }}
+        />
+      </View>
+      {/* Recomended*/}
+      <View style={tw("flex-1 mt-2 mx-4")}>
+        <View style={tw("flex flex-row items-center")}>
+          <Text style={tw("ml-6 mr-2 text-xl text-gray-500 font-semibold")}>
+            Recent Scans
+          </Text>
+          <MaterialIcons name="history-toggle-off" size={20} color="#505C7D" />
         </View>
-      </ImageBackground>
+        <RecentScans />
+      </View>
     </View>
   );
 };
