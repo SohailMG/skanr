@@ -70,7 +70,7 @@ const HomeScreen = () => {
   }, [location]);
 
   return (
-    <View style={[tw("flex-1 relative"), { backgroundColor: "#1E284F" }]}>
+    <View style={[tw("flex-1 relative"), {flex:1, backgroundColor: "#1E284F" }]}>
       <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
         <HomeHeader />
         {!userLocation && (

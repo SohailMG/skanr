@@ -28,6 +28,7 @@ import ResultsScreen from "../screens/ResultsScreen";
 import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
 import ModalScreen from "../screens/ModalScreen";
+import { COLORS } from "../modules/themeColors";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const MenuTabs = () => {
@@ -69,24 +70,14 @@ const MenuTabs = () => {
       </Stack.Navigator>
     );
   }
-  // showing home screen if user is logged in
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "red",
+        tabBarActiveTintColor: "white",
         headerShown: false,
-        tabBarShowLabel: true,
-        tabBarStyle: {
-          position: "absolute",
-          bottom: 25,
-          left: 20,
-          right: 20,
-          elevation: 0,
-          backgroundColor: "#171E41",
-          borderRadius: 50,
-          height: 70,
-        },
+        tabBarActiveBackgroundColor: "transparent",
+        tabBarStyle: styles.tabStyle,
       }}
     >
       <Tab.Screen
@@ -94,14 +85,8 @@ const MenuTabs = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
-          tabBarLabelStyle: { top: 10, color: "#202120" },
-          tabBarIcon: ({ focused, color }) => (
-            <Ionicons
-              style={{ top: 10 }}
-              name="home-sharp"
-              size={30}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
@@ -113,18 +98,12 @@ const MenuTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Account"
+        name="Profile"
         component={AccountScreen}
         options={{
-          tabBarLabel: "Account",
-          tabBarLabelStyle: { top: 20, color: "white" },
-          tabBarIcon: ({ focused }) => (
-            <MaterialCommunityIcons
-              name="account-cog-outline"
-              size={30}
-              color="white"
-              style={{ left: 2, top: 10 }}
-            />
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
       />
@@ -132,3 +111,24 @@ const MenuTabs = () => {
   );
 };
 export default MenuTabs;
+
+const styles = StyleSheet.create({
+  tabStyle: {
+    height: 70,
+    borderRadius: 50,
+    backgroundColor: "#171E41",
+    position: "absolute",
+    bottom: 20,
+    width: "90%",
+    marginHorizontal: "5%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+    elevation: 21,
+    borderTopWidth: 0,
+  },
+});

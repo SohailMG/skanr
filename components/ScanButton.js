@@ -17,10 +17,15 @@ const ScanButton = ({ children, onPress }) => {
           justifyContent: "center",
           alignItems: "center",
           top: -30,
-          shadowColor: "gray",
-          shadowOffset: { width: -2, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 3,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 10,
+          },
+          shadowOpacity: 0.53,
+          shadowRadius: 13.97,
+          elevation: 21,
+          borderTopWidth: 0,
         },
       ]}
     >
@@ -31,7 +36,7 @@ const ScanButton = ({ children, onPress }) => {
             width: 70,
             height: 70,
             borderRadius: 35,
-            backgroundColor: "#202120",
+            backgroundColor: "#394464",
           },
         ]}
       >

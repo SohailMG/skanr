@@ -40,13 +40,13 @@ const AccountScreen = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "#FFFF", flex: 1 }}>
+    <View style={{ backgroundColor: "#1E284F", flex: 1 }}>
       {/* Top view */}
       <View
         style={[
-          tw("flex h-1/3 relative"),
+          tw("flex h-60 relative"),
           {
-            backgroundColor: "#EEEAD8",
+            backgroundColor: "#394464",
             borderBottomLeftRadius: 100,
             borderBottomRightRadius: 100,
           },
@@ -59,14 +59,12 @@ const AccountScreen = () => {
             disabled={true}
             onPress={editForms}
             style={[
-              tw(
-                "flex flex-row items-center justify-center p-2 bg-white rounded-full "
-              ),
-              { width: 90 },
+              tw("flex flex-row items-center justify-center p-2 rounded-full "),
+              { width: 90, backgroundColor: "#1E284F" },
               styles.boxShadow,
             ]}
           >
-            <Text style={tw("font-semibold mr-2")}>Edit</Text>
+            <Text style={tw("font-semibold text-gray-400 mr-2")}>Edit</Text>
             <AntDesign name="edit" size={20} color="black" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -75,11 +73,11 @@ const AccountScreen = () => {
               tw(
                 "flex justify-center flex-row items-center p-2 bg-white rounded-full "
               ),
-              { width: 90 },
+              { width: 90, backgroundColor: "#1E284F" },
               styles.boxShadow,
             ]}
           >
-            <Text style={tw("font-bold  mr-2")}>Logout</Text>
+            <Text style={tw("font-bold text-gray-400 mr-2")}>Logout</Text>
             <MaterialIcons name="logout" size={20} color="red" />
           </TouchableOpacity>
         </SafeAreaView>
@@ -88,20 +86,35 @@ const AccountScreen = () => {
           style={[
             tw("absolute bottom-0 -mb-12 self-center rounded-full"),
             styles.boxShadow,
-            { borderColor: "#464545", borderWidth: 2 },
+            {
+              borderColor: "#464545",
+              borderWidth: 2,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 10,
+              },
+              shadowOpacity: 0.53,
+              shadowRadius: 13.97,
+              elevation: 21,
+              borderTopWidth: 0,
+            },
           ]}
         >
           <Image
-            style={[tw("w-40 h-40  bg-white rounded-full")]}
+            style={[tw("w-24 h-24  bg-white rounded-full")]}
             source={{ uri: user?.photoURL }}
           />
         </View>
       </View>
 
       {/* Middle view */}
-      <View style={tw("flex mt-10 h-40")}>
+      <View style={tw("flex mb-4 mt-10 h-40")}>
         <Text
-          style={[tw("mt-4 self-center"), { fontSize: 30, fontWeight: "600" }]}
+          style={[
+            tw("mt-4 text-gray-200 self-center"),
+            { fontSize: 30, fontWeight: "600" },
+          ]}
         >
           {user?.displayName}
         </Text>
@@ -110,9 +123,10 @@ const AccountScreen = () => {
             style={tw("mr-2")}
             name="email"
             size={24}
-            color="black"
+            color="lightgray"
           />
           <TextInput
+            style={{ fontStyle: "italic" }}
             onBlur={() => setActiveForms(false)}
             ref={inputRef}
             editable={activeForms}
@@ -120,7 +134,7 @@ const AccountScreen = () => {
           />
         </View>
         <View style={[tw("flex flex-row items-center"), styles.input]}>
-          <Entypo style={tw("mr-2")} name="lock" size={24} color="black" />
+          <Entypo style={tw("mr-2")} name="lock" size={24} color="lightgray" />
           <TextInput editable={activeForms} value={"********"} />
         </View>
       </View>
@@ -132,7 +146,7 @@ const AccountScreen = () => {
           style={[
             tw(
               `flex m-4 mt-10 ${
-                halalChecked ? "bg-gray-800" : "bg-gray-100"
+                halalChecked ? "bg-gray-200" : ""
               } items-center rounded-md`
             ),
             {
@@ -156,7 +170,7 @@ const AccountScreen = () => {
           style={[
             tw(
               `flex m-4 mt-10 ${
-                veganChecked ? "bg-gray-800" : "bg-gray-100"
+                veganChecked ? "bg-gray-200" : ""
               } items-center rounded-md`
             ),
             {
@@ -186,12 +200,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 10,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 2,
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+    elevation: 21,
+    borderTopWidth: 0,
   },
   buttonDisabled: {
     backgroundColor: "#ccc",
@@ -201,7 +215,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     padding: 10,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: "#394464",
     width: "50%",
     borderRadius: 10,
   },
