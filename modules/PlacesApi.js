@@ -53,6 +53,7 @@ export async function fetchPlaceDetails(placeId) {
         address: formatted_address,
         diatrey: { type: "Halal", isServed: true },
         website,
+        placeId,
       };
       return newPlaceDetails;
     })

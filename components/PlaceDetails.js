@@ -24,8 +24,15 @@ import { TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { DotIndicator } from "react-native-indicators";
 import Stars from "react-native-stars";
+import { useDispatch } from "react-redux";
+import { setPlaceData, setPlaceImages } from "../slices/placeDataSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const PlaceDetails = ({ placeId }) => {
+  // Redux store dispatcher
+  const dispatch = useDispatch();
+  // react router
+  const navigation = useNavigation();
   const [placeDetails, setPlaceDetails] = useState(null);
   const [placeGallery, setPlaceGallery] = useState(null);
   useEffect(() => {
@@ -35,6 +42,8 @@ const PlaceDetails = ({ placeId }) => {
       const imageUris = await fetchPlaceImages(response);
       setPlaceDetails(response);
       setPlaceGallery(imageUris);
+      dispatch(setPlaceImages(imageUris));
+      dispatch(setPlaceData(response));
     })();
   }, [placeId]);
 
@@ -144,7 +153,8 @@ const PlaceDetails = ({ placeId }) => {
             source={{ uri: placeGallery[2]?.src }}
             style={[tw("mx-2 rounded-md flex "), { width: 110, height: 110 }]}
           >
-            <View
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Gallery")}
               style={[
                 tw("flex flex-row items-center justify-center"),
                 {
@@ -158,7 +168,7 @@ const PlaceDetails = ({ placeId }) => {
               <Text style={tw("text-3xl text-white font-semibold")}>
                 {placeGallery.length}
               </Text>
-            </View>
+            </TouchableOpacity>
           </ImageBackground>
         </ScrollView>
       </View>

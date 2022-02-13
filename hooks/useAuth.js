@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Tracking user's sign in state
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
         // user is logged
         setUser(user);
@@ -74,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const createAccountAndLogin = async (email, password, fullName, avatar) => {
-     setLoading(true);
+    setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password).catch((err) =>
         console.log(err)
@@ -92,11 +91,11 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.log(err);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   const loginUser = async (email, password) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const credentials = await signInWithEmailAndPassword(
         auth,
@@ -113,7 +112,7 @@ export const AuthProvider = ({ children }) => {
         setErrorMsg("Email doesn't exist'");
       setError(error);
     }
-    setLoading(false)
+    setLoading(false);
   };
   const logout = () => {
     setLoading(true);

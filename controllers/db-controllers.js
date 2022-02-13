@@ -63,7 +63,6 @@ export const fetchRecentsFromDb = async (user) => {
 };
 
 export const updateRecents = async (placesArr, newPlaceData, user) => {
-  // console.log(user);
   const docRef = doc(db, "recents", user.uid);
   //   console.log(recentPlacesArr);
   updateDoc(docRef, {
@@ -76,4 +75,36 @@ export const updateRecents = async (placesArr, newPlaceData, user) => {
     .catch((error) => {
       console.log("error", error.message);
     });
+};
+
+export const storeLabelledImages = async (images, placeId) => {
+  const docRef = doc(db, "Gallery", placeId);
+  const docSnap = await getDoc(docRef);
+
+  setDoc(doc(db, "Gallery", placeId), {
+    id: placeId,
+    timestamp: serverTimestamp(),
+    labelledImages: images,
+  })
+    .then(() => {
+      console.info("[Database] => Stored Labelled Images ");
+    })
+    .catch((error) => {
+      console.error(
+        "[Database] => Failed to store Labelled Images -> ",
+        error.message
+      );
+    });
+};
+
+export const fetchPlaceGallery = async (placeId) => {
+  const docRef = doc(db, "Gallery", placeId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("[Database] => Fetching pre-labelled images");
+    return docSnap.data();
+  } else {
+    return false;
+  }
 };
