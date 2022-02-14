@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import useAuth from "../hooks/useAuth";
 import AccountScreen from "../screens/AccountScreen";
-import FavouritesScreen from "../screens/FavouritesScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import {
@@ -29,8 +28,10 @@ import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
 import ModalScreen from "../screens/ModalScreen";
 import { COLORS } from "../modules/themeColors";
+import ReviewsScreen from "../screens/ReviewsScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 const MenuTabs = () => {
   const { user } = useAuth();
   const [currentLocation] = useLocation();
@@ -57,6 +58,7 @@ const MenuTabs = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Gallery" component={PlaceGallery} />
+        <Stack.Screen name="Reviews" component={ReviewsScreen} />
       </Stack.Navigator>
     );
   }
@@ -67,6 +69,7 @@ const MenuTabs = () => {
         <Stack.Screen name="Gallery" component={PlaceGallery} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Reviews" component={ReviewsScreen} />
       </Stack.Navigator>
     );
   }

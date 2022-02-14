@@ -15,17 +15,17 @@ import {
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import tw from "tailwind-rn";
 import { useState } from "react";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import PlaceInfo from "./PlaceInfo";
 import PlaceDetails from "./PlaceDetails";
 
-const PlaceModal = ({ placeId }, ref) => {
-  console.log("MODAL ", placeId);
+const PlaceModal = ({ placeId, scanFailed }, ref) => {
+  console.log(scanFailed);
   // const { placeId } = useSelector((state) => state.appReducer);
   const [closedModal, setClosedModal] = useState(true);
   const [index, setIndex] = useState(-1);
-  console.log(placeId);
+
   // ref
   const bottomSheetRef = useRef();
 
@@ -56,7 +56,7 @@ const PlaceModal = ({ placeId }, ref) => {
     return <View />;
   }
   return (
-    <View onPress={() => console.log("touch")} style={styles.container}>
+    <View style={styles.container}>
       <BottomSheet
         enablePanDownToClose
         ref={bottomSheetRef}
@@ -76,6 +76,14 @@ const PlaceModal = ({ placeId }, ref) => {
 
           <ScrollView showsVerticalScrollIndicator={false}>
             {placeId && <PlaceDetails placeId={placeId} />}
+            {scanFailed && (
+              <View style={tw("flex items-center justify-center")}>
+                <Text style={tw("text-2xl my-2 text-red-400 justify-center ")}>
+                  Scan failed try again !
+                </Text>
+                <Feather name="frown" size={30} color="white" />
+              </View>
+            )}
           </ScrollView>
         </View>
       </BottomSheet>

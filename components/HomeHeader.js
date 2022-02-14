@@ -1,8 +1,8 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ActivityIndicator } from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
-import { Entypo } from "@expo/vector-icons";
-const HomeHeader = () => {
+import { Entypo, Ionicons } from "@expo/vector-icons";
+const HomeHeader = ({ userAddress }) => {
   const { user } = useAuth();
   return (
     <View style={tw("flex flex-row justify-between items-center")}>
@@ -16,6 +16,13 @@ const HomeHeader = () => {
             {user.displayName.split(" ")[0]}!
           </Text>
         )}
+        <View style={[tw(" flex flex-row items-end")]}>
+          <Ionicons name="location" size={20} color="gray" />
+          <Text style={tw("font-semibold text-gray-500")}>
+            {userAddress ? userAddress : "Updating location"}
+          </Text>
+          {!userAddress && <ActivityIndicator size="small" color="green" />}
+        </View>
       </View>
       {user.photoURL && (
         <Image

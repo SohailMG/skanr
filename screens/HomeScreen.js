@@ -12,7 +12,12 @@ import useAuth from "../hooks/useAuth";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import HomeHeader from "../components/HomeHeader";
-import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  FontAwesome5,
+  MaterialIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import RecentScans from "../components/RecentScans";
 import { useSelector, useDispatch } from "react-redux";
 import { KeyboardAvoidingView } from "react-native";
@@ -20,6 +25,7 @@ import { setPlaceData } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
 import useLocation from "../hooks/useLocation";
 import { setUserLocation } from "../slices/appSlice";
+import { reverseGeocode } from "../modules/PlacesApi";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -28,66 +34,53 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [locationRetrieved, setLocationRetrieved] = useState(false);
+  const [userAddress, setuserAddress] = useState(null);
 
   const fetchPlaceData = (data, details) => {
     // const { place_id } = data;
-    const {
-      formatted_phone_number,
-      geometry,
-      name,
-      photos,
-      rating,
-      reviews,
-      place_id,
-      formatted_address,
-      price_level,
-    } = details;
     const placeDetails = {
-      name: name,
-      rating: rating,
-      number: formatted_phone_number,
-      reviews: reviews,
-      photos: photos,
-      location: geometry.location,
-      priceLevel: price_level,
-      address: formatted_address,
+      name: details.name,
+      rating: details.rating,
+      number: details.formatted_phone_number,
+      reviews: details.reviews,
+      photos: details.photos,
+      location: details.geometry.location,
+      priceLevel: details.price_level,
+      address: details.formatted_address,
     };
-
     dispatch(setPlaceData(placeDetails));
     navigation.navigate("Results");
   };
 
   // get user location
   useEffect(() => {
-    (() => {
+    (async () => {
       const [currentLocation] = location;
 
       if (currentLocation) {
         dispatch(setUserLocation(currentLocation));
+        const userFormattedAddress = await reverseGeocode(
+          currentLocation.coords.latitude,
+          currentLocation.coords.longitude
+        );
+        setuserAddress(userFormattedAddress);
         setLocationRetrieved(true);
       }
     })();
   }, [location]);
 
   return (
-    <View style={[tw("flex-1 relative"), {flex:1, backgroundColor: "#1E284F" }]}>
+    <View
+      style={[tw("flex-1 relative"), { flex: 1, backgroundColor: "#1E284F" }]}
+    >
       <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
-        <HomeHeader />
-        {!userLocation && (
-          <View style={[tw("flex flex-row items-center")]}>
-            <FontAwesome name="location-arrow" size={24} color="black" />
-            <Text style={tw("font-semibold text-red-500")}>
-              Updating location{" "}
-            </Text>
-            <ActivityIndicator size="small" color="green" />
-          </View>
-        )}
+        <HomeHeader userAddress={userAddress} />
       </View>
 
       {/* Google places autocomplete  */}
       <View
         style={[
-          tw("flex flex-row  mb-10 mx-5 mt-4"),
+          tw("flex flex-row  mb-10 mx-5 "),
           {
             backgroundColor: "#171E41",
             borderRadius: 20,

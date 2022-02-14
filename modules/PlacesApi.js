@@ -6,6 +6,7 @@ import { getBestMatch } from "./bestMatch";
 const PlaceDetailsEndpoint = `https://maps.googleapis.com/maps/api/place/details/json?`;
 const PlacePhotosEndpoint = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=`;
 const PlacesNearbyEndpoint = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
+const ReverseGeocodeEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?`;
 // Google PlacesApi Response Properties
 const fields = [
   "name",
@@ -112,5 +113,17 @@ export async function fetchPlaceImages(placeDetails) {
       photoUrls.push({ src: photoUrl, id: index + 100 });
     });
     return photoUrls;
+  });
+}
+
+export async function reverseGeocode(lat, lng) {
+  const url = `${ReverseGeocodeEndpoint}latlng=${
+    lat + "," + lng
+  }&key=${GOOGLE_PLACES_API_KEY}`;
+
+  return axios.get(url).then((response) => {
+    const address = response.data.plus_code.compound_code.split(" ");
+    const formattedAddress = address[1] + address[2];
+    return formattedAddress;
   });
 }

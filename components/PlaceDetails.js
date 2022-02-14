@@ -23,10 +23,10 @@ import MapContainer from "./MapContainer";
 import { TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { DotIndicator } from "react-native-indicators";
-import Stars from "react-native-stars";
 import { useDispatch } from "react-redux";
 import { setPlaceData, setPlaceImages } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
+import ReviewBox from "./ReviewBox";
 
 const PlaceDetails = ({ placeId }) => {
   // Redux store dispatcher
@@ -164,8 +164,8 @@ const PlaceDetails = ({ placeId }) => {
                 },
               ]}
             >
-              <AntDesign name="plus" size={25} color="white" />
-              <Text style={tw("text-3xl text-white font-semibold")}>
+              <AntDesign name="plus" size={25} color="gray" />
+              <Text style={tw("text-3xl text-gray-500 font-semibold")}>
                 {placeGallery.length}
               </Text>
             </TouchableOpacity>
@@ -176,62 +176,33 @@ const PlaceDetails = ({ placeId }) => {
       {/* Place reviews */}
       <View style={tw("border-t border-gray-600 mx-4 my-2")}></View>
       <View style={tw("m-4 flex flex-row items-center")}>
-        <Text style={tw("text-gray-200 mr-2 font-bold text-xl")}>Reviews</Text>
-        <MaterialCommunityIcons
-          name="comment-quote"
-          size={24}
-          color="lightblue"
-        />
+        <View style={[tw("flex flex-row items-center "), { width: "82%" }]}>
+          <Text style={tw("text-gray-200 mr-2 font-bold text-xl")}>
+            Reviews
+          </Text>
+          <MaterialCommunityIcons
+            name="comment-quote"
+            size={24}
+            color="lightblue"
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Reviews")}
+          style={tw("bg-gray-700 px-2 rounded-full")}
+        >
+          <Text style={tw("text-lg text-gray-400")}>see all</Text>
+        </TouchableOpacity>
       </View>
-      <View style={[tw("mx-4  rounded-xl"), { backgroundColor: "#494d4f" }]}>
-        {placeDetails && (
-          <View>
-            <View style={tw("flex flex-row items-center")}>
-              <Image
-                style={[tw("m-2"), { width: 40, height: 40 }]}
-                source={{ uri: placeDetails.reviews[0].profile_photo_url }}
-              />
-              <View style={tw("flex items-start mt-2")}>
-                <Text style={tw("text-gray-100 font-semibold text-md")}>
-                  {placeDetails.reviews[0].author_name}
-                </Text>
-                <Text style={tw("text-gray-500 ")}>
-                  {placeDetails.reviews[0].relative_time_description}
-                </Text>
-                <View style={[tw("mt-2 ")]}>
-                  <Stars
-                    display={placeDetails?.reviews[0].rating}
-                    half={true}
-                    spacing={8}
-                    count={5}
-                    starSize={20}
-                    fullStar={
-                      <MaterialIcons name="star" size={15} color="yellow" />
-                    }
-                    emptyStar={
-                      <MaterialIcons
-                        name="star-outline"
-                        size={15}
-                        color="yellow"
-                      />
-                    }
-                    halfStar={
-                      <MaterialIcons
-                        name="star-half"
-                        size={15}
-                        color="yellow"
-                      />
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-            <Text style={tw("p-2 text-white")}>
-              {placeDetails.reviews[0].text}
-            </Text>
-          </View>
-        )}
-      </View>
+      {placeDetails && (
+        <TouchableOpacity onPress={() => navigation.navigate("Reviews")}>
+          <ReviewBox
+            lines={2}
+            color={"#494d4f"}
+            review={placeDetails.reviews[0]}
+          />
+        </TouchableOpacity>
+      )}
       {/* )} */}
     </View>
   );

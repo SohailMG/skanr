@@ -66,6 +66,7 @@ const CameraScreen = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [scanFailed, setScanFailed] = useState(false);
+  const [placeNotFound, setPlaceNotFound] = useState(false);
   const [selectedOptions, setSelectedOption] = useState("chicken");
   const [place, setPlace] = useState(null);
 
@@ -93,7 +94,10 @@ const CameraScreen = () => {
         return;
       }
       // getting placeId of closest match
+      console.log(scanFailed);
       const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
+      console.log(placeId);
+      if (!placeId) setPlaceNotFound(true);
       setScanning(false);
       setPlace(placeId);
       childRef.current.handleOpenPress(placeId);
@@ -190,7 +194,7 @@ const CameraScreen = () => {
           />
         </View>
       </Camera>
-      <PlaceModal ref={childRef} placeId={place} />
+      <PlaceModal scanFailed={placeNotFound} ref={childRef} placeId={place} />
     </View>
   );
 };
