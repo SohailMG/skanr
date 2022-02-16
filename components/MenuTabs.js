@@ -42,7 +42,7 @@ const MenuTabs = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Group>
-          <Stack.Screen name="Splash" component={SplashScreen} />
+          {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
           <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>
