@@ -18,7 +18,7 @@ import BackHomeButton from "../components/BackHomeButton";
 import StatsCircle from "../components/StatsCircle";
 import PlaceInfo from "../components/PlaceInfo";
 import useAuth from "../hooks/useAuth";
-import { storePlaceToRecents } from "../controllers/db-controllers";
+import { storePlaceToRecents } from "../controllers/dbHandlers";
 import { priceLevels, sentimentTags } from "../controllers/sentimentLevels";
 import {
   fetchPlaceDetails,

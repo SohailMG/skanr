@@ -11,17 +11,11 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import tw from "tailwind-rn";
-import { fetchRecentsFromDb } from "../controllers/db-controllers";
+import { fetchRecentsFromDb } from "../controllers/dbHandlers";
 import { Entypo, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
-import MapContainer from "./MapContainer";
-import MapView, { Marker } from "react-native-maps";
-import Spinner from "react-native-loading-spinner-overlay";
-import {
-  DotIndicator,
-  MaterialIndicator,
-  UIActivityIndicator,
-} from "react-native-indicators";
+import moment from "moment";
+
 const catagories = {
   13377: "vegan",
   13191: "Halal",
@@ -41,22 +35,22 @@ const RecentScans = () => {
     })();
   }, []);
 
+  const formatDate = (timestamp) => {
+    return moment(new Date(timestamp.seconds * 1000)).fromNow();
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       horizontal
       style={tw("flex-1 ml-2")}
     >
-      {!recentScans ? (
-        <View style={tw("w-40 h-40")}>
-          <MaterialIndicator color="lightgray" size={50} />
-        </View>
-      ) : (
-        recentScans.map((place, index) => (
-          <View style={tw("m-4 ")}>
+      {recentScans &&
+        recentScans.map(({ placeDetails, outDoorImg, timestamp, placeId }) => (
+          <View key={placeId} style={tw("m-4 ")}>
             <ImageBackground
               borderRadius={30}
-              source={require("../assets/resturant.png")}
+              source={{ uri: outDoorImg }}
               style={[tw(""), { width: 250, height: 300 }]}
             >
               <View
@@ -76,7 +70,7 @@ const RecentScans = () => {
                 ]}
               >
                 <Text style={tw("text-gray-200 text-lg font-bold")}>
-                  {place.placeDetails.rating}
+                  {placeDetails.rating}
                 </Text>
                 <Entypo name="star" size={24} color="yellow" />
               </View>
@@ -91,10 +85,10 @@ const RecentScans = () => {
                   numberOfLines={1}
                   style={tw("text-gray-200 text-lg font-bold")}
                 >
-                  {place.placeDetails.name}
+                  {placeDetails.name}
                 </Text>
                 <Text style={tw("text-gray-500 text-xs font-bold")}>
-                  {new Date(place.timestamp.seconds * 1000).toDateString()}
+                  {formatDate(timestamp)}
                 </Text>
                 <View style={tw("flex flex-row items-center self-center")}>
                   <View
@@ -109,12 +103,12 @@ const RecentScans = () => {
                         { fontSize: 10 },
                       ]}
                     >
-                      {place.placeDetails?.diatrey.type}
+                      {placeDetails?.diatrey.type}
                     </Text>
                   </View>
                   <TouchableOpacity
                     onPress={() => {
-                      Linking.openURL(place.placeDetails.website);
+                      Linking.openURL(placeDetails?.website);
                     }}
                     style={tw(
                       "mx-1 flex  items-center  mt-4 border-r border-gray-500 items-center"
@@ -132,7 +126,7 @@ const RecentScans = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      Linking.openURL(`tel:${place.placeDetails.number}`);
+                      Linking.openURL(`tel:${placeDetails?.number}`);
                     }}
                     style={tw("flex mx-2 items-center  mt-4  items-center")}
                   >
@@ -143,7 +137,7 @@ const RecentScans = () => {
                         { fontSize: 10 },
                       ]}
                     >
-                      {place.placeDetails?.number || "Unavailable"}
+                      {placeDetails?.number || "Unavailable"}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -157,7 +151,7 @@ const RecentScans = () => {
                       "flex bg-gray-800 p-2  pl-5 rounded-full flex-row items-center "
                     )}
                   >
-                    {place.placeDetails?.reviews
+                    {placeDetails?.reviews
                       .slice(0, 3)
                       .map(({ profile_photo_url }, index) => (
                         <Image
@@ -167,15 +161,14 @@ const RecentScans = () => {
                         />
                       ))}
                     <Text style={tw("text-sm font-semibold text-gray-100")}>
-                      +{place.placeDetails?.reviews.length}
+                      +{placeDetails?.reviews.length}
                     </Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </ImageBackground>
           </View>
-        ))
-      )}
+        ))}
     </ScrollView>
   );
 };

@@ -6,7 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Gallery } from "react-native-gallery-view";
 import { useEffect, useState } from "react";
 import { classifyBatchOfImages } from "../modules/VisionAi";
-import { fetchPlaceGallery } from "../controllers/db-controllers";
+import { fetchPlaceGallery } from "../controllers/dbHandlers";
 import { image } from "@tensorflow/tfjs";
 import { Button } from "react-native-ui-lib";
 import Spinner from "react-native-loading-spinner-overlay";

@@ -3,6 +3,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "tests": "node ./tests/dbTests.js",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject"
@@ -37,6 +38,7 @@
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^5.0.1",
     "metro-config": "^0.68.0",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",

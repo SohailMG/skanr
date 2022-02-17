@@ -3,7 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import tw from "tailwind-rn";
 import { LogBox } from "react-native";
-LogBox.ignoreAllLogs(); // Ignore log notification by message
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 import MenuTabs from "./components/MenuTabs";
 import { AuthProvider } from "./hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -19,7 +20,7 @@ export default function App() {
       <SafeAreaProvider>
         {/* Redux provider */}
         <Provider store={store}>
-        {/* HOC - Higher order component */}
+          {/* HOC - Higher order component */}
           <AuthProvider>
             {/* Passes down the core auth to child components */}
             <MenuTabs />

@@ -3,7 +3,7 @@ import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
 import { foodLabels, foodTypes } from "../foodLabels";
-import { storeLabelledImages } from "../controllers/db-controllers";
+import { storeLabelledImages } from "../controllers/dbHandlers";
 
 const apiRequest = {
   url: "https://vision.googleapis.com/v1/images:annotate?key=",
@@ -81,7 +81,41 @@ export async function classifyBatchOfImages(images, placeId) {
     if (imgLabels.length > 0)
       labelledImages.push({ imageUri: image.src, labels: imgLabels });
   }
-  console.log(labelledImages);
   const response = await storeLabelledImages(labelledImages, placeId);
   return labelledImages;
 }
+
+/**
+ * classifies place images to retrive image of possible outdoor view
+ * @param {*} images
+ * @param {*} placeId
+ * @returns
+ */
+export const classifyPlaceOutdoorImage = async (images, placeId) => {
+  console.log("[VisionAi] => Classifying for Outdoor Image");
+  const possibleLabels = ["outdoor", "building", "street", "shop"];
+  let outDoorImg = "";
+  for (let image of images) {
+    const base64 = await resizeImage(image.src);
+    const response = await classifyImage(base64);
+    const labels = response.responses[0].labelAnnotations;
+    // extracting labels
+    labels.forEach((label) => {
+      // Case 1 - Best match found
+      if (label.description.toLowerCase() == "street") {
+        console.log(
+          "[VisionAi] => Detected outdoor Image showing " + label.description
+        );
+        outDoorImg = image.src;
+        return;
+      } else if (possibleLabels.includes(label.description.toLowerCase())) {
+        console.log(
+          "[VisionAi] => Detected outdoor Image showing " + label.description
+        );
+        outDoorImg = image.src;
+        return;
+      }
+    });
+  }
+  return outDoorImg;
+};

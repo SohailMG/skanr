@@ -27,10 +27,17 @@ import { useDispatch } from "react-redux";
 import { setPlaceData, setPlaceImages } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
 import ReviewBox from "./ReviewBox";
+import {
+  storePlaceToRecents,
+  uploadToRecents,
+} from "../controllers/dbHandlers";
+import useAuth from "../hooks/useAuth";
+import { classifyPlaceOutdoorImage } from "../modules/VisionAi";
 
 const PlaceDetails = ({ placeId }) => {
   // Redux store dispatcher
   const dispatch = useDispatch();
+  const { user } = useAuth();
   // react router
   const navigation = useNavigation();
   const [placeDetails, setPlaceDetails] = useState(null);
@@ -38,14 +45,23 @@ const PlaceDetails = ({ placeId }) => {
   useEffect(() => {
     // fetching place details
     (async () => {
-      const response = await fetchPlaceDetails(placeId);
-      const imageUris = await fetchPlaceImages(response);
-      setPlaceDetails(response);
+      const placeDetails = await fetchPlaceDetails(placeId);
+      const imageUris = await fetchPlaceImages(placeDetails);
+      setPlaceDetails(placeDetails);
       setPlaceGallery(imageUris);
+      // dispatching place data and images to global store
       dispatch(setPlaceImages(imageUris));
-      dispatch(setPlaceData(response));
+      dispatch(setPlaceData(placeDetails));
+      // storing place data to recents
     })();
   }, [placeId]);
+
+  useEffect(() => {
+    (async () => {
+      const outDoorImg = await classifyPlaceOutdoorImage(placeGallery, placeId);
+      storePlaceToRecents(user, placeDetails, outDoorImg);
+    })();
+  }, [placeGallery]);
 
   // showing loading indicator when data is unavailable
   if (!placeGallery) {
