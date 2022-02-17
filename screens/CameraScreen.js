@@ -6,26 +6,14 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-
+import Modal from "react-native-modal";
 import { Camera } from "expo-camera";
 import tw from "tailwind-rn";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setImageUri,
-  setIsScanning,
-  setMessage,
-  setPlaceId,
-  setPlaceIds,
-  setScannedText,
-} from "../slices/appSlice";
+import { setImageUri, setIsScanning } from "../slices/appSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
-import CLOUD_VISION from "../cloude-vision";
-import * as ImageManipulator from "expo-image-manipulator";
-import * as FileSystem from "expo-file-system";
-import { GOOGLE_PLACES_API_KEY } from "@env";
-import axios from "axios";
 import BackHomeButton from "../components/BackHomeButton";
 import useLocation from "../hooks/useLocation";
 import ScrollingButtonMenu from "react-native-scroll-menu";
@@ -34,6 +22,9 @@ import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
 import { fetchNearbyPlaces } from "../modules/PlacesApi";
 import { classifyImage, resizeImage } from "../modules/VisionAi";
+import { Button } from "react-native-ui-lib";
+import { Feather } from "@expo/vector-icons";
+
 const options = [
   {
     id: 1,
@@ -66,6 +57,7 @@ const CameraScreen = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanning, setScanning] = useState(false);
   const [scanFailed, setScanFailed] = useState(false);
+  const [failedDetection, setFailedDetection] = useState(false);
   const [placeNotFound, setPlaceNotFound] = useState(false);
   const [selectedOptions, setSelectedOption] = useState("chicken");
   const [place, setPlace] = useState(null);
@@ -90,7 +82,8 @@ const CameraScreen = () => {
       if (!textAnnotations) {
         setScanFailed(true);
         setScanning(false);
-        alert("Detection failed!.Make sure restaurant name is visible");
+        setFailedDetection(labelAnnotations[0].description);
+        // alert("Detection failed!.Make sure restaurant name is visible");
         return;
       }
       // getting placeId of closest match
@@ -129,6 +122,36 @@ const CameraScreen = () => {
   return (
     <View style={tw("flex-1")}>
       <Camera ref={camRef} style={tw("flex-1")} type={type}>
+        <Modal
+          style={[tw("flex justify-center items-center")]}
+          isVisible={scanFailed}
+        >
+          <View
+            style={[
+              tw("bg-white  items-center rounded-xl p-4"),
+              { width: "90%" },
+            ]}
+          >
+            <Feather name="frown" size={24} color="red" />
+            <Text style={[tw("text-gray-800 my-2 ")]}>
+              Detected a{" "}
+              {
+                <Text style={tw("text-gray-800 font-semibold")}>
+                  {failedDetection}
+                </Text>
+              }{" "}
+              instead of place banner
+            </Text>
+            <Text style={[tw("text-gray-800 ")]}>
+              Make sure place banner is visible
+            </Text>
+            <Button
+              style={[tw("w-32 self-center mt-2")]}
+              label="Try again"
+              onPress={() => setScanFailed(false)}
+            />
+          </View>
+        </Modal>
         <Spinner
           animation="fade"
           color="green"
@@ -143,6 +166,7 @@ const CameraScreen = () => {
             Scanning Image...
           </Text>
         </Spinner>
+
         <Text style={tw("absolute mb-20 bottom-32 self-center text-white")}>
           Take a picture of the front of the restaurant
         </Text>
