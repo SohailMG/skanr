@@ -23,6 +23,7 @@ export function getBestMatch(places, textBlocks) {
     // looping through array of extracted textBlocks from image
     for (let textBlock of textBlocks) {
       const placeName = place.name.toLowerCase().trim();
+      console.log(placeName);
       const extractedText = textBlock.description.toLowerCase().trim();
       // Case 1 - Empty text extracted
       if (!placeName || !extractedText) continue;

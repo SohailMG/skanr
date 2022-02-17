@@ -31,12 +31,21 @@ const RecentScans = () => {
   useEffect(() => {
     (async () => {
       const recents = await fetchRecentsFromDb(user);
-      setRecentScans(recents);
+      console.log(recents.length);
+      setRecentScans(sortRecents(recents));
+      // sortRecents(recents);
     })();
   }, []);
 
   const formatDate = (timestamp) => {
     return moment(new Date(timestamp.seconds * 1000)).fromNow();
+  };
+
+  const sortRecents = (recents) => {
+    return recents.sort((a, b) => {
+      return b.timestamp.seconds - a.timestamp.seconds;
+    });
+    // console.log(sorted);
   };
 
   return (

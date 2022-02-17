@@ -15,6 +15,18 @@ const useFetch = () => {
       }
       // updating currentLocation state
       const location = await Location.getCurrentPositionAsync({});
+      // const testLocation = {
+      //   coords: {
+      //     accuracy: 12.697312666656831,
+      //     altitude: 47.286163330078125,
+      //     altitudeAccuracy: 13.256882667541504,
+      //     heading: -1,
+      //     latitude: 51.553346087611885,
+      //     longitude: -0.2945266573585714,
+      //     speed: -1,
+      //   },
+      //   timestamp: 1645118533411.1462,
+      // };
       setCurrentLocation(location);
     })();
   }, []);

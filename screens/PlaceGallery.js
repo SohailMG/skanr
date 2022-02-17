@@ -10,12 +10,13 @@ import { fetchPlaceGallery } from "../controllers/dbHandlers";
 import { image } from "@tensorflow/tfjs";
 import { Button } from "react-native-ui-lib";
 import Spinner from "react-native-loading-spinner-overlay";
-import { WaveIndicator } from "react-native-indicators";
+import { BallIndicator, WaveIndicator } from "react-native-indicators";
 const PlaceGallery = () => {
   const navigation = useNavigation();
   const [placeGallery, setPlaceGallery] = useState(null);
   const [imageLabels, setImageLabels] = useState(null);
   const [currentActive, setCurrentActive] = useState({ label: null, index: 0 });
+  const [loading, setLoading] = useState(false);
   const { placeImages, placeData } = useSelector((state) => state.placeReducer);
 
   // extracts image labels
@@ -31,14 +32,23 @@ const PlaceGallery = () => {
 
   useEffect(() => {
     (async () => {
-      const gallery = await fetchPlaceGallery(placeData.placeId);
-      if (!gallery) {
-        const labelledImages = await classifyBatchOfImages(
-          placeImages,
-          placeData.placeId
-        );
-        setPlaceGallery(labelledImages);
-      } else setPlaceGallery(gallery.labelledImages);
+      setLoading(true);
+      try {
+        const gallery = await fetchPlaceGallery(placeData.placeId);
+        if (!gallery) {
+          const labelledImages = await classifyBatchOfImages(
+            placeImages,
+            placeData.placeId
+          );
+          setPlaceGallery(labelledImages);
+        } else {
+          setPlaceGallery(gallery.labelledImages);
+        }
+      } catch (err) {
+        throw err;
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [placeData]);
 
@@ -46,7 +56,7 @@ const PlaceGallery = () => {
     extractLabels();
   }, [placeGallery]);
 
-  if (!placeGallery) {
+  if (loading) {
     return (
       <View style={[tw("flex-1 items-center"), { backgroundColor: "#1E284F" }]}>
         <Spinner
@@ -56,7 +66,7 @@ const PlaceGallery = () => {
           textStyle={{ color: "white" }}
           style={tw("flex flex-row items-center justify-center")}
         >
-          <WaveIndicator color="white" size={60} />
+          <BallIndicator color="white" size={60} />
           <Text
             style={[tw("absolute  text-white self-center"), { top: "55%" }]}
           >
@@ -104,7 +114,7 @@ const PlaceGallery = () => {
           {placeGallery?.map(
             (image) =>
               image.labels.includes(currentActive.label) && (
-                <View>
+                <View key={image.imageUri}>
                   <Image
                     source={{ uri: image.imageUri }}
                     style={tw("h-40 w-40 m-2 rounded-md")}
