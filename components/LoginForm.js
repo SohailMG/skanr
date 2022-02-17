@@ -11,12 +11,13 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
 import GoogleSvg from "../assets/google.svg";
-
+import { useNavigation } from "@react-navigation/core";
 const LoginForm = () => {
   const { TextField } = Incubator;
   const { loginUser, error, loading, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   return (
     <View
@@ -108,7 +109,7 @@ const LoginForm = () => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => loginUser(email, password)}
+            onPress={() => navigation.navigate("Modal")}
             style={[
               tw(
                 "flex flex-row items-center bg-gray-200 p-4 rounded-xl w-40 justify-center mt-10 self-center"
