@@ -13,13 +13,16 @@
  * @param {Object} textBlocks text blocks extracted from image
  * @returns {string} matching place id
  */
-function getBestMatch(places, textBlocks) {
+function getBestMatch(places, extractedText) {
   console.log("[BestMatch] => Computing best matching string");
+
+  // Guarding against empty strings or failed place fetches
+  if(!places || !extractedText) return false;
+
   // variable to keep track of current best maximum score
   let bestScore = -Infinity;
   // variable to store matching string
   let bestPlaceMatch;
-  const extractedText = textBlocks.map((block) => block.description).join(" ");
   const maxWordLength = getMaxWordLength(places);
   // looping though array of place names
   for (let place of places) {
@@ -28,7 +31,7 @@ function getBestMatch(places, textBlocks) {
       extractedText,
       maxWordLength
     );
-    console.log(currentScore, place.name);
+    
     // case 1 - Found exact match
     if (currentScore === 1) {
       bestPlaceMatch = place.name;
@@ -49,25 +52,24 @@ function getBestMatch(places, textBlocks) {
   } else {
     // returning the best matching string
     console.log("[BestMatch] => Found match with score = " + bestScore);
-    return bestPlaceMatch;
+    return {bestPlaceMatch,score: bestScore};
   }
 }
 /**
  *
- * @param {string} str1 name of place to be matched
- * @param {string} str2 text extracted from image to be matched against place name
- * @returns {number} score of words found in str1
+ * @param {string} textFromImg name of place to be matched
+ * @param {string} targetStr text extracted from image to be matched against place name
+ * @returns {number} score of words found in textFromImg
  */
-function computeMatchScore(str1, str2, maxWordLength) {
+function computeMatchScore(textFromImg, targetStr, maxWordLength) {
   // splitting both strings into array of words
-  const str2Words = str2.toLowerCase().trim().split(" ");
-  const str1Words = str1.toLowerCase().trim().split(" ");
+  const targetStrWords = targetStr.toLowerCase().trim().split(" ");
   // setting initial score
   let score = 0;
   // looping through words in extracted textBlocks
-  for (let word of str2Words) {
+  for (let word of targetStrWords) {
     // if word is present in string then score is increased
-    if (str1.toLowerCase().includes(word.toLowerCase())) {
+    if (textFromImg.toLowerCase().includes(word.toLowerCase())) {
       score += 1;
     }
   }
