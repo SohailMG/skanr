@@ -70,13 +70,13 @@ function initMatrix(str1, str2) {
  * each string with target string using levenshtein edit distance
  * @returns best matching string with minmum edit distance
  */
-export function getBestMatch(places, textBlocks) {
+function getBestMatch(places, textBlocks) {
   let bestMatch;
   let minVal = Infinity;
   for (let place of places) {
     for (let text of textBlocks) {
       let currentMin = LevenshteinDist(text, place);
-      console.log(currentMin);
+      console.log(currentMin, place);
       if (currentMin < minVal) {
         minVal = currentMin;
         bestMatch = place;
@@ -95,12 +95,20 @@ const places = [
   "Freshly Grilled Peri Peri Chicken",
 ];
 const textBlocks = [
+  "fresh",
   "grilled",
   "freshly grilled",
-  "Hot Rooster",
-  "freshly",
-  "fant and we",
+  "cheat",
+  "cheat",
   "fant",
 ];
 
-getBestMatch(places, textBlocks);
+// getBestMatch(places, textBlocks);
+let currentMin = Infinity;
+textBlocks.map((text) => {
+  let dist = LevenshteinDist(text, "freshly grilled");
+  currentMin = dist < currentMin ? dist : currentMin;
+  console.log(currentMin);
+});
+console.log(currentMin);
+// console.log(LevenshteinDist("","Freshly Grilled Peri Peri Chicken"));
