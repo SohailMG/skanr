@@ -1,6 +1,6 @@
 import { GOOGLE_PLACES_API_KEY } from "@env";
 import axios from "axios";
-import { getBestMatch } from "./bestMatch";
+import { findBestMatch } from "./bestMatch";
 
 // Google PlacesApi Endpoints
 const PlaceDetailsEndpoint = `https://maps.googleapis.com/maps/api/place/details/json?`;
@@ -22,6 +22,7 @@ const fields = [
 ];
 const radius = 1500;
 const placeType = "restaurant";
+const keywords = ["indian"];
 
 /**
  *
@@ -84,11 +85,11 @@ function urlBuilder(placeId) {
  * @returns {Promise<string>} placeId
  */
 export async function fetchNearbyPlaces(userLocation, extractedText) {
-  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}`;
+  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}&keyword=`;
 
   return axios.get(requestUrl).then((response) => {
     const places = response.data.results;
-    return getBestMatch(places, extractedText);
+    return findBestMatch(places, extractedText);
   });
 }
 

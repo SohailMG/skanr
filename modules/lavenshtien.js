@@ -1,114 +1,73 @@
-/*
-          ***Levenshtein Edit Distance Algorithm***
-  computes the edit distance of converting string A to string B
-  using a dynamic programming approach for faster performance
-*/
-
-let matrix = [];
-const LevenshteinDist = (str1, str2) => {
-  str1.toLowerCase();
-  str2.toLowerCase();
-  initMatrix(str1, str2);
-  return calcEdit(str1, str2);
+module.exports = {
+  compareTwoStrings: compareTwoStrings,
+  findBestMatch: findBestMatch,
 };
-/**
- * computes the edit distance needed for each
- * char of str1 and str2
- * @param {string} str1
- * @param {string} str2
- * @returns the final edit distance value to convert str1 to str2
- */
-function calcEdit(str1, str2) {
-  // skipping 0th pos as it contains empty string
-  for (let i = 1; i < str1.length + 1; i++) {
-    for (let j = 1; j < str2.length + 1; j++) {
-      // checking if current chars of str1 and str2 are equal
-      if (str1[i - 1] === str2[j - 1]) {
-        /* setting the current matrix value to the 
-        catty corner value of the previous iteration */
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        /* when not equal , get the min value of all three cells*/
-        matrix[i][j] = getMinValue(i, j);
-      }
+
+function compareTwoStrings(first, second) {
+  first = first.replace(/\s+/g, "");
+  second = second.replace(/\s+/g, "");
+
+  if (first === second) return 1; // identical or empty
+  if (first.length < 2 || second.length < 2) return 0; // if either is a 0-letter or 1-letter string
+
+  let firstBigrams = new Map();
+  for (let i = 0; i < first.length - 1; i++) {
+    const bigram = first.substring(i, i + 2);
+    const count = firstBigrams.has(bigram) ? firstBigrams.get(bigram) + 1 : 1;
+
+    firstBigrams.set(bigram, count);
+  }
+
+  let intersectionSize = 0;
+  for (let i = 0; i < second.length - 1; i++) {
+    const bigram = second.substring(i, i + 2);
+    const count = firstBigrams.has(bigram) ? firstBigrams.get(bigram) : 0;
+
+    if (count > 0) {
+      firstBigrams.set(bigram, count - 1);
+      intersectionSize++;
     }
   }
-  // returning the final edit distance value
-  return matrix[str1.length][str2.length];
-}
-/**
- * a helper function to get the minimum value
- * of left top and topleft cells of current cell
- * @param {number} i current row position
- * @param {number} j current colum position
- * @returns the minimum value of all three adjecent cells
- */
-function getMinValue(i, j) {
-  // cell left to the current cell
-  const leftNeighbor = matrix[i - 1][j];
-  // cell right above the current cell
-  const topNeighbor = matrix[i][j - 1];
-  // cell top left of the current cell
-  const topLeftNeighbor = matrix[i - 1][j - 1];
-  // returning the minimum value of all three cells
-  return 1 + Math.min(leftNeighbor, topLeftNeighbor, topNeighbor);
+
+  return (2.0 * intersectionSize) / (first.length + second.length - 2);
 }
 
-// initialises the 2d matrix with default values
-function initMatrix(str1, str2) {
-  for (let i = 0; i < str1.length + 1; i++) {
-    const row = [];
-    for (let j = 0; j < str2.length + 1; j++) {
-      row.push(j);
-    }
-    row[0] = i;
-    matrix.push(row);
-  }
-}
-/**
- * loops through array of strings and compares
- * each string with target string using levenshtein edit distance
- * @returns best matching string with minmum edit distance
- */
-function getBestMatch(places, textBlocks) {
-  let bestMatch;
-  let minVal = Infinity;
-  for (let place of places) {
-    for (let text of textBlocks) {
-      let currentMin = LevenshteinDist(text, place);
-      console.log(currentMin, place);
-      if (currentMin < minVal) {
-        minVal = currentMin;
-        bestMatch = place;
-      }
+function findBestMatch(mainString, targetStrings) {
+  if (!areArgsValid(mainString, targetStrings))
+    throw new Error(
+      "Bad arguments: First argument should be a string, second should be an array of strings"
+    );
+
+  const ratings = [];
+  let bestMatchIndex = 0;
+
+  for (let i = 0; i < targetStrings.length; i++) {
+    const currentTargetString = targetStrings[i];
+    const currentRating = compareTwoStrings(mainString, currentTargetString);
+    ratings.push({ target: currentTargetString, rating: currentRating });
+    if (currentRating > ratings[bestMatchIndex].rating) {
+      bestMatchIndex = i;
     }
   }
-  console.log(bestMatch);
-  return bestMatch;
+
+  const bestMatch = ratings[bestMatchIndex];
+
+  return {
+    ratings: ratings,
+    bestMatch: bestMatch,
+    bestMatchIndex: bestMatchIndex,
+  };
 }
 
-const places = [
-  "Western periperi& schawarma",
-  "Chicken Cottage",
-  "Hot Rooster",
-  "Cheatmeals - Rayners lane",
-  "Freshly Grilled Peri Peri Chicken",
-];
-const textBlocks = [
-  "fresh",
-  "grilled",
-  "freshly grilled",
-  "cheat",
-  "cheat",
-  "fant",
-];
-
-// getBestMatch(places, textBlocks);
-let currentMin = Infinity;
-textBlocks.map((text) => {
-  let dist = LevenshteinDist(text, "freshly grilled");
-  currentMin = dist < currentMin ? dist : currentMin;
-  console.log(currentMin);
-});
-console.log(currentMin);
-// console.log(LevenshteinDist("","Freshly Grilled Peri Peri Chicken"));
+function areArgsValid(mainString, targetStrings) {
+  if (typeof mainString !== "string") return false;
+  if (!Array.isArray(targetStrings)) return false;
+  if (!targetStrings.length) return false;
+  if (
+    targetStrings.find(function (s) {
+      return typeof s !== "string";
+    })
+  )
+    return false;
+  return true;
+}

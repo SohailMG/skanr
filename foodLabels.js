@@ -1,5 +1,5 @@
 export const foodLabels = [
-  "Tableware",
+  "Menu",
   "Plate",
   "Dish",
   "Kitchen utensil",

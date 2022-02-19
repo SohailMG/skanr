@@ -78,8 +78,11 @@ const CameraScreen = () => {
       // performing object detection on decoded image
       const result = await classifyImage(base64);
       // text blocks detected in the image
-      const { labelAnnotations, textAnnotations } = result.responses[0];
-      if (!textAnnotations) {
+
+      console.log(result);
+      const { labelAnnotations, fullTextAnnotation } = result.responses[0];
+
+      if (!fullTextAnnotation) {
         setScanFailed(true);
         setScanning(false);
         setFailedDetection(labelAnnotations[0].description);
@@ -87,9 +90,15 @@ const CameraScreen = () => {
         return;
       }
       // getting placeId of closest match
-      console.log(scanFailed);
-      const placeId = await fetchNearbyPlaces(userLocation, textAnnotations);
-      console.log(placeId);
+      const fullText = Array.from(
+        new Set(fullTextAnnotation.text.split("\n"))
+      ).join(" ");
+
+      const { placeId, text, score } = await fetchNearbyPlaces(
+        userLocation,
+        fullText
+      );
+      console.log("place Id " + placeId);
       if (!placeId) setPlaceNotFound(true);
       setScanning(false);
       setPlace(placeId);
