@@ -12,7 +12,7 @@ const HomeHeader = ({ userAddress }) => {
           <Entypo name="hand" size={20} color="orange" style={tw("ml-2")} />
         </Text>
         {user.displayName && (
-          <Text style={[tw("text-4xl font-semibold text-gray-100")]}>
+          <Text style={[tw("text-4xl font-semibold text-gray-600")]}>
             {user.displayName.split(" ")[0]}!
           </Text>
         )}

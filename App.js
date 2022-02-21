@@ -10,6 +10,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { createContext } from "react";
 /* 
 Author : Sohail GSais 
 Updated : 2022/01/04

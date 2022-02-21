@@ -36,7 +36,7 @@ const ScanButton = ({ children, onPress }) => {
             width: 70,
             height: 70,
             borderRadius: 35,
-            backgroundColor: "#394464",
+            backgroundColor: "#CECECE",
           },
         ]}
       >
@@ -44,7 +44,7 @@ const ScanButton = ({ children, onPress }) => {
           style={tw("ml-1 ")}
           name="ios-scan-outline"
           size={50}
-          color="white"
+          color="black"
         />
       </View>
     </TouchableOpacity>

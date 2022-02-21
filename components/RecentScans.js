@@ -15,6 +15,7 @@ import { fetchRecentsFromDb } from "../controllers/dbHandlers";
 import { Entypo, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const catagories = {
   13377: "vegan",
@@ -25,7 +26,7 @@ const catagories = {
 
 const RecentScans = () => {
   const [recentScans, setRecentScans] = useState([]);
-  // const { recentScans } = useSelector((state) => state.recentsReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
   const { user } = useAuth();
   // console.log(recentScans);
   useEffect(() => {
@@ -86,7 +87,11 @@ const RecentScans = () => {
               <View
                 style={[
                   tw("mx-2 p-4 absolute bottom-0 -mb-10 rounded-3xl"),
-                  { backgroundColor: "#394464", height: 200, width: "93%" },
+                  {
+                    backgroundColor: "#CECECE",
+                    height: 200,
+                    width: "93%",
+                  },
                   styles.shadowStyle,
                 ]}
               >

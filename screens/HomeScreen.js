@@ -30,6 +30,8 @@ import { reverseGeocode } from "../modules/PlacesApi";
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const { userLocation } = useSelector((state) => state.appReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
+  console.log(theme);
   const location = useLocation();
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -71,7 +73,10 @@ const HomeScreen = () => {
 
   return (
     <View
-      style={[tw("flex-1 relative"), { flex: 1, backgroundColor: "#1E284F" }]}
+      style={[
+        tw("flex-1 relative"),
+        { flex: 1, backgroundColor: theme.background },
+      ]}
     >
       <View style={[tw("ml-5 mr-10"), { marginVertical: "15%" }]}>
         <HomeHeader userAddress={userAddress} />
@@ -82,7 +87,7 @@ const HomeScreen = () => {
         style={[
           tw("flex flex-row  mb-10 mx-5 "),
           {
-            backgroundColor: "#171E41",
+            backgroundColor: "#CECECECE",
             borderRadius: 20,
             padding: 10,
           },

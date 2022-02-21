@@ -37,6 +37,7 @@ const MenuTabs = () => {
   const [currentLocation] = useLocation();
   const { message } = useSelector((state) => state.appReducer);
   const { placeData } = useSelector((state) => state.placeReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
   // showing a login screen if user is not logged
   if (!user) {
     return (
@@ -80,7 +81,7 @@ const MenuTabs = () => {
         tabBarActiveTintColor: "white",
         headerShown: false,
         tabBarActiveBackgroundColor: "transparent",
-        tabBarStyle: styles.tabStyle,
+        tabBarStyle: { backgroundColor: theme.foreground,...styles.tabStyle}
       }}
     >
       <Tab.Screen
@@ -119,7 +120,6 @@ const styles = StyleSheet.create({
   tabStyle: {
     height: 70,
     borderRadius: 50,
-    backgroundColor: "#171E41",
     position: "absolute",
     bottom: 20,
     width: "90%",

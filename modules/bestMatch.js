@@ -35,6 +35,7 @@ export function findBestMatch(places, extractedText) {
       bestScore = currentScore;
       bestPlaceMatch = place;
     }
+    console.log({ currentScore, place: place.name });
   }
   // Case 3 - No match is found i.e, both strings are different
   if (bestScore === 0) {
@@ -80,6 +81,7 @@ export function computeMatchScore(targetStr, textFromImg) {
     if (imageTextArr.includes(word.toLowerCase())) score += 1;
   }
 
+  if (score === 0) return 0;
   // console.log(score,targetStrWords.length)
   // dividing score by (number of words in target string + extra score)
   const matchPercentage = (
