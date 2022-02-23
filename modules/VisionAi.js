@@ -43,7 +43,8 @@ export async function classifyImage(base64) {
       return response.json();
     },
     (err) => {
-      console.log("Failed to classify image ", err);
+      console.log("[Vision Ai] => Failed to classify image ", err);
+      return false;
     }
   );
 }

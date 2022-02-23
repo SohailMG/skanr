@@ -39,11 +39,11 @@ export const analyseReviews = async (reviews) => {
 
 export const analyseSentiment = async (sentiment) => {
   const tags = [
-    { name: "Very Positive", tag: "P+", color: "#4B5563" },
-    { name: "Positive", tag: "P", color: "#9CA3AF" },
-    { name: "Neutral", tag: "NEU", color: "#D1D5DB" },
-    { name: "Negative", tag: "N", color: "#E5E7EB" },
-    { name: "Very Negative", tag: "N+", color: "#F3F4F6" },
+    { name: "Very Positive", tag: "P+", color: "#21B15C" },
+    { name: "Positive", tag: "P", color: "#71C693" },
+    { name: "Neutral", tag: "NEU", color: "#FF9900" },
+    { name: "Negative", tag: "N", color: "#F46161" },
+    { name: "Very Negative", tag: "N+", color: "#F11010" },
   ];
   const sentimentSet = new Set();
   tags.forEach(({ tag, color, name }) => {

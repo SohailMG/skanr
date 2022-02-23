@@ -17,13 +17,6 @@ import useAuth from "../hooks/useAuth";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-const catagories = {
-  13377: "vegan",
-  13191: "Halal",
-  13309: "Middle Eastern",
-  13356: "Turkish",
-};
-
 const RecentScans = () => {
   const [recentScans, setRecentScans] = useState([]);
   const { theme } = useSelector((state) => state.themeReducer);
@@ -32,9 +25,7 @@ const RecentScans = () => {
   useEffect(() => {
     (async () => {
       const recents = await fetchRecentsFromDb(user);
-      console.log(recents.length);
       setRecentScans(sortRecents(recents));
-      // sortRecents(recents);
     })();
   }, []);
 
@@ -61,7 +52,7 @@ const RecentScans = () => {
             <ImageBackground
               borderRadius={30}
               source={{ uri: outDoorImg }}
-              style={[tw(""), { width: 250, height: 300 }]}
+              style={[{ width: 250, height: 300 }]}
             >
               <View
                 style={{
@@ -75,20 +66,20 @@ const RecentScans = () => {
                   tw(
                     "p-2 flex flex-row items-center absolute top-4 right-2  rounded-md"
                   ),
-                  { backgroundColor: "#394464", height: 40 },
+                  { backgroundColor: "white", height: 40 },
                   styles.shadowStyle,
                 ]}
               >
-                <Text style={tw("text-gray-200 text-lg font-bold")}>
+                <Text style={tw("text-gray-600 text-lg font-bold")}>
                   {placeDetails.rating}
                 </Text>
-                <Entypo name="star" size={24} color="yellow" />
+                <Entypo name="star" size={24} color="orange" />
               </View>
               <View
                 style={[
                   tw("mx-2 p-4 absolute bottom-0 -mb-10 rounded-3xl"),
                   {
-                    backgroundColor: "#CECECE",
+                    backgroundColor: "white",
                     height: 200,
                     width: "93%",
                   },
@@ -97,7 +88,7 @@ const RecentScans = () => {
               >
                 <Text
                   numberOfLines={1}
-                  style={tw("text-gray-200 text-lg font-bold")}
+                  style={tw("text-gray-600 text-lg font-bold")}
                 >
                   {placeDetails.name}
                 </Text>
@@ -122,36 +113,36 @@ const RecentScans = () => {
                   </View>
                   <TouchableOpacity
                     onPress={() => {
-                      Linking.openURL(placeDetails?.website);
+                      Linking.openURL(`tel:${placeDetails?.number}`);
                     }}
                     style={tw(
                       "mx-1 flex  items-center  mt-4 border-r border-gray-500 items-center"
                     )}
                   >
-                    <FontAwesome5 name="globe" size={20} color="white" />
+                    <Entypo name="phone" size={20} color="cyan" />
                     <Text
                       style={[
                         tw("text-gray-400 mx-2 font-semibold "),
                         { fontSize: 10 },
                       ]}
                     >
-                      Website
+                      {placeDetails?.number || "Unavailable"}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      Linking.openURL(`tel:${placeDetails?.number}`);
+                      Linking.openURL(placeDetails?.website);
                     }}
-                    style={tw("flex mx-2 items-center  mt-4  items-center")}
+                    style={tw("mx-1 flex  items-center  mt-4  items-center")}
                   >
-                    <Entypo name="phone" size={20} color="cyan" />
+                    <FontAwesome5 name="globe" size={20} color="gray" />
                     <Text
                       style={[
                         tw("text-gray-400  font-semibold "),
                         { fontSize: 10 },
                       ]}
                     >
-                      {placeDetails?.number || "Unavailable"}
+                      Website
                     </Text>
                   </TouchableOpacity>
                 </View>

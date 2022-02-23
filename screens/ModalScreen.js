@@ -14,6 +14,7 @@ import Logo from "../assets/logo.svg";
 import RegisterSvg from "../assets/register.svg";
 import useAuth from "../hooks/useAuth";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const ModalScreen = () => {
   const { createAccountAndLogin } = useAuth();
   const { TextField } = Incubator;
@@ -24,6 +25,7 @@ const ModalScreen = () => {
     "https://avatars.dicebear.com/api/male/default.png"
   );
 
+  const { theme } = useSelector((state) => state.themeReducer);
   // sets user avatar
   const fetchAvatar = async () => {
     const response = await axios.get(
@@ -33,12 +35,12 @@ const ModalScreen = () => {
   };
 
   return (
-    <View style={[tw("flex-1"), { backgroundColor: "#394464" }]}>
+    <View style={[tw("flex-1"), { backgroundColor: theme.background }]}>
       <View style={tw("flex items-center mt-10")}>
         <Logo />
       </View>
       <View style={tw("flex mt-2 mx-6 flex-row items-center")}>
-        <Text style={tw("text-3xl w-48 font-semibold text-gray-300")}>
+        <Text style={tw("text-3xl w-48 font-semibold text-gray-600")}>
           Let's get you started!
         </Text>
         <RegisterSvg />
@@ -59,7 +61,7 @@ const ModalScreen = () => {
           <View
             style={[
               tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-              { backgroundColor: "#434E6E" },
+              { backgroundColor: "#EEEEEE" },
             ]}
           >
             <Ionicons name="person" style={tw("mr-2")} size={30} color="gray" />
@@ -83,7 +85,7 @@ const ModalScreen = () => {
           <View
             style={[
               tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-              { backgroundColor: "#434E6E" },
+              { backgroundColor: "#EEEEEE" },
             ]}
           >
             <MaterialIcons
@@ -112,7 +114,7 @@ const ModalScreen = () => {
           <View
             style={[
               tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-              { backgroundColor: "#434E6E" },
+              { backgroundColor: "#EEEEEE" },
             ]}
           >
             <MaterialIcons
@@ -150,16 +152,15 @@ const ModalScreen = () => {
               `flex flex-row items-center ${
                 !email || !password || !fullName
                   ? "border border-gray-500"
-                  : "bg-gray-200"
+                  : "bg-gray-800"
               } p-4 rounded-xl w-40 justify-center  self-center`
             ),
-            styles.boxShadow,
           ]}
         >
-          <Text style={tw("text-2xl font-semibold text-gray-600 mr-2")}>
+          <Text style={tw("text-2xl font-semibold text-gray-200 mr-2")}>
             Submit
           </Text>
-          <Entypo name="check" size={24} color="black" />
+          <Entypo name="check" size={24} color="green" />
         </TouchableOpacity>
       </View>
     </View>

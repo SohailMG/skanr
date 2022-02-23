@@ -23,6 +23,7 @@ export function findBestMatch(places, extractedText) {
   // variable to store matching string
   let bestPlaceMatch;
   // looping though array of place names
+  console.log(extractedText);
   for (let place of places) {
     const currentScore = computeMatchScore(place.name, extractedText);
     // case 1 - Found exact match
@@ -61,8 +62,16 @@ export function findBestMatch(places, extractedText) {
  */
 export function computeMatchScore(targetStr, textFromImg) {
   // splitting both strings into array of words
-  const targetStrWords = targetStr.toLowerCase().trim().split(" ");
-  const imageTextArr = textFromImg.toLowerCase().trim().split(" ");
+  const targetStrWords = targetStr
+    .toLowerCase()
+    .trim()
+    .replace(/'/g, "")
+    .split(" ");
+  const imageTextArr = textFromImg
+    .toLowerCase()
+    .trim()
+    .replace(/'/g, "")
+    .split(" ");
   // setting initial score
   let score = 0;
   let extraScore = 0;

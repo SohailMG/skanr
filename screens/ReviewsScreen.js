@@ -8,9 +8,11 @@ import { PieChart, ProgressChart } from "react-native-chart-kit";
 import { Chip } from "react-native-ui-lib";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import ReviewBox from "../components/ReviewBox";
+import { BallIndicator } from "react-native-indicators";
 
 const ReviewsScreen = () => {
   const { placeData } = useSelector((state) => state.placeReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
 
   const [sentimentData, setSentimentData] = useState(null);
   const [shortReviews, setShortReviews] = useState([]);
@@ -24,25 +26,53 @@ const ReviewsScreen = () => {
     })();
   }, [placeData]);
 
+  if (!sentimentData)
+    return (
+      <View
+        style={[
+          tw("flex-1 items-center justify-center"),
+          { backgroundColor: theme.background },
+        ]}
+      >
+        <View style={tw("flex  items-center")}>
+          <BallIndicator color="black" size={60} />
+          <Text
+            style={[
+              tw("absolute font-semibold  text-gray-600 self-center"),
+              { top: "55%" },
+            ]}
+          >
+            Loading Place Reviews....
+          </Text>
+        </View>
+      </View>
+    );
+
   return (
-    <SafeAreaView style={[tw("flex-1"), { backgroundColor: "#1E284F" }]}>
+    <SafeAreaView style={[tw("flex-1"), { backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={tw("self-center text-lg font-semibold text-white")}>
+        <Text style={tw("self-center text-lg font-semibold text-gray-600")}>
           Place Reviews
         </Text>
         <View style={tw("m-5 mt-10 self-start flex flex-row items-center")}>
-          <Text style={tw(" text-lg font-semibold text-white")}>
+          <Text style={tw(" text-lg font-semibold text-gray-600")}>
             Reviews Sentiment
           </Text>
           <AntDesign
             style={tw("ml-2")}
             name="piechart"
             size={24}
-            color="cyan"
+            color="black"
           />
         </View>
         {sentimentData && (
-          <View style={[tw("mx-4 rounded-md"), { backgroundColor: "#394464" }]}>
+          <View
+            style={[
+              tw("mx-4 rounded-md"),
+              { backgroundColor: "white" },
+              styles.shadowStyle,
+            ]}
+          >
             <PieChart
               data={sentimentData}
               width={Dimensions.get("window").width - 50}
@@ -63,32 +93,40 @@ const ReviewsScreen = () => {
             />
           </View>
         )}
-        <View style={tw("m-5 mt-10 self-start flex flex-row items-center")}>
-          <Text style={tw(" text-lg font-semibold text-white")}>
+        <View style={[tw("m-5 mt-10 self-start flex flex-row items-center")]}>
+          <Text style={tw(" text-lg font-semibold text-gray-600")}>
             Customers mentioned
           </Text>
           <MaterialIcons
             style={tw("ml-2")}
             name="sentiment-very-satisfied"
             size={24}
-            color="cyan"
+            color="black"
           />
         </View>
         <View style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}>
           {shortReviews?.map(
-            ({ text }) =>
-              text.length < 30 && (
+            ({ text, score_tag }) =>
+              text.length < 30 &&
+              text.length > 4 && (
                 <Chip
-                  containerStyle={tw("m-1 border border-gray-600")}
+                  iconStyle={{ height: 10, width: 10 }}
+                  containerStyle={tw(
+                    `m-1 border-gray-200 p-2 ${
+                      score_tag.includes("P") && "bg-green-500"
+                    } ${
+                      score_tag == "N+" || (score_tag == "N" && "bg-red-500")
+                    }`
+                  )}
                   label={text}
-                  labelStyle={tw("text-gray-300")}
+                  labelStyle={tw("text-gray-600")}
                 />
               )
           )}
         </View>
-        <View style={[tw("mx-4 flex mt-10")]}>
+        <View style={[tw("mx-4 flex mt-10"), styles.shadowStyle]}>
           {placeData?.reviews.map((review) => (
-            <ReviewBox lines={0} color={"#6A6F83"} review={review} />
+            <ReviewBox lines={0} color={"white"} review={review} />
           ))}
         </View>
       </ScrollView>
@@ -98,4 +136,16 @@ const ReviewsScreen = () => {
 
 export default ReviewsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  shadowStyle: {
+    shadowColor: "#CCCCCC",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+
+    elevation: 21,
+  },
+});

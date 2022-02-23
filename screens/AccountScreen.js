@@ -17,21 +17,25 @@ import {
   Checkbox,
   Incubator,
   RadioButton,
+  Switch,
 } from "react-native-ui-lib";
 import { useRef } from "react";
+import HalalIcon from "../assets/halalIcon.svg";
+import VeganIcon from "../assets/veganIcon.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "../slices/themeSlice";
+import { setDiateryPref } from "../slices/placeDataSlice";
+
 const { TextField } = Incubator;
-const catagories = {
-  13377: "vegan",
-  13191: "Halal",
-  13309: "Middle Eastern",
-  13356: "Turkish",
-};
 
 const AccountScreen = () => {
+  const dispatch = useDispatch();
   const { logout, user } = useAuth();
+  const { theme } = useSelector((state) => state.themeReducer);
   const [halalChecked, setHalalChecked] = useState(false);
   const [veganChecked, setveganChecked] = useState(false);
   const [activeForms, setActiveForms] = useState(false);
+  const [appTheme, setAppTheme] = useState(true);
 
   const inputRef = useRef();
   const editForms = () => {
@@ -40,85 +44,64 @@ const AccountScreen = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "#1E284F", flex: 1 }}>
+    <View style={{ backgroundColor: theme.background, flex: 1 }}>
       {/* Top view */}
-      <View
-        style={[
-          tw("flex h-60 relative"),
-          {
-            backgroundColor: "#394464",
-            borderBottomLeftRadius: 100,
-            borderBottomRightRadius: 100,
-          },
-          styles.boxShadow,
-        ]}
-      >
-        {/* top header */}
-        <SafeAreaView style={tw("flex flex-row justify-between m-4")}>
-          <TouchableOpacity
-            disabled={true}
-            onPress={editForms}
-            style={[
-              tw("flex flex-row items-center justify-center p-2 rounded-full "),
-              { width: 90, backgroundColor: "#1E284F" },
-              styles.boxShadow,
-            ]}
-          >
-            <Text style={tw("font-semibold text-gray-400 mr-2")}>Edit</Text>
-            <AntDesign name="edit" size={20} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={logout}
-            style={[
-              tw(
-                "flex justify-center flex-row items-center p-2 bg-white rounded-full "
-              ),
-              { width: 90, backgroundColor: "#1E284F" },
-              styles.boxShadow,
-            ]}
-          >
-            <Text style={tw("font-bold text-gray-400 mr-2")}>Logout</Text>
-            <MaterialIcons name="logout" size={20} color="red" />
-          </TouchableOpacity>
-        </SafeAreaView>
-        {/* Profile image */}
-        <View
+      <SafeAreaView style={tw("flex flex-row justify-between m-4")}>
+        <TouchableOpacity
+          disabled={true}
+          onPress={editForms}
           style={[
-            tw("absolute bottom-0 -mb-12 self-center rounded-full"),
+            tw("flex flex-row items-center justify-center p-2 rounded-full "),
+            { width: 90, backgroundColor: theme.foreground },
             styles.boxShadow,
-            {
-              borderColor: "#464545",
-              borderWidth: 2,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 10,
-              },
-              shadowOpacity: 0.53,
-              shadowRadius: 13.97,
-              elevation: 21,
-              borderTopWidth: 0,
-            },
           ]}
         >
-          <Image
-            style={[tw("w-24 h-24  bg-white rounded-full")]}
-            source={{ uri: user?.photoURL }}
+          <Text style={tw("font-semibold text-gray-200 mr-2")}>Edit</Text>
+          <AntDesign
+            name="edit"
+            size={20}
+            color={theme.background}
+            onPress={editForms}
           />
-        </View>
-      </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={logout}
+          style={[
+            tw(
+              "flex justify-center flex-row items-center p-2 bg-white rounded-full "
+            ),
+            { width: 90, backgroundColor: theme.foreground },
+            styles.boxShadow,
+          ]}
+        >
+          <Text style={tw("font-bold text-gray-200 mr-2")}>Logout</Text>
+          <MaterialIcons name="logout" size={20} color={theme.background} />
+        </TouchableOpacity>
+      </SafeAreaView>
 
       {/* Middle view */}
-      <View style={tw("flex mb-4 mt-10 h-40")}>
+      <View style={tw("flex mb-4")}>
+        <View style={tw("self-center")}>
+          <Avatar
+            size={80}
+            source={{ uri: user?.photoURL }}
+            label={user?.displayName[0].toUpperCase()}
+          />
+        </View>
         <Text
           style={[
-            tw("mt-4 text-gray-200 self-center"),
+            tw("my-2 text-gray-600 self-center"),
             { fontSize: 30, fontWeight: "600" },
           ]}
         >
           {user?.displayName}
         </Text>
-        <View style={[tw("flex flex-row items-center"), styles.input]}>
+        <View
+          style={[
+            tw("flex mt-2 flex-row items-center bg-gray-100"),
+            styles.input,
+          ]}
+        >
           <MaterialIcons
             style={tw("mr-2")}
             name="email"
@@ -133,62 +116,85 @@ const AccountScreen = () => {
             value={user?.email}
           />
         </View>
-        <View style={[tw("flex flex-row items-center"), styles.input]}>
+        <View
+          style={[tw("flex flex-row items-center bg-gray-100"), styles.input]}
+        >
           <Entypo style={tw("mr-2")} name="lock" size={24} color="lightgray" />
           <TextInput editable={activeForms} value={"********"} />
         </View>
       </View>
 
       {/* Prefrences */}
+      <Text style={tw("ml-4 text-xl font-semibold text-gray-600 mr-2")}>
+        Dietary Preferences
+      </Text>
       <View style={tw("flex flex-row items-center")}>
         <TouchableOpacity
-          onPress={() => setHalalChecked(!halalChecked)}
+          onPress={() => {
+            dispatch(setDiateryPref("halal"));
+            setHalalChecked(!halalChecked);
+          }}
           style={[
             tw(
-              `flex m-4 mt-10 ${
-                halalChecked ? "bg-gray-200" : ""
+              `flex m-4 mt-10 bg-gray-100 ${
+                halalChecked ? "bg-gray-800" : ""
               } items-center rounded-md`
             ),
             {
               flexDirection: "col",
               justifyContent: "center",
-              width: 110,
-              height: 110,
+              width: 120,
+              height: 120,
             },
-            styles.boxShadow,
           ]}
         >
-          <Image
-            source={require("../assets/HalalSign.png")}
-            style={tw("h-20 w-20")}
-            resizeMode="contain"
+          <HalalIcon />
+          <RadioButton
+            style={{ marginTop: 2 }}
+            color="gray"
+            selected={halalChecked}
           />
-          <RadioButton color="gray" selected={halalChecked} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setveganChecked(!veganChecked)}
+          onPress={() => {
+            dispatch(setDiateryPref("vegan"));
+            setveganChecked(!veganChecked);
+          }}
           style={[
             tw(
-              `flex m-4 mt-10 ${
-                veganChecked ? "bg-gray-200" : ""
-              } items-center rounded-md`
+              `flex m-4 mt-10 bg-gray-100 ${
+                veganChecked ? "bg-gray-800 " : ""
+              } items-center rounded-xl`
             ),
             {
               flexDirection: "col",
               justifyContent: "center",
-              width: 110,
-              height: 110,
+              width: 120,
+              height: 120,
             },
-            styles.boxShadow,
           ]}
         >
-          <Image
-            source={require("../assets/VegetarianMark.png")}
-            style={tw("h-20 w-20")}
-            resizeMode="contain"
+          <VeganIcon />
+          <RadioButton
+            style={{ marginTop: 2 }}
+            color="gray"
+            selected={veganChecked}
           />
-          <RadioButton color="gray" selected={veganChecked} />
         </TouchableOpacity>
+      </View>
+      <View style={tw("ml-4 mt-2 flex flex-row items-center")}>
+        <Text style={tw("text-xl font-semibold text-gray-600 mr-2")}>
+          Switch Theme
+        </Text>
+        <Switch
+          onColor={"black"}
+          offColor={"gray"}
+          value={appTheme}
+          onValueChange={() => {
+            setAppTheme(!appTheme);
+            dispatch(setTheme(!appTheme));
+          }}
+        />
       </View>
     </View>
   );
@@ -215,7 +221,6 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     padding: 10,
-    backgroundColor: "#394464",
     width: "50%",
     borderRadius: 10,
   },

@@ -6,6 +6,7 @@ const placeDataSlice = createSlice({
     placeData: null,
     placeImages: [],
     diateryPrefrence: null,
+    cuisine: null,
   },
   reducers: {
     setPlaceData(state, action) {
@@ -17,9 +18,12 @@ const placeDataSlice = createSlice({
     setDiateryPref(state, action) {
       state.diateryPrefrence = action.payload;
     },
+    setCuisine(state, action) {
+      state.cuisine = action.payload;
+    },
   },
 });
 
-export const { setPlaceData, setPlaceImages, setDiateryPref } =
+export const { setPlaceData, setPlaceImages, setDiateryPref, setCuisine } =
   placeDataSlice.actions;
 export default placeDataSlice.reducer;

@@ -11,13 +11,20 @@ import { image } from "@tensorflow/tfjs";
 import { Button } from "react-native-ui-lib";
 import Spinner from "react-native-loading-spinner-overlay";
 import { BallIndicator, WaveIndicator } from "react-native-indicators";
+import ScrollingButtonMenu from "react-native-scroll-menu";
+import ImageModal from "react-native-image-modal";
+
 const PlaceGallery = () => {
   const navigation = useNavigation();
   const [placeGallery, setPlaceGallery] = useState(null);
   const [imageLabels, setImageLabels] = useState(null);
-  const [currentActive, setCurrentActive] = useState({ label: null, index: 0 });
+  const [currentActive, setCurrentActive] = useState({
+    name: "general",
+    id: 10,
+  });
   const [loading, setLoading] = useState(false);
   const { placeImages, placeData } = useSelector((state) => state.placeReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
 
   // extracts image labels
   const extractLabels = () => {
@@ -25,8 +32,10 @@ const PlaceGallery = () => {
     placeGallery?.map(({ imageUri, labels }) => {
       labels.forEach((label) => labelsSet.add(label));
     });
-    const labelsArr = Array.from(labelsSet);
-    setCurrentActive({ label: labelsArr[0], index: 0 });
+    const labelsArr = Array.from(labelsSet).map((label, index) => ({
+      name: label,
+      id: index + 10,
+    }));
     setImageLabels(labelsArr);
   };
 
@@ -44,7 +53,9 @@ const PlaceGallery = () => {
         } else {
           setPlaceGallery(gallery.labelledImages);
         }
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         throw err;
       } finally {
         setLoading(false);
@@ -56,54 +67,49 @@ const PlaceGallery = () => {
     extractLabels();
   }, [placeGallery]);
 
-  if (loading) {
+  if (loading)
     return (
-      <View style={[tw("flex-1 items-center"), { backgroundColor: "#1E284F" }]}>
-        <Spinner
-          animation="fade"
-          color="green"
-          visible={!placeGallery}
-          textStyle={{ color: "white" }}
-          style={tw("flex flex-row items-center justify-center")}
-        >
-          <BallIndicator color="white" size={60} />
+      <View
+        style={[
+          tw("flex-1 items-center justify-center"),
+          { backgroundColor: theme.background },
+        ]}
+      >
+        <View style={tw("flex  items-center")}>
+          <BallIndicator color="black" size={60} />
           <Text
-            style={[tw("absolute  text-white self-center"), { top: "55%" }]}
+            style={[
+              tw("absolute font-semibold  text-gray-600 self-center"),
+              { top: "55%" },
+            ]}
           >
-            Loading Images....
+            Loading Place Images....
           </Text>
-        </Spinner>
+        </View>
       </View>
     );
-  }
 
   return (
     <SafeAreaView
-      style={[tw("flex-1 items-center"), { backgroundColor: "#1E284F" }]}
+      style={[tw("flex-1 items-center"), { backgroundColor: theme.background }]}
     >
-      <Text style={tw("text-lg font-semibold text-white")}>Place Gallery</Text>
-
-      {/* Gallery view */}
-      <View style={tw("mt-10 mx-4 h-10")}>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          indicatorStyle="white"
-          horizontal
-        >
-          {imageLabels?.map((label, index) => (
-            <Button
-              key={index}
-              onPress={() => setCurrentActive({ label, index })}
-              style={[tw("h-10")]}
-              label={label === "general" ? "All" : label}
-              size={Button.sizes.medium}
-              backgroundColor={
-                index === currentActive.index ? "#394464" : "transparent"
-              }
-            />
-          ))}
-        </ScrollView>
+      <Text style={tw("text-lg font-semibold text-gray-600 mt-4")}>
+        Place Gallery
+      </Text>
+      {/* label buttons */}
+      <View style={tw(" items-center h-14 mt-4")}>
+        {imageLabels && (
+          <ScrollingButtonMenu
+            buttonStyle={{ borderRadius: 50 }}
+            items={imageLabels}
+            onPress={(e) => {
+              setCurrentActive(e);
+            }}
+            selected={currentActive.id ? currentActive.id : 10}
+          />
+        )}
       </View>
+      {/* Gallery view */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={[
@@ -113,11 +119,14 @@ const PlaceGallery = () => {
         >
           {placeGallery?.map(
             (image) =>
-              image.labels.includes(currentActive.label) && (
+              image.labels.includes(currentActive.name) && (
                 <View key={image.imageUri}>
-                  <Image
-                    source={{ uri: image.imageUri }}
-                    style={tw("h-40 w-40 m-2 rounded-md")}
+                  <ImageModal
+                    style={tw("h-40 w-40 m-2 rounded-xl")}
+                    resizeMode="contain"
+                    source={{
+                      uri: image.imageUri,
+                    }}
                   />
                 </View>
               )

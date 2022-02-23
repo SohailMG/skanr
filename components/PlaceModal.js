@@ -17,7 +17,6 @@ import tw from "tailwind-rn";
 import { useState } from "react";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-import PlaceInfo from "./PlaceInfo";
 import PlaceDetails from "./PlaceDetails";
 
 const PlaceModal = ({ placeId, scanFailed }, ref) => {

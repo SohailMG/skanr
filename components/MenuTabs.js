@@ -23,7 +23,6 @@ import tw from "tailwind-rn";
 import SplashScreen from "../screens/SplashScreen";
 import ScanButton from "./ScanButton";
 import { useSelector } from "react-redux";
-import ResultsScreen from "../screens/ResultsScreen";
 import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
 import ModalScreen from "../screens/ModalScreen";
@@ -57,7 +56,6 @@ const MenuTabs = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Gallery" component={PlaceGallery} />
         <Stack.Screen name="Reviews" component={ReviewsScreen} />
       </Stack.Navigator>
@@ -66,7 +64,6 @@ const MenuTabs = () => {
   if (placeData) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Results" component={ResultsScreen} />
         <Stack.Screen name="Gallery" component={PlaceGallery} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
@@ -81,7 +78,7 @@ const MenuTabs = () => {
         tabBarActiveTintColor: "white",
         headerShown: false,
         tabBarActiveBackgroundColor: "transparent",
-        tabBarStyle: { backgroundColor: theme.foreground,...styles.tabStyle}
+        tabBarStyle: { backgroundColor: theme.foreground, ...styles.tabStyle },
       }}
     >
       <Tab.Screen

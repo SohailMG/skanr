@@ -15,8 +15,8 @@ const ReviewBox = ({ review, lines, color }) => {
           source={{ uri: review.profile_photo_url }}
         />
         <View style={tw("flex items-start mt-2")}>
-          <Text style={tw("text-gray-100 font-semibold text-md")}>
-            {review.author_name}
+          <Text style={tw("text-gray-600 font-semibold text-md")}>
+            {review.author_name.toLowerCase()}
           </Text>
           <Text style={tw("text-gray-500 ")}>
             {review.relative_time_description}
@@ -28,18 +28,18 @@ const ReviewBox = ({ review, lines, color }) => {
               spacing={8}
               count={5}
               starSize={20}
-              fullStar={<MaterialIcons name="star" size={15} color="yellow" />}
+              fullStar={<MaterialIcons name="star" size={15} color="orange" />}
               emptyStar={
-                <MaterialIcons name="star-outline" size={15} color="yellow" />
+                <MaterialIcons name="star-outline" size={15} color="orange" />
               }
               halfStar={
-                <MaterialIcons name="star-half" size={15} color="yellow" />
+                <MaterialIcons name="star-half" size={15} color="orange" />
               }
             />
           </View>
         </View>
       </View>
-      <Text numberOfLines={lines} style={tw("p-2 text-white")}>
+      <Text numberOfLines={lines} style={tw("p-2 text-gray-600")}>
         {review.text}
       </Text>
     </View>

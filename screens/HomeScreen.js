@@ -31,7 +31,6 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const { userLocation } = useSelector((state) => state.appReducer);
   const { theme } = useSelector((state) => state.themeReducer);
-  console.log(theme);
   const location = useLocation();
   const navigation = useNavigation();
   const { user } = useAuth();

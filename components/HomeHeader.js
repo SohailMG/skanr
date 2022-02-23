@@ -7,7 +7,7 @@ const HomeHeader = ({ userAddress }) => {
   return (
     <View style={tw("flex flex-row justify-between items-center")}>
       <View style={tw("flex p-4")}>
-        <Text style={tw("flex flex-row items-center text-gray-100")}>
+        <Text style={tw("flex flex-row items-center text-gray-600")}>
           Welcome
           <Entypo name="hand" size={20} color="orange" style={tw("ml-2")} />
         </Text>

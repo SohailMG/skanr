@@ -33,28 +33,18 @@ export async function fetchPlaceDetails(placeId) {
   return axios
     .get(url)
     .then((response) => {
-      const {
-        formatted_phone_number,
-        photos,
-        reviews,
-        name,
-        rating,
-        geometry,
-        price_level,
-        formatted_address,
-        website,
-      } = response.data.result;
+      const place = response.data.result;
       const newPlaceDetails = {
-        name: name,
-        rating: rating,
-        number: formatted_phone_number,
-        reviews: reviews,
-        photos: photos,
-        location: geometry.location,
-        priceLevel: price_level,
-        address: formatted_address,
+        name: place.name,
+        rating: place.rating,
+        number: place.formatted_phone_number,
+        reviews: place.reviews,
+        photos: place.photos,
+        location: place.geometry.location,
+        priceLevel: place.price_level,
+        address: place.formatted_address,
         diatrey: { type: "Halal", isServed: true },
-        website,
+        website: place.website,
         placeId,
       };
       return newPlaceDetails;
@@ -84,8 +74,8 @@ function urlBuilder(placeId) {
  * @param {string} extractedText
  * @returns {Promise<string>} placeId
  */
-export async function fetchNearbyPlaces(userLocation, extractedText) {
-  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}&keyword=`;
+export async function fetchNearbyPlaces(userLocation, extractedText, keyword) {
+  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}&keyword=${keyword}`;
 
   return axios.get(requestUrl).then((response) => {
     const places = response.data.results;

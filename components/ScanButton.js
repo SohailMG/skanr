@@ -36,7 +36,7 @@ const ScanButton = ({ children, onPress }) => {
             width: 70,
             height: 70,
             borderRadius: 35,
-            backgroundColor: "#CECECE",
+            backgroundColor: "white",
           },
         ]}
       >

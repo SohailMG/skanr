@@ -31,7 +31,7 @@ const LoginForm = () => {
         <View
           style={[
             tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-            { backgroundColor: "#434E6E" },
+            { backgroundColor: "#EEEEEE" },
           ]}
         >
           <MaterialIcons
@@ -62,7 +62,7 @@ const LoginForm = () => {
         <View
           style={[
             tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-            { backgroundColor: "#434E6E" },
+            { backgroundColor: "#EEEEEE" },
           ]}
         >
           <Entypo style={tw("mr-2")} name="lock" size={30} color="gray" />
@@ -93,13 +93,12 @@ const LoginForm = () => {
             style={[
               tw(
                 `flex flex-row items-center ${
-                  !email || !password ? "border border-gray-500" : "bg-gray-200"
+                  !email || !password ? "border border-gray-500" : "bg-gray-600"
                 } p-4 rounded-xl w-40 justify-center mt-10 self-center`
               ),
-              styles.boxShadow,
             ]}
           >
-            <Text style={tw("text-2xl font-semibold text-gray-600 mr-2")}>
+            <Text style={tw("text-2xl font-semibold text-gray-200 mr-2")}>
               Login
             </Text>
             {loading ? (
@@ -112,12 +111,11 @@ const LoginForm = () => {
             onPress={() => navigation.navigate("Modal")}
             style={[
               tw(
-                "flex flex-row items-center bg-gray-200 p-4 rounded-xl w-40 justify-center mt-10 self-center"
+                "flex flex-row items-center bg-gray-800 p-4 rounded-xl w-40 justify-center mt-10 self-center"
               ),
-              styles.boxShadow,
             ]}
           >
-            <Text style={tw("text-2xl font-semibold text-gray-600 mr-2")}>
+            <Text style={tw("text-2xl font-semibold text-gray-200 mr-2")}>
               Register
             </Text>
             {loading ? (
@@ -135,7 +133,9 @@ const LoginForm = () => {
           ]}
         >
           <Text style={tw("text-gray-200 font-semibold text-xl")}>Or</Text>
-          <Text style={tw("text-white text-lg")}>Continue with Google</Text>
+          <Text style={tw("text-gray-600 font-semibold text-lg")}>
+            Continue with Google
+          </Text>
           <TouchableOpacity
             onPress={signInWithGoogle}
             style={[

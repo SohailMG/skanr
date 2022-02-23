@@ -7,7 +7,6 @@ const StatsCircle = ({ color, fillLevel, title, hasEmoji, label }) => {
     <View style={tw("flex   items-center p-2 m-2 rounded-lg")}>
       <AnimatedCircularProgress
         style={[
-          tw(""),
           {
             shadowColor: "#000",
             shadowOffset: {

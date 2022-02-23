@@ -28,19 +28,19 @@ import { Feather } from "@expo/vector-icons";
 const options = [
   {
     id: 1,
-    name: "chicken",
-  },
-  {
-    id: 2,
-    name: "pizza",
-  },
-  {
-    id: 3,
     name: "indian",
   },
   {
+    id: 2,
+    name: "middle eastern",
+  },
+  {
+    id: 3,
+    name: "chinese",
+  },
+  {
     id: 4,
-    name: "kebab",
+    name: "turkish",
   },
 ];
 const CameraScreen = () => {
@@ -59,7 +59,7 @@ const CameraScreen = () => {
   const [scanFailed, setScanFailed] = useState(false);
   const [failedDetection, setFailedDetection] = useState(false);
   const [placeNotFound, setPlaceNotFound] = useState(false);
-  const [selectedOptions, setSelectedOption] = useState("chicken");
+  const [selectedOptions, setSelectedOption] = useState("");
   const [place, setPlace] = useState(null);
 
   const camRef = useRef(null);
@@ -79,7 +79,6 @@ const CameraScreen = () => {
       const result = await classifyImage(base64);
       // text blocks detected in the image
 
-      console.log(result);
       const { labelAnnotations, fullTextAnnotation } = result.responses[0];
 
       if (!fullTextAnnotation) {
@@ -96,7 +95,8 @@ const CameraScreen = () => {
 
       const { placeId, text, score } = await fetchNearbyPlaces(
         userLocation,
-        fullText
+        fullText,
+        selectedOptions.name
       );
       console.log("place Id " + placeId);
       if (!placeId) setPlaceNotFound(true);
@@ -112,7 +112,6 @@ const CameraScreen = () => {
   // resize image to cloud vision's preference 640x640
 
   useEffect(() => {
-    dispatch(setDiateryPref(options[0].name));
     // Getting Camera permissions
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -219,8 +218,6 @@ const CameraScreen = () => {
             buttonStyle={{ borderRadius: 50 }}
             items={options}
             onPress={(e) => {
-              console.log(e);
-              dispatch(setDiateryPref(e.name));
               setSelectedOption(e);
             }}
             selected={selectedOptions?.id ? selectedOptions.id : 1}
