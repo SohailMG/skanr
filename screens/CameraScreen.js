@@ -167,12 +167,14 @@ const CameraScreen = () => {
           textStyle={{ color: "white" }}
           style={tw("flex flex-row items-center justify-center")}
         >
-          <WaveIndicator color="white" size={60} />
-          <Text
-            style={[tw("absolute  text-white self-center"), { top: "55%" }]}
-          >
-            Scanning Image...
-          </Text>
+          <>
+            <WaveIndicator color="white" size={60} />
+            <Text
+              style={[tw("absolute  text-white self-center"), { top: "55%" }]}
+            >
+              Scanning Image...
+            </Text>
+          </>
         </Spinner>
 
         <Text style={tw("absolute mb-20 bottom-32 self-center text-white")}>

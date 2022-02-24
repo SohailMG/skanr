@@ -75,8 +75,14 @@ function urlBuilder(placeId) {
  * @returns {Promise<string>} placeId
  */
 export async function fetchNearbyPlaces(userLocation, extractedText, keyword) {
-  const requestUrl = `${PlacesNearbyEndpoint}location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}&keyword=${keyword}`;
-
+  console.log(keyword);
+  const requestUrl = `${PlacesNearbyEndpoint}location=${
+    userLocation.coords.latitude
+  },${
+    userLocation.coords.longitude
+  }&radius=${radius}&type=${placeType}&key=${GOOGLE_PLACES_API_KEY}&keyword=${
+    keyword ? keyword : ""
+  }`;
   return axios.get(requestUrl).then((response) => {
     const places = response.data.results;
     return findBestMatch(places, extractedText);
