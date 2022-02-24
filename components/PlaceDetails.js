@@ -113,7 +113,7 @@ const PlaceDetails = ({ placeId }) => {
           <Text
             style={[tw("text-gray-400 mr-2 font-semibold "), { fontSize: 15 }]}
           >
-            {placeDetails?.diatrey.type}
+            {"Vegan"}
           </Text>
           <AntDesign name="check" size={20} color="green" />
         </View>
