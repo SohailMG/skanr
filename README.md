@@ -9,8 +9,7 @@ Using Google Cloud's Vision AI to display place details from images taken by cam
 - [@Github](https://www.github.com/SohailMG)
 
 ## Demo
-
-![App Demo](./skanrDemo.gif)
+<img src="./skanrDemo.gif" alt="Your image title" width="250"/>
 
 ## Lessons Learned
 
