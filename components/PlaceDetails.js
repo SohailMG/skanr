@@ -22,7 +22,7 @@ import {
 import MapContainer from "./MapContainer";
 import { TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
-import { DotIndicator } from "react-native-indicators";
+import { BallIndicator, DotIndicator } from "react-native-indicators";
 import { useDispatch } from "react-redux";
 import { setPlaceData, setPlaceImages } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
@@ -73,8 +73,10 @@ const PlaceDetails = ({ placeId }) => {
         textStyle={{ color: "white" }}
         style={tw("flex flex-row items-center justify-center")}
       >
-        <DotIndicator color="cyan" size={15} />
-        <Text style={[tw("absolute  text-white self-center"), { top: "55%" }]}>
+        <BallIndicator color="gray" size={60} />
+        <Text
+          style={[tw("absolute mt-1 text-white self-center"), { top: "55%" }]}
+        >
           Loading...
         </Text>
       </Spinner>

@@ -7,6 +7,12 @@
     of place in Array A
  */
 
+function tokenizeStr(str) {
+  const tokens = str.toLowerCase().trim().replace(/'/g, "").split(" ");
+
+  return tokens;
+}
+
 /**
  * finds best matching string from an array of strings
  * @param {Object} places Google PlacesApi place details object
@@ -14,8 +20,7 @@
  * @returns {string} matching place id
  */
 export function findBestMatch(places, extractedText) {
-  console.log("[BestMatch] => Computing best matching string");
-
+  console.log("[BestMatch] => Computing best matching string " + extractedText);
   // Guarding against empty strings or failed place fetches
   if (!places || !extractedText) return false;
   // variable to keep track of current best maximum score
@@ -23,14 +28,8 @@ export function findBestMatch(places, extractedText) {
   // variable to store matching string
   let bestPlaceMatch;
   // looping though array of place names
-  console.log(extractedText);
   for (let place of places) {
     const currentScore = computeMatchScore(place.name, extractedText);
-    // case 1 - Found exact match
-    if (currentScore === 1) {
-      bestPlaceMatch = place.place_id;
-      break;
-    }
     // case 2 - keep updating score with best matching string
     if (currentScore > bestScore) {
       bestScore = currentScore;
@@ -60,45 +59,36 @@ export function findBestMatch(places, extractedText) {
  * @param {string} targetStr text extracted from image to be matched against place name
  * @returns {number} score of best possible match for text from image
  */
-export function computeMatchScore(targetStr, textFromImg) {
-  // splitting both strings into array of words
-  const targetStrWords = targetStr
-    .toLowerCase()
-    .trim()
-    .replace(/'/g, "")
-    .split(" ");
-  const imageTextArr = textFromImg
-    .toLowerCase()
-    .trim()
-    .replace(/'/g, "")
-    .split(" ");
-  // setting initial score
-  let score = 0;
-  let extraScore = 0;
-  let checkedStrStart = false;
-  // looping through words in extracted textBlocks
-  for (let word of targetStrWords) {
-    // Case 1 - returning score once a match is found
-    if (checkedStrStart && score > targetStrWords.length) break;
-    // Case 2 - adding extra score for strings starting with text from image
-    if (!checkedStrStart && imageTextArr.includes(targetStrWords[0])) {
-      score += 1;
-      extraScore += 1;
-      checkedStrStart = true;
+function computeMatchScore(targetStr, textFromImg) {
+  // if strings are identical
+  if (targetStr === textFromImg) return 1;
+  // if strings are not empty
+  if (targetStr.length > 0 && textFromImg.length > 0) {
+    // splitting both strings into array of words
+    const targetTokens = tokenizeStr(targetStr);
+    const imageTextArr = tokenizeStr(textFromImg);
+    const union = targetTokens.length + imageTextArr.length;
+    // setting initial score
+    let score = 0.0;
+    let extraScore = 0.0;
+    let checkedStrStart = false;
+    // looping through words in extracted textBlocks
+    for (let token of targetTokens) {
+      for (let i = 0; i < imageTextArr.length; i++) {
+        if (imageTextArr[i] == token) {
+          if (!checkedStrStart && targetTokens[0] === imageTextArr[i]) {
+            extraScore += 0.5;
+            checkedStrStart = true;
+          }
+          score++;
+        }
+      }
     }
-    // Case 3 - checking when text is present in target string
-    if (imageTextArr.includes(word.toLowerCase())) score += 1;
+    // matching score
+    const matchProbability =
+      (2.0 * (score + extraScore)) / (union + extraScore * 2);
+
+    if (score > 0) return matchProbability;
   }
-
-  if (score === 0) return 0;
-  // console.log(score,targetStrWords.length)
-  // dividing score by (number of words in target string + extra score)
-  const matchPercentage = (
-    score /
-    (targetStrWords.length + extraScore)
-  ).toFixed(2);
-
-  return matchPercentage;
+  return 0.0;
 }
-
-// module.exports = { computeMatchScore, findBestMatch };

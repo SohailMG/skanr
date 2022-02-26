@@ -75,6 +75,8 @@ export async function classifyBatchOfImages(images, placeId) {
     // extracting labels
     labels.forEach((label) => {
       imgLabels.push("general");
+      if (label.description.toLowerCase() === "menu")
+        imgLabels.push(label.description);
       if (foodLabels.includes(label.description) && label.score > 0.7) {
         imgLabels.push(label.description);
       }
