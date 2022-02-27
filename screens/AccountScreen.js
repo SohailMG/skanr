@@ -25,6 +25,7 @@ import VeganIcon from "../assets/veganIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../slices/themeSlice";
 import { setDiateryPref } from "../slices/placeDataSlice";
+import { deleteRecents } from "../controllers/dbHandlers";
 
 const { TextField } = Incubator;
 
@@ -196,6 +197,18 @@ const AccountScreen = () => {
           }}
         />
       </View>
+
+      <TouchableOpacity
+        style={tw(
+          " self-center mt-6 bg-gray-200 rounded-xl p-2 w-40 flex flex-row items-center"
+        )}
+        onPress={() => deleteRecents(user.uid)}
+      >
+        <Text style={tw("text-lg font-semibold text-gray-800 mr-2")}>
+          Clear Recents
+        </Text>
+        <MaterialIcons name="delete" size={24} color="red" />
+      </TouchableOpacity>
     </View>
   );
 };

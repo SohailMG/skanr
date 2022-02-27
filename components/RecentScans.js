@@ -15,9 +15,14 @@ import { fetchRecentsFromDb } from "../controllers/dbHandlers";
 import { Entypo, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-native-ui-lib";
+import { useNavigation } from "@react-navigation/native";
+import { setRecents } from "../slices/appSlice";
 
 const RecentScans = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [recentScans, setRecentScans] = useState([]);
   const { theme } = useSelector((state) => state.themeReducer);
   const { user } = useAuth();
@@ -26,6 +31,7 @@ const RecentScans = () => {
     (async () => {
       const recents = await fetchRecentsFromDb(user);
       setRecentScans(sortRecents(recents));
+      // dispatch(setRecents(recents));
     })();
   }, []);
 
@@ -33,6 +39,10 @@ const RecentScans = () => {
     return moment(new Date(timestamp.seconds * 1000)).fromNow();
   };
 
+  const openRecent = (data) => {
+    dispatch(setRecents(data));
+    navigation.navigate("Place");
+  };
   const sortRecents = (recents) => {
     return recents.sort((a, b) => {
       return b.timestamp.seconds - a.timestamp.seconds;
@@ -146,30 +156,39 @@ const RecentScans = () => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  style={[
-                    tw("mt-4 self-start  flex items-center   rounded-md  "),
-                  ]}
-                >
-                  <View
-                    style={tw(
-                      "flex bg-gray-800 p-2  pl-5 rounded-full flex-row items-center "
-                    )}
+                <View style={tw("flex flex-row items-center justify-between")}>
+                  <TouchableOpacity
+                    style={[
+                      tw("mt-4 self-start  flex items-center   rounded-md  "),
+                    ]}
                   >
-                    {placeDetails?.reviews
-                      .slice(0, 3)
-                      .map(({ profile_photo_url }, index) => (
-                        <Image
-                          key={index}
-                          source={{ uri: profile_photo_url }}
-                          style={tw("h-8 w-8 -ml-4 rounded-full")}
-                        />
-                      ))}
-                    <Text style={tw("text-sm font-semibold text-gray-100")}>
-                      +{placeDetails?.reviews.length}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                    <View
+                      style={tw(
+                        "flex bg-gray-800 p-2  pl-5 rounded-full flex-row items-center "
+                      )}
+                    >
+                      {placeDetails?.reviews
+                        .slice(0, 3)
+                        .map(({ profile_photo_url }, index) => (
+                          <Image
+                            key={index}
+                            source={{ uri: profile_photo_url }}
+                            style={tw("h-8 w-8 -ml-4 rounded-full")}
+                          />
+                        ))}
+                      <Text style={tw("text-sm font-semibold text-gray-100")}>
+                        +{placeDetails?.reviews.length}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => openRecent({ placeDetails, outDoorImg })}
+                    style={tw("mt-4")}
+                  >
+                    <AntDesign name="rightcircle" size={40} color="black" />
+                  </TouchableOpacity>
+                </View>
               </View>
             </ImageBackground>
           </View>

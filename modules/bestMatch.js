@@ -35,7 +35,6 @@ export function findBestMatch(places, extractedText) {
       bestScore = currentScore;
       bestPlaceMatch = place;
     }
-    console.log({ currentScore, place: place.name });
   }
   // Case 3 - No match is found i.e, both strings are different
   if (bestScore === 0) {
@@ -92,3 +91,5 @@ function computeMatchScore(targetStr, textFromImg) {
   }
   return 0.0;
 }
+
+// subway

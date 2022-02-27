@@ -9,10 +9,14 @@ const appSlice = createSlice({
     userLocation: null,
     scannedText: null,
     placeId: null,
+    recents: null,
   },
   reducers: {
     setImageUri(state, action) {
       state.imageUri = action.payload;
+    },
+    setRecents(state, action) {
+      state.recents = action.payload;
     },
     setMessage(state, action) {
       state.message = action.payload;
@@ -40,5 +44,6 @@ export const {
   setUserLocation,
   setScannedText,
   setPlaceId,
+  setRecents,
 } = appSlice.actions;
 export default appSlice.reducer;

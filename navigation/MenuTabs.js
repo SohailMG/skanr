@@ -21,20 +21,22 @@ import {
 import CameraScreen from "../screens/CameraScreen";
 import tw from "tailwind-rn";
 import SplashScreen from "../screens/SplashScreen";
-import ScanButton from "./ScanButton";
+import ScanButton from "../components/ScanButton";
 import { useSelector } from "react-redux";
 import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
 import ModalScreen from "../screens/ModalScreen";
 import { COLORS } from "../modules/themeColors";
 import ReviewsScreen from "../screens/ReviewsScreen";
+import PlaceScreen from "../screens/PlaceScreen";
+import Tabs from "./Tabs";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MenuTabs = () => {
   const { user } = useAuth();
   const [currentLocation] = useLocation();
-  const { message } = useSelector((state) => state.appReducer);
+  const { message, recents } = useSelector((state) => state.appReducer);
   const { placeData } = useSelector((state) => state.placeReducer);
   const { theme } = useSelector((state) => state.themeReducer);
   // showing a login screen if user is not logged
@@ -61,55 +63,15 @@ const MenuTabs = () => {
       </Stack.Navigator>
     );
   }
-  if (placeData) {
+  if (recents) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Gallery" component={PlaceGallery} />
+        <Stack.Screen name="Place" component={PlaceScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Camera" component={CameraScreen} />
-        <Stack.Screen name="Reviews" component={ReviewsScreen} />
       </Stack.Navigator>
     );
   }
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        tabBarActiveTintColor: "white",
-        headerShown: false,
-        tabBarActiveBackgroundColor: "transparent",
-        tabBarStyle: { backgroundColor: theme.foreground, ...styles.tabStyle },
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Camera"
-        component={CameraScreen}
-        options={{
-          tabBarButton: (props) => <ScanButton {...props} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={AccountScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
+  return <Tabs />;
 };
 export default MenuTabs;
 

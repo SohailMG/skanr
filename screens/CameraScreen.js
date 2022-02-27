@@ -17,7 +17,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import BackHomeButton from "../components/BackHomeButton";
 import useLocation from "../hooks/useLocation";
 import ScrollingButtonMenu from "react-native-scroll-menu";
-import { WaveIndicator } from "react-native-indicators";
+import * as IND from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
 import { fetchNearbyPlaces } from "../modules/PlacesApi";
@@ -28,18 +28,22 @@ import { Feather } from "@expo/vector-icons";
 const options = [
   {
     id: 1,
-    name: "indian",
+    name: "general",
   },
   {
     id: 2,
-    name: "middle eastern",
+    name: "indian",
   },
   {
     id: 3,
-    name: "chinese",
+    name: "middle eastern",
   },
   {
     id: 4,
+    name: "chinese",
+  },
+  {
+    id: 5,
     name: "turkish",
   },
 ];
@@ -98,7 +102,6 @@ const CameraScreen = () => {
         fullText,
         selectedOptions.name
       );
-      console.log("place Id " + placeId);
       if (!placeId) setPlaceNotFound(true);
       setScanning(false);
       setPlace(placeId);
@@ -168,7 +171,7 @@ const CameraScreen = () => {
           style={tw("flex flex-row items-center justify-center")}
         >
           <>
-            <WaveIndicator color="white" size={60} />
+            <IND.WaveIndicator color="white" size={60} />
             <Text
               style={[tw("absolute  text-white self-center"), { top: "55%" }]}
             >
@@ -226,7 +229,12 @@ const CameraScreen = () => {
           />
         </View>
       </Camera>
-      <PlaceModal scanFailed={placeNotFound} ref={childRef} placeId={place} />
+      <PlaceModal
+        scanFailed={placeNotFound}
+        ref={childRef}
+        placeId={place}
+        setPlaceNotFound={setPlaceNotFound}
+      />
     </View>
   );
 };

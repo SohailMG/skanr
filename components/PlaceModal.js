@@ -19,8 +19,7 @@ import { Entypo, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import PlaceDetails from "./PlaceDetails";
 
-const PlaceModal = ({ placeId, scanFailed }, ref) => {
-  console.log(scanFailed);
+const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   // const { placeId } = useSelector((state) => state.appReducer);
   const [closedModal, setClosedModal] = useState(true);
   const [index, setIndex] = useState(-1);
@@ -39,11 +38,15 @@ const PlaceModal = ({ placeId, scanFailed }, ref) => {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
+    console.log(scanFailed);
     if (index === -1) setClosedModal(true);
   }, []);
 
   // handle modal close
-  const handleClosePress = () => bottomSheetRef.current.close();
+  const handleClosePress = () => {
+    setPlaceNotFound(false);
+    bottomSheetRef.current.close();
+  };
   // handle modal open
   const handleOpenPress = () => {
     setClosedModal(false);
@@ -77,10 +80,10 @@ const PlaceModal = ({ placeId, scanFailed }, ref) => {
             {placeId && <PlaceDetails placeId={placeId} />}
             {scanFailed && (
               <View style={tw("flex items-center justify-center")}>
-                <Text style={tw("text-2xl my-2 text-red-400 justify-center ")}>
-                  Scan failed try again !
+                <Text style={tw("text-2xl my-2 text-gray-500 justify-center ")}>
+                  Couldn't find place, Try again!
                 </Text>
-                <Feather name="frown" size={30} color="white" />
+                <Feather name="frown" size={60} color="white" />
               </View>
             )}
           </ScrollView>

@@ -6,6 +6,7 @@ import {
   getDoc,
   orderBy,
   collection,
+  deleteDoc,
 } from "@firebase/firestore";
 import { db } from "../firebase";
 
@@ -134,4 +135,17 @@ const alreadyExists = (records, placeId) => {
     if (record.placeId == placeId) return true;
   }
   return false;
+};
+
+export const deleteRecents = async (userId) => {
+  const docRef = doc(db, "recents", userId);
+  // const docSnap = await getDoc(docRef);
+
+  deleteDoc(docRef)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      console.log("[Database] => Failed to delete recenets -> ", err);
+    });
 };

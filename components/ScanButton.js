@@ -12,7 +12,6 @@ const ScanButton = ({ children, onPress }) => {
       disabled={!userLocation}
       onPress={() => dispatch(setMessage(true))}
       style={[
-        tw("    "),
         {
           justifyContent: "center",
           alignItems: "center",

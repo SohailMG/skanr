@@ -5,7 +5,7 @@ import tw from "tailwind-rn";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
-import MenuTabs from "./components/MenuTabs";
+import MenuTabs from "./navigation/MenuTabs";
 import { AuthProvider } from "./hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";

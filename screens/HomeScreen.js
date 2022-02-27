@@ -26,6 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 import useLocation from "../hooks/useLocation";
 import { setUserLocation } from "../slices/appSlice";
 import { reverseGeocode } from "../modules/PlacesApi";
+import { Modal } from "react-native-ui-lib";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ const HomeScreen = () => {
         style={[
           tw("flex flex-row  mb-10 mx-5 "),
           {
-            backgroundColor: "#CECECECE",
+            backgroundColor: "#eceef3",
             borderRadius: 20,
             padding: 10,
           },
@@ -96,7 +97,7 @@ const HomeScreen = () => {
           style={tw("self-center")}
           name="search-location"
           size={24}
-          color="#505C7D"
+          color="#000"
         />
         <GooglePlacesAutocomplete
           fetchDetails={true}

@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import tw from "tailwind-rn";
-const MapContainer = ({ location, restaurant }) => {
+const MapContainer = ({ location, restaurant, mapStyle }) => {
   const { lat, lng } = location;
 
   return (
@@ -10,10 +10,12 @@ const MapContainer = ({ location, restaurant }) => {
       mapType={"mutedStandard"}
       showsBuildings={false}
       scrollEnabled={false}
-      style={[
-        tw("flex-1"),
-        { borderRadius: 10, height: 150, backgroundColor: "#000" },
-      ]}
+      style={
+        mapStyle || [
+          tw("flex-1"),
+          { borderRadius: 10, height: 150, backgroundColor: "#000" },
+        ]
+      }
       initialRegion={{
         latitude: lat,
         longitude: lng,
