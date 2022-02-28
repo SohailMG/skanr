@@ -49,8 +49,12 @@ const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   };
   // handle modal open
   const handleOpenPress = () => {
-    setClosedModal(false);
-    setIndex(1);
+    try {
+      setClosedModal(false);
+      setIndex(1);
+    } catch (error) {
+      console.error("EROR ", error);
+    }
   };
   // renders
 

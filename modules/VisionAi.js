@@ -34,33 +34,43 @@ const apiRequest = {
  * @returns {Promise<Array<object>>} array of detected features
  */
 export async function classifyImage(base64) {
-  apiRequest.reqBody.requests[0].image.content = base64;
-  return await fetch(apiRequest.url + apiRequest.apiKey, {
-    method: "POST",
-    body: JSON.stringify(apiRequest.reqBody),
-  }).then(
-    (response) => {
-      return response.json();
-    },
-    (err) => {
-      console.log("[Vision Ai] => Failed to classify image ", err);
-      return false;
-    }
-  );
+  console.log("[Vision Ai] => Classify Image");
+  try {
+    apiRequest.reqBody.requests[0].image.content = base64;
+    return await fetch(apiRequest.url + apiRequest.apiKey, {
+      method: "POST",
+      body: JSON.stringify(apiRequest.reqBody),
+    }).then(
+      (response) => {
+        // console.log(response);
+        return response.json();
+      },
+      (err) => {
+        console.log("[Vision Ai] => Failed to classify image ", err);
+        return false;
+      }
+    );
+  } catch (error) {
+    console.log("[Vision Ai] => Failed to calssifyt image ", error);
+  }
 }
 
 // resize image to cloud vision's preference 640x640
 export async function resizeImage(image) {
-  const resizedImgObject = await ImageManipulator.manipulateAsync(
-    image.localUri || image.uri || image,
-    [{ resize: { width: 500, height: 500 } }],
-    { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
-  );
-  // converting raw image to base64
-  const base64 = await FileSystem.readAsStringAsync(resizedImgObject.uri, {
-    encoding: "base64",
-  });
-  return base64;
+  try {
+    const resizedImgObject = await ImageManipulator.manipulateAsync(
+      image.localUri || image.uri || image,
+      [{ resize: { width: 500, height: 500 } }],
+      { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    // converting raw image to base64
+    const base64 = await FileSystem.readAsStringAsync(resizedImgObject.uri, {
+      encoding: "base64",
+    });
+    return base64;
+  } catch (error) {
+    console.error("[Vision Ai] => Failed ", error);
+  }
 }
 
 // classify batch of images
@@ -95,30 +105,44 @@ export async function classifyBatchOfImages(images, placeId) {
  * @returns
  */
 export const classifyPlaceOutdoorImage = async (images, placeId) => {
-  console.log("[VisionAi] => Classifying for Outdoor Image");
-  const possibleLabels = ["outdoor", "building", "street", "shop"];
-  let outDoorImg = "";
-  for (let image of images) {
-    const base64 = await resizeImage(image.src);
-    const response = await classifyImage(base64);
-    const labels = response.responses[0].labelAnnotations;
-    // extracting labels
-    labels.forEach((label) => {
-      // Case 1 - Best match found
-      if (label.description.toLowerCase() == "street") {
-        console.log(
-          "[VisionAi] => Detected outdoor Image showing " + label.description
-        );
-        outDoorImg = image.src;
-        return;
-      } else if (possibleLabels.includes(label.description.toLowerCase())) {
-        console.log(
-          "[VisionAi] => Detected outdoor Image showing " + label.description
-        );
-        outDoorImg = image.src;
-        return;
-      }
-    });
+  try {
+    console.log("[VisionAi] => Classifying for Outdoor Image");
+    const possibleLabels = [
+      "outdoor",
+      "building",
+      "street",
+      "shop",
+      "Fixture",
+      "Property",
+    ];
+    let outDoorImg = "";
+    for (let image of images) {
+      console.log("[VisionAi] => Image 1: " + image.src);
+      const base64 = await resizeImage(image.src);
+      const response = await classifyImage(base64);
+      console.log("[VisionAi] => Image 2: " + response);
+      const labels = response.responses[0].labelAnnotations;
+      // console.log(labels);
+      // extracting labels
+      labels.forEach((label) => {
+        // Case 1 - Best match found
+        if (label.description.toLowerCase() == "street") {
+          console.log(
+            "[VisionAi] => Detected outdoor Image showing " + label.description
+          );
+          outDoorImg = image.src;
+          return;
+        } else if (possibleLabels.includes(label.description.toLowerCase())) {
+          console.log(
+            "[VisionAi] => Detected outdoor Image showing " + label.description
+          );
+          outDoorImg = image.src;
+          return;
+        }
+      });
+    }
+    return outDoorImg;
+  } catch (error) {
+    console.error(error);
   }
-  return outDoorImg;
 };

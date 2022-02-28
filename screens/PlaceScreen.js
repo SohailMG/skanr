@@ -16,6 +16,7 @@ import tw from "tailwind-rn";
 import MapContainer from "../components/MapContainer";
 import { analyseReviews } from "../modules/analysSentiment";
 import { fetchPlaceImages } from "../modules/PlacesApi";
+import { BallIndicator } from "react-native-indicators";
 
 const PlaceScreen = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,28 @@ const PlaceScreen = () => {
       setShortReviews(response.sentimentArr);
     })();
   }, [recents]);
+
+  if (!placeImages)
+    return (
+      <View
+        style={[
+          tw("flex-1 items-center justify-center"),
+          { backgroundColor: "#ffff" },
+        ]}
+      >
+        <View style={tw("flex  items-center")}>
+          <BallIndicator color="black" size={60} />
+          <Text
+            style={[
+              tw("absolute font-semibold  text-gray-600 self-center"),
+              { top: "55%" },
+            ]}
+          >
+            Please wait...
+          </Text>
+        </View>
+      </View>
+    );
 
   return (
     <View style={tw("flex")}>

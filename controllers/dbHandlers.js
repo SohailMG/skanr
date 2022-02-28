@@ -19,7 +19,6 @@ export const storePlaceToRecents = async (user, newPlaceData, outDoorImg) => {
   } else {
     // checking record already exists in the database
     const exists = alreadyExists(records, newPlaceData.placeId);
-    console.log(exists);
     // adding to current record if record is new
     if (!exists) updateRecents(records, newPlaceData, user, outDoorImg);
   }

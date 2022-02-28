@@ -30,6 +30,7 @@ export function findBestMatch(places, extractedText) {
   // looping though array of place names
   for (let place of places) {
     const currentScore = computeMatchScore(place.name, extractedText);
+    console.log({currentScore,text:place.name})
     // case 2 - keep updating score with best matching string
     if (currentScore > bestScore) {
       bestScore = currentScore;

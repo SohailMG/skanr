@@ -103,14 +103,16 @@ export async function fetchPlaceImages(placeDetails) {
       )
     );
   });
-  return Promise.all(promises).then((responses) => {
-    const photoUrls = [];
-    responses.forEach((response, index) => {
-      const photoUrl = response.request.responseURL;
-      photoUrls.push({ src: photoUrl, id: index + 100 });
-    });
-    return photoUrls;
-  });
+  return Promise.all(promises)
+    .then((responses) => {
+      const photoUrls = [];
+      responses.forEach((response, index) => {
+        const photoUrl = response.request.responseURL;
+        photoUrls.push({ src: photoUrl, id: index + 100 });
+      });
+      return photoUrls;
+    })
+    .catch((err) => console.error(err));
 }
 
 export async function reverseGeocode(lat, lng) {

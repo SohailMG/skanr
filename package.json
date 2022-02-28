@@ -52,7 +52,7 @@
     "react-native-fs": "^2.18.0",
     "react-native-gallery-view": "^2.0.0",
     "react-native-gesture-bottom-sheet": "^1.1.0",
-    "react-native-gesture-handler": "^2.2.0",
+    "react-native-gesture-handler": "~2.1.0",
     "react-native-google-places-autocomplete": "^2.4.1",
     "react-native-image-base64": "^0.1.4",
     "react-native-image-modal": "1.0.16",

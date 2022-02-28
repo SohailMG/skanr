@@ -42,6 +42,7 @@ const PlaceDetails = ({ placeId }) => {
   const navigation = useNavigation();
   const [placeDetails, setPlaceDetails] = useState(null);
   const [placeGallery, setPlaceGallery] = useState(null);
+  const [endSpin, setEndSpin] = useState(false);
   useEffect(() => {
     // fetching place details
     (async () => {
@@ -58,8 +59,15 @@ const PlaceDetails = ({ placeId }) => {
 
   useEffect(() => {
     (async () => {
-      const outDoorImg = await classifyPlaceOutdoorImage(placeGallery, placeId);
-      storePlaceToRecents(user, placeDetails, outDoorImg);
+      try {
+        const outDoorImg = await classifyPlaceOutdoorImage(
+          placeGallery,
+          placeId
+        );
+        storePlaceToRecents(user, placeDetails, outDoorImg);
+      } catch (err) {
+        console.error("Failed -> ", err);
+      }
     })();
   }, [placeGallery]);
 
@@ -73,12 +81,14 @@ const PlaceDetails = ({ placeId }) => {
         textStyle={{ color: "white" }}
         style={tw("flex flex-row items-center justify-center")}
       >
-        <BallIndicator color="gray" size={60} />
-        <Text
-          style={[tw("absolute mt-1 text-white self-center"), { top: "55%" }]}
-        >
-          Loading...
-        </Text>
+        <>
+          <BallIndicator color="gray" size={60} />
+          <Text
+            style={[tw("absolute mt-1 text-white self-center"), { top: "55%" }]}
+          >
+            Loading...
+          </Text>
+        </>
       </Spinner>
     );
   }
@@ -163,31 +173,34 @@ const PlaceDetails = ({ placeId }) => {
         <ScrollView horizontal>
           {placeGallery?.slice(0, 2).map((imageUri) => (
             <Image
+              key={imageUri.id}
               source={{ uri: imageUri.src }}
               style={[tw("mx-2 rounded-md"), { width: 110, height: 110 }]}
             />
           ))}
-          <ImageBackground
-            source={{ uri: placeGallery[2]?.src }}
-            style={[tw("mx-2 rounded-md flex "), { width: 110, height: 110 }]}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Gallery")}
-              style={[
-                tw("flex flex-row items-center justify-center"),
-                {
-                  width: 110,
-                  height: 110,
-                  backgroundColor: "#EFEFEFrgba(239, 239, 239, 0.60)",
-                },
-              ]}
+          {placeGallery?.length > 3 && (
+            <ImageBackground
+              source={{ uri: placeGallery[2]?.src }}
+              style={[tw("mx-2 rounded-md flex "), { width: 110, height: 110 }]}
             >
-              <AntDesign name="plus" size={25} color="gray" />
-              <Text style={tw("text-3xl text-gray-500 font-semibold")}>
-                {placeGallery.length}
-              </Text>
-            </TouchableOpacity>
-          </ImageBackground>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Gallery")}
+                style={[
+                  tw("flex flex-row items-center justify-center"),
+                  {
+                    width: 110,
+                    height: 110,
+                    backgroundColor: "rgba(239, 239, 239, 0.60)",
+                  },
+                ]}
+              >
+                <AntDesign name="plus" size={25} color="gray" />
+                <Text style={tw("text-3xl text-gray-500 font-semibold")}>
+                  {placeGallery.length}
+                </Text>
+              </TouchableOpacity>
+            </ImageBackground>
+          )}
         </ScrollView>
       </View>
 
