@@ -4,7 +4,7 @@ export const Theme = {
     foreground: "#0C0A0C",
   },
   DefaultTheme: {
-    background: "#FFFF",
-    foreground: "#0C0B0C",
+    background: "#222A30",
+    foreground: "#343C41",
   },
 };

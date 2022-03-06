@@ -9,6 +9,7 @@ import { Chip } from "react-native-ui-lib";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import ReviewBox from "../components/ReviewBox";
 import { BallIndicator } from "react-native-indicators";
+import Loading from "../components/loaders/Loading";
 
 const ReviewsScreen = () => {
   const { placeData } = useSelector((state) => state.placeReducer);
@@ -27,26 +28,7 @@ const ReviewsScreen = () => {
   }, [placeData]);
 
   if (!sentimentData)
-    return (
-      <View
-        style={[
-          tw("flex-1 items-center justify-center"),
-          { backgroundColor: theme.background },
-        ]}
-      >
-        <View style={tw("flex  items-center")}>
-          <BallIndicator color="black" size={60} />
-          <Text
-            style={[
-              tw("absolute font-semibold  text-gray-600 self-center"),
-              { top: "55%" },
-            ]}
-          >
-            Loading Place Reviews....
-          </Text>
-        </View>
-      </View>
-    );
+    return <Loading text={"loading reviews...."} color={theme.background} />;
 
   return (
     <SafeAreaView style={[tw("flex-1"), { backgroundColor: theme.background }]}>

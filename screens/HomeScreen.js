@@ -87,7 +87,7 @@ const HomeScreen = () => {
         style={[
           tw("flex flex-row  mb-10 mx-5 "),
           {
-            backgroundColor: "#eceef3",
+            backgroundColor: "#343C41",
             borderRadius: 20,
             padding: 10,
           },
@@ -97,7 +97,7 @@ const HomeScreen = () => {
           style={tw("self-center")}
           name="search-location"
           size={24}
-          color="#000"
+          color="#ccc"
         />
         <GooglePlacesAutocomplete
           fetchDetails={true}

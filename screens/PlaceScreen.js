@@ -3,12 +3,20 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Button, Carousel, Chip, Image, View } from "react-native-ui-lib";
+import {
+  Button,
+  Carousel,
+  Chip,
+  Image,
+  ListItem,
+  SkeletonView,
+  View,
+  Text,
+} from "react-native-ui-lib";
 import { useDispatch, useSelector } from "react-redux";
 import { setRecents } from "../slices/appSlice";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -17,12 +25,23 @@ import MapContainer from "../components/MapContainer";
 import { analyseReviews } from "../modules/analysSentiment";
 import { fetchPlaceImages } from "../modules/PlacesApi";
 import { BallIndicator } from "react-native-indicators";
+import Loading from "../components/loaders/Loading";
+import ListSkeleton from "../components/loaders/ListSkeleton";
 
 const PlaceScreen = () => {
   const dispatch = useDispatch();
   const { recents } = useSelector((state) => state.appReducer);
   const [shortReviews, setShortReviews] = useState([]);
   const [placeImages, setPlaceImages] = useState(null);
+
+  const getSentimentColor = (sentiment) => {
+    if (sentiment === "N+") return ["bg-red-500"];
+    if (sentiment === "N") return ["bg-red-300"];
+    if (sentiment === "NEU") return ["bg-orange-300"];
+    if (sentiment === "P+") return ["bg-green-500"];
+    if (sentiment === "P") return ["bg-green-300"];
+    else return false;
+  };
 
   useEffect(() => {
     (async () => {
@@ -33,30 +52,10 @@ const PlaceScreen = () => {
     })();
   }, [recents]);
 
-  if (!placeImages)
-    return (
-      <View
-        style={[
-          tw("flex-1 items-center justify-center"),
-          { backgroundColor: "#ffff" },
-        ]}
-      >
-        <View style={tw("flex  items-center")}>
-          <BallIndicator color="black" size={60} />
-          <Text
-            style={[
-              tw("absolute font-semibold  text-gray-600 self-center"),
-              { top: "55%" },
-            ]}
-          >
-            Please wait...
-          </Text>
-        </View>
-      </View>
-    );
+  // if (!placeImages) return <Loading text={"Please wait"} color={"#ffff"} />;
 
   return (
-    <View style={tw("flex")}>
+    <View style={[tw("flex-1"), { backgroundColor: "#222A30" }]}>
       <ImageBackground
         resizeMode="cover"
         style={[tw("h-80"), { width: "100%" }]}
@@ -75,13 +74,13 @@ const PlaceScreen = () => {
             onPress={() => dispatch(setRecents(null))}
             style={[
               tw(
-                "flex mt-12 ml-4 flex-row items-center justify-center p-2 rounded-full "
+                "flex mt-12 ml-4 flex-row items-center justify-center  rounded-full "
               ),
-              { width: 50, backgroundColor: "white" },
+              { height: 40, width: 40, backgroundColor: "white" },
               styles.boxShadow,
             ]}
           >
-            <Entypo name="home" size={30} color="black" />
+            <Entypo name="cross" size={30} color="black" />
           </TouchableOpacity>
           <View style={[tw("flex p-4  absolute bottom-0")]}>
             <View
@@ -106,58 +105,68 @@ const PlaceScreen = () => {
           </View>
         </View>
       </ImageBackground>
-
-      <Text style={tw("text-xl text-gray-600 font-semibold m-4")}>Reviews</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}
-      >
-        {shortReviews?.map(
-          ({ text, score_tag }) =>
-            text.length < 30 &&
-            text.length > 4 && (
-              <Chip
-                iconStyle={{ height: 10, width: 10 }}
-                containerStyle={tw(
-                  `m-1 border-gray-200 p-2 ${
-                    score_tag.includes("P") && "bg-green-200"
-                  } ${score_tag == "N+" || (score_tag == "N" && "bg-red-300")}`
-                )}
-                label={text}
-                labelStyle={tw("text-gray-600")}
-              />
-            )
-        )}
-      </ScrollView>
-
-      <Text style={tw("text-xl text-gray-600 font-semibold m-4")}>Gallery</Text>
-      <View style={tw("flex justify-center mx-4")}>
-        <Carousel
-          containerStyle={{
-            height: 200,
-          }}
-          loop
-          pageControlProps={{
-            size: 10,
-            containerStyle: styles.loopCarousel,
-          }}
-          pageControlPosition={Carousel.pageControlPositions.OVER}
-        >
-          {placeImages?.map((image, i) => (
-            <View flex centerV key={i}>
-              <Image
-                resizeMode="contain"
-                overlayType={Image.overlayTypes.BOTTOM}
-                style={{ flex: 1 }}
-                source={{
-                  uri: image.src,
-                }}
-              />
-            </View>
-          ))}
-        </Carousel>
-      </View>
+      {!placeImages ? (
+        <ListSkeleton times={4} />
+      ) : (
+        <>
+          <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
+            Reviews
+          </Text>
+          <View
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}
+          >
+            {shortReviews?.map(
+              ({ text, score_tag }) =>
+                text.length < 30 &&
+                text.length > 4 && (
+                  <Chip
+                    iconStyle={{ height: 10, width: 10 }}
+                    containerStyle={tw(
+                      `m-1 border-gray-600 p-2 ${getSentimentColor(score_tag)}`
+                    )}
+                    label={text}
+                    labelStyle={tw(
+                      `${
+                        score_tag == "NONE" ? "text-gray-200" : "text-gray-800"
+                      }`
+                    )}
+                  />
+                )
+            )}
+          </View>
+          <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
+            Gallery
+          </Text>
+          <View style={tw("flex justify-center mx-4")}>
+            <Carousel
+              containerStyle={{
+                height: 200,
+              }}
+              loop
+              pageControlProps={{
+                size: 10,
+                containerStyle: styles.loopCarousel,
+              }}
+              pageControlPosition={Carousel.pageControlPositions.OVER}
+            >
+              {placeImages?.map((image, i) => (
+                <View flex centerV key={i}>
+                  <Image
+                    resizeMode="cover"
+                    overlayType={Image.overlayTypes.BOTTOM}
+                    style={{ flex: 1 }}
+                    source={{
+                      uri: image.src,
+                    }}
+                  />
+                </View>
+              ))}
+            </Carousel>
+          </View>
+        </>
+      )}
     </View>
   );
 };

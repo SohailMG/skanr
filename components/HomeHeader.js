@@ -7,12 +7,12 @@ const HomeHeader = ({ userAddress }) => {
   return (
     <View style={tw("flex flex-row justify-between items-center")}>
       <View style={tw("flex p-4")}>
-        <Text style={tw("flex flex-row items-center text-gray-600")}>
+        <Text style={tw("flex flex-row items-center text-gray-400")}>
           Welcome
           <Entypo name="hand" size={20} color="orange" style={tw("ml-2")} />
         </Text>
         {user.displayName && (
-          <Text style={[tw("text-4xl font-semibold text-gray-600")]}>
+          <Text style={[tw("text-4xl font-semibold text-gray-400")]}>
             {user.displayName.split(" ")[0]}!
           </Text>
         )}

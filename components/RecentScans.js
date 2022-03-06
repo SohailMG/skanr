@@ -76,11 +76,11 @@ const RecentScans = () => {
                   tw(
                     "p-2 flex flex-row items-center absolute top-4 right-2  rounded-md"
                   ),
-                  { backgroundColor: "white", height: 40 },
+                  { backgroundColor: theme.foreground, height: 40 },
                   styles.shadowStyle,
                 ]}
               >
-                <Text style={tw("text-gray-600 text-lg font-bold")}>
+                <Text style={tw("text-gray-300 text-lg font-bold")}>
                   {placeDetails.rating}
                 </Text>
                 <Entypo name="star" size={24} color="orange" />
@@ -89,7 +89,7 @@ const RecentScans = () => {
                 style={[
                   tw("mx-2 p-4 absolute bottom-0 -mb-10 rounded-3xl"),
                   {
-                    backgroundColor: "white",
+                    backgroundColor: theme.foreground,
                     height: 200,
                     width: "93%",
                   },
@@ -98,7 +98,7 @@ const RecentScans = () => {
               >
                 <Text
                   numberOfLines={1}
-                  style={tw("text-gray-600 text-lg font-bold")}
+                  style={tw("text-gray-300 text-lg font-bold")}
                 >
                   {placeDetails.name}
                 </Text>

@@ -9,10 +9,9 @@ import { classifyBatchOfImages } from "../modules/VisionAi";
 import { fetchPlaceGallery } from "../controllers/dbHandlers";
 import { image } from "@tensorflow/tfjs";
 import { Button } from "react-native-ui-lib";
-import Spinner from "react-native-loading-spinner-overlay";
-import { BallIndicator, WaveIndicator } from "react-native-indicators";
 import ScrollingButtonMenu from "react-native-scroll-menu";
 import ImageModal from "react-native-image-modal";
+import Loading from "../components/loaders/Loading";
 
 const PlaceGallery = () => {
   const navigation = useNavigation();
@@ -68,26 +67,7 @@ const PlaceGallery = () => {
   }, [placeGallery]);
 
   if (loading)
-    return (
-      <View
-        style={[
-          tw("flex-1 items-center justify-center"),
-          { backgroundColor: theme.background },
-        ]}
-      >
-        <View style={tw("flex  items-center")}>
-          <BallIndicator color="black" size={60} />
-          <Text
-            style={[
-              tw("absolute font-semibold  text-gray-600 self-center"),
-              { top: "55%" },
-            ]}
-          >
-            Loading Place Images....
-          </Text>
-        </View>
-      </View>
-    );
+    return <Loading text={"loading images...."} color={theme.background} />;
 
   return (
     <SafeAreaView

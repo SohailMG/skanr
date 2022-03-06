@@ -91,7 +91,7 @@ const AccountScreen = () => {
         </View>
         <Text
           style={[
-            tw("my-2 text-gray-600 self-center"),
+            tw("my-2 text-gray-200 self-center"),
             { fontSize: 30, fontWeight: "600" },
           ]}
         >
@@ -99,8 +99,9 @@ const AccountScreen = () => {
         </Text>
         <View
           style={[
-            tw("flex mt-2 flex-row items-center bg-gray-100"),
+            tw("flex mt-2 flex-row items-center "),
             styles.input,
+            { backgroundColor: theme.foreground },
           ]}
         >
           <MaterialIcons
@@ -118,7 +119,11 @@ const AccountScreen = () => {
           />
         </View>
         <View
-          style={[tw("flex flex-row items-center bg-gray-100"), styles.input]}
+          style={[
+            tw("flex flex-row items-center "),
+            styles.input,
+            { backgroundColor: theme.foreground },
+          ]}
         >
           <Entypo style={tw("mr-2")} name="lock" size={24} color="lightgray" />
           <TextInput editable={activeForms} value={"********"} />
@@ -126,7 +131,7 @@ const AccountScreen = () => {
       </View>
 
       {/* Prefrences */}
-      <Text style={tw("ml-4 text-xl font-semibold text-gray-600 mr-2")}>
+      <Text style={tw("ml-4 text-xl font-semibold text-gray-200 mr-2")}>
         Dietary Preferences
       </Text>
       <View style={tw("flex flex-row items-center")}>
@@ -137,8 +142,8 @@ const AccountScreen = () => {
           }}
           style={[
             tw(
-              `flex m-4 mt-10 bg-gray-100 ${
-                halalChecked ? "bg-gray-800" : ""
+              `flex m-4 mt-10  ${
+                halalChecked ? "bg-gray-200" : ""
               } items-center rounded-md`
             ),
             {
@@ -163,8 +168,8 @@ const AccountScreen = () => {
           }}
           style={[
             tw(
-              `flex m-4 mt-10 bg-gray-100 ${
-                veganChecked ? "bg-gray-800 " : ""
+              `flex m-4 mt-10  ${
+                veganChecked ? "bg-gray-200 " : ""
               } items-center rounded-xl`
             ),
             {
@@ -184,7 +189,7 @@ const AccountScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={tw("ml-4 mt-2 flex flex-row items-center")}>
-        <Text style={tw("text-xl font-semibold text-gray-600 mr-2")}>
+        <Text style={tw("text-xl font-semibold text-gray-200 mr-2")}>
           Switch Theme
         </Text>
         <Switch
@@ -199,12 +204,15 @@ const AccountScreen = () => {
       </View>
 
       <TouchableOpacity
-        style={tw(
-          " self-center mt-6 bg-gray-200 rounded-xl p-2 w-40 flex flex-row items-center"
-        )}
+        style={[
+          tw(
+            " self-start ml-4 mt-6 bg-gray-200 rounded-xl p-2 w-40 flex flex-row items-center"
+          ),
+          { backgroundColor: theme.foreground },
+        ]}
         onPress={() => deleteRecents(user.uid)}
       >
-        <Text style={tw("text-lg font-semibold text-gray-800 mr-2")}>
+        <Text style={[tw("text-lg font-semibold text-gray-200 mr-2")]}>
           Clear Recents
         </Text>
         <MaterialIcons name="delete" size={24} color="red" />
