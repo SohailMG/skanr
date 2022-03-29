@@ -7,6 +7,7 @@ import AccountScreen from "../screens/AccountScreen";
 import ScanButton from "../components/ScanButton";
 import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const Tabs = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "white",
+        tabBarActiveTintColor: theme.fontColor,
         headerShown: false,
         tabBarActiveBackgroundColor: "transparent",
         tabBarStyle: { backgroundColor: theme.foreground, ...styles.tabStyle },

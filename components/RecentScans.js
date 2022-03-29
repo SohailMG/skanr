@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-ui-lib";
 import { useNavigation } from "@react-navigation/native";
 import { setRecents } from "../slices/appSlice";
-
+import PersonSVG from "../assets/personSvg.svg";
 const RecentScans = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ const RecentScans = () => {
   useEffect(() => {
     (async () => {
       const recents = await fetchRecentsFromDb(user);
+      if (!recents) return;
       setRecentScans(sortRecents(recents));
       // dispatch(setRecents(recents));
     })();
@@ -49,6 +50,19 @@ const RecentScans = () => {
     });
     // console.log(sorted);
   };
+
+  if (recentScans.length === 0) {
+    return (
+      <View style={tw("flex-1 p-2 justify-center mb-20 items-center ml-2")}>
+        <PersonSVG />
+        <Text
+          style={[tw("mt-2 text-center text-xl"), { color: theme.fontColor }]}
+        >
+          No Scans to show
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
@@ -80,7 +94,9 @@ const RecentScans = () => {
                   styles.shadowStyle,
                 ]}
               >
-                <Text style={tw("text-gray-300 text-lg font-bold")}>
+                <Text
+                  style={[tw(" text-lg font-bold"), { color: theme.fontColor }]}
+                >
                   {placeDetails.rating}
                 </Text>
                 <Entypo name="star" size={24} color="orange" />
@@ -98,7 +114,7 @@ const RecentScans = () => {
               >
                 <Text
                   numberOfLines={1}
-                  style={tw("text-gray-300 text-lg font-bold")}
+                  style={[tw("text-lg font-bold"), { color: theme.fontColor }]}
                 >
                   {placeDetails.name}
                 </Text>
@@ -186,7 +202,11 @@ const RecentScans = () => {
                     onPress={() => openRecent({ placeDetails, outDoorImg })}
                     style={tw("mt-4")}
                   >
-                    <AntDesign name="rightcircle" size={40} color="black" />
+                    <AntDesign
+                      name="rightcircle"
+                      size={40}
+                      color={theme.fontColor}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

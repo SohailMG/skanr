@@ -33,11 +33,18 @@ const ReviewsScreen = () => {
   return (
     <SafeAreaView style={[tw("flex-1"), { backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={tw("self-center text-lg font-semibold text-gray-600")}>
+        <Text
+          style={[
+            tw("self-center text-lg font-semibold "),
+            { color: theme.fontColor },
+          ]}
+        >
           Place Reviews
         </Text>
         <View style={tw("m-5 mt-10 self-start flex flex-row items-center")}>
-          <Text style={tw(" text-lg font-semibold text-gray-600")}>
+          <Text
+            style={[tw(" text-lg font-semibold "), { color: theme.fontColor }]}
+          >
             Reviews Sentiment
           </Text>
           <AntDesign
@@ -51,8 +58,7 @@ const ReviewsScreen = () => {
           <View
             style={[
               tw("mx-4 rounded-md"),
-              { backgroundColor: "white" },
-              styles.shadowStyle,
+              { backgroundColor: theme.foreground },
             ]}
           >
             <PieChart
@@ -76,7 +82,9 @@ const ReviewsScreen = () => {
           </View>
         )}
         <View style={[tw("m-5 mt-10 self-start flex flex-row items-center")]}>
-          <Text style={tw(" text-lg font-semibold text-gray-600")}>
+          <Text
+            style={[tw(" text-lg font-semibold "), { color: theme.fontColor }]}
+          >
             Customers mentioned
           </Text>
           <MaterialIcons
@@ -94,9 +102,7 @@ const ReviewsScreen = () => {
                 <Chip
                   iconStyle={{ height: 10, width: 10 }}
                   containerStyle={tw(
-                    `m-1 border-gray-200 p-2 ${
-                      score_tag.includes("P") && "bg-green-500"
-                    } ${
+                    `m-1  p-2 ${score_tag.includes("P") && "bg-green-500"} ${
                       score_tag == "N+" || (score_tag == "N" && "bg-red-500")
                     }`
                   )}
@@ -106,9 +112,9 @@ const ReviewsScreen = () => {
               )
           )}
         </View>
-        <View style={[tw("mx-4 flex mt-10"), styles.shadowStyle]}>
+        <View style={[tw("mx-4 flex mt-10")]}>
           {placeData?.reviews.map((review) => (
-            <ReviewBox lines={0} color={"white"} review={review} />
+            <ReviewBox lines={0} color={theme.foreground} review={review} />
           ))}
         </View>
       </ScrollView>

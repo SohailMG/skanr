@@ -7,6 +7,7 @@ import useLocation from "../hooks/useLocation";
 const ScanButton = ({ children, onPress }) => {
   const dispatch = useDispatch();
   const { userLocation } = useSelector((state) => state.appReducer);
+  const { theme } = useSelector((state) => state.themeReducer);
   return (
     <TouchableOpacity
       disabled={!userLocation}
@@ -35,7 +36,7 @@ const ScanButton = ({ children, onPress }) => {
             width: 70,
             height: 70,
             borderRadius: 35,
-            backgroundColor: "white",
+            backgroundColor: theme.fontColor,
           },
         ]}
       >
@@ -43,7 +44,7 @@ const ScanButton = ({ children, onPress }) => {
           style={tw("ml-1 ")}
           name="ios-scan-outline"
           size={50}
-          color="black"
+          color={theme.background}
         />
       </View>
     </TouchableOpacity>

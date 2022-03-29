@@ -1,10 +1,12 @@
 export const Theme = {
   DarkMode: {
-    background: "#0D0B0D",
-    foreground: "#0C0A0C",
+    background: "#000",
+    foreground: "#101010",
+    fontColor: "#BDBDBD",
   },
   DefaultTheme: {
-    background: "#222A30",
-    foreground: "#343C41",
+    background: "#F2F1F6",
+    foreground: "#FFFFFF",
+    fontColor: "#3C3C3C",
   },
 };

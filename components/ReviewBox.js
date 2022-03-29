@@ -3,8 +3,10 @@ import React from "react";
 import tw from "tailwind-rn";
 import { MaterialIcons } from "@expo/vector-icons";
 import Stars from "react-native-stars";
+import { useSelector } from "react-redux";
 
 const ReviewBox = ({ review, lines, color }) => {
+  const { theme } = useSelector((state) => state.themeReducer);
   return (
     <View
       style={[tw("flex my-2 mx-4  rounded-xl"), { backgroundColor: color }]}
@@ -15,7 +17,9 @@ const ReviewBox = ({ review, lines, color }) => {
           source={{ uri: review.profile_photo_url }}
         />
         <View style={tw("flex items-start mt-2")}>
-          <Text style={tw("text-gray-600 font-semibold text-md")}>
+          <Text
+            style={[tw(" font-semibold text-md"), { color: theme.fontColor }]}
+          >
             {review.author_name.toLowerCase()}
           </Text>
           <Text style={tw("text-gray-500 ")}>

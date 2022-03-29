@@ -3,25 +3,18 @@ import React from "react";
 import tw from "tailwind-rn";
 import Spinner from "react-native-loading-spinner-overlay";
 import { BallIndicator, WaveIndicator } from "react-native-indicators";
+import SVGatorComponent from "./SVGatorComponent";
+import { useSelector } from "react-redux";
 const Loading = ({ text, color }) => {
+  const { theme } = useSelector((state) => state.themeReducer);
   return (
     <View
       style={[
         tw("flex-1 items-center justify-center"),
-        { backgroundColor: "#000" },
+        { backgroundColor: theme.background },
       ]}
     >
-      <View style={tw("flex  items-center")}>
-        <BallIndicator color="white" size={60} />
-        <Text
-          style={[
-            tw("absolute font-semibold  text-gray-200 self-center"),
-            { top: "55%" },
-          ]}
-        >
-          {text}
-        </Text>
-      </View>
+      <SVGatorComponent />
     </View>
   );
 };

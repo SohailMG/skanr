@@ -2,8 +2,10 @@ import { View, Text, Image, ActivityIndicator } from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
 import { Entypo, Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const HomeHeader = ({ userAddress }) => {
   const { user } = useAuth();
+  const { theme } = useSelector((state) => state.themeReducer);
   return (
     <View style={tw("flex flex-row justify-between items-center")}>
       <View style={tw("flex p-4")}>
@@ -12,7 +14,9 @@ const HomeHeader = ({ userAddress }) => {
           <Entypo name="hand" size={20} color="orange" style={tw("ml-2")} />
         </Text>
         {user.displayName && (
-          <Text style={[tw("text-4xl font-semibold text-gray-400")]}>
+          <Text
+            style={[tw("text-4xl font-semibold"), { color: theme.fontColor }]}
+          >
             {user.displayName.split(" ")[0]}!
           </Text>
         )}

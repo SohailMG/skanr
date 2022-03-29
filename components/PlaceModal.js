@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import tw from "tailwind-rn";
@@ -18,6 +19,7 @@ import { useState } from "react";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import PlaceDetails from "./PlaceDetails";
+import { saveScanResults } from "../controllers/dbHandlers";
 
 const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   // const { placeId } = useSelector((state) => state.appReducer);
@@ -46,6 +48,29 @@ const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   const handleClosePress = () => {
     setPlaceNotFound(false);
     bottomSheetRef.current.close();
+    Alert.alert(
+      "Scan Results",
+      "Was the scanned place correct?",
+      [
+        {
+          text: "No",
+          onPress: () => saveScanResults("FailedScans"),
+          style: "destructive",
+        },
+        {
+          text: "Yes",
+          onPress: () => saveScanResults("SuccessfulScans"),
+          style: "default",
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          console.log(
+            "This alert was dismissed by tapping outside of the alert dialog."
+          ),
+      }
+    );
   };
   // handle modal open
   const handleOpenPress = () => {

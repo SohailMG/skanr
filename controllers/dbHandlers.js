@@ -148,3 +148,26 @@ export const deleteRecents = async (userId) => {
       console.log("[Database] => Failed to delete recenets -> ", err);
     });
 };
+
+export const saveScanResults = async (result) => {
+  // save document to collection
+  const docRef = doc(db, "ScanResults", result);
+  const docSnap = await getDoc(docRef);
+  let currentScore;
+  if (docSnap.exists()) {
+    currentScore = docSnap.data().scores += 1;
+  }
+  setDoc(doc(db, "ScanResults", result), {
+    timestamp: serverTimestamp(),
+    scores: currentScore,
+  })
+    .then(() => {
+      console.info("[Database] => Stored Scan Results ");
+    })
+    .catch((error) => {
+      console.error(
+        "[Database] => Failed to store Scan Results -> ",
+        error.message
+      );
+    });
+};

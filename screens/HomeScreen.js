@@ -87,7 +87,7 @@ const HomeScreen = () => {
         style={[
           tw("flex flex-row  mb-10 mx-5 "),
           {
-            backgroundColor: "#343C41",
+            backgroundColor: theme.foreground,
             borderRadius: 20,
             padding: 10,
           },
@@ -124,7 +124,12 @@ const HomeScreen = () => {
       {/* Recomended*/}
       <View style={tw("flex-1 mt-2 mx-4")}>
         <View style={tw("flex flex-row items-center")}>
-          <Text style={tw("ml-6 mr-2 text-xl text-gray-500 font-semibold")}>
+          <Text
+            style={[
+              tw("ml-6 mr-2 text-xl font-bold"),
+              { color: theme.fontColor },
+            ]}
+          >
             Recent Scans
           </Text>
           <MaterialIcons name="history-toggle-off" size={20} color="#505C7D" />

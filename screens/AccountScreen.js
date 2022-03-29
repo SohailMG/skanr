@@ -53,7 +53,7 @@ const AccountScreen = () => {
           onPress={editForms}
           style={[
             tw("flex flex-row items-center justify-center p-2 rounded-full "),
-            { width: 90, backgroundColor: theme.foreground },
+            { width: 90, backgroundColor: theme.fontColor },
             styles.boxShadow,
           ]}
         >
@@ -71,7 +71,7 @@ const AccountScreen = () => {
             tw(
               "flex justify-center flex-row items-center p-2 bg-white rounded-full "
             ),
-            { width: 90, backgroundColor: theme.foreground },
+            { width: 90, backgroundColor: theme.fontColor },
             styles.boxShadow,
           ]}
         >
@@ -91,8 +91,8 @@ const AccountScreen = () => {
         </View>
         <Text
           style={[
-            tw("my-2 text-gray-200 self-center"),
-            { fontSize: 30, fontWeight: "600" },
+            tw("my-2  self-center"),
+            { fontSize: 30, fontWeight: "600", color: theme.fontColor },
           ]}
         >
           {user?.displayName}
@@ -111,7 +111,7 @@ const AccountScreen = () => {
             color="lightgray"
           />
           <TextInput
-            style={{ fontStyle: "italic" }}
+            style={{ fontStyle: "italic", color: theme.fontColor }}
             onBlur={() => setActiveForms(false)}
             ref={inputRef}
             editable={activeForms}
@@ -126,12 +126,21 @@ const AccountScreen = () => {
           ]}
         >
           <Entypo style={tw("mr-2")} name="lock" size={24} color="lightgray" />
-          <TextInput editable={activeForms} value={"********"} />
+          <TextInput
+            style={{ color: theme.fontColor }}
+            editable={activeForms}
+            value={"********"}
+          />
         </View>
       </View>
 
       {/* Prefrences */}
-      <Text style={tw("ml-4 text-xl font-semibold text-gray-200 mr-2")}>
+      <Text
+        style={[
+          tw("ml-4 text-xl font-semibold mr-2"),
+          { color: theme.fontColor },
+        ]}
+      >
         Dietary Preferences
       </Text>
       <View style={tw("flex flex-row items-center")}>
@@ -189,7 +198,12 @@ const AccountScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={tw("ml-4 mt-2 flex flex-row items-center")}>
-        <Text style={tw("text-xl font-semibold text-gray-200 mr-2")}>
+        <Text
+          style={[
+            tw("text-xl font-semibold  mr-2"),
+            { color: theme.fontColor },
+          ]}
+        >
           Switch Theme
         </Text>
         <Switch
@@ -208,7 +222,7 @@ const AccountScreen = () => {
           tw(
             " self-start ml-4 mt-6 bg-gray-200 rounded-xl p-2 w-40 flex flex-row items-center"
           ),
-          { backgroundColor: theme.foreground },
+          { backgroundColor: theme.fontColor },
         ]}
         onPress={() => deleteRecents(user.uid)}
       >

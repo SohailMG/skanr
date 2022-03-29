@@ -52,7 +52,7 @@ const PlaceScreen = () => {
     })();
   }, [recents]);
 
-  // if (!placeImages) return <Loading text={"Please wait"} color={"#ffff"} />;
+  if (!placeImages) return <Loading />;
 
   return (
     <View style={[tw("flex-1"), { backgroundColor: "#222A30" }]}>
@@ -105,68 +105,62 @@ const PlaceScreen = () => {
           </View>
         </View>
       </ImageBackground>
-      {!placeImages ? (
-        <ListSkeleton times={4} />
-      ) : (
-        <>
-          <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
-            Reviews
-          </Text>
-          <View
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}
+      <>
+        <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
+          Reviews
+        </Text>
+        <View
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}
+        >
+          {shortReviews?.map(
+            ({ text, score_tag }) =>
+              text.length < 30 &&
+              text.length > 4 && (
+                <Chip
+                  iconStyle={{ height: 10, width: 10 }}
+                  containerStyle={tw(
+                    `m-1 border-gray-600 p-2 ${getSentimentColor(score_tag)}`
+                  )}
+                  label={text}
+                  labelStyle={tw(
+                    `${score_tag == "NONE" ? "text-gray-200" : "text-gray-800"}`
+                  )}
+                />
+              )
+          )}
+        </View>
+        <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
+          Gallery
+        </Text>
+        <View style={tw("flex justify-center mx-4")}>
+          <Carousel
+            containerStyle={{
+              height: 200,
+            }}
+            loop
+            pageControlProps={{
+              size: 10,
+              containerStyle: styles.loopCarousel,
+            }}
+            pageControlPosition={Carousel.pageControlPositions.OVER}
           >
-            {shortReviews?.map(
-              ({ text, score_tag }) =>
-                text.length < 30 &&
-                text.length > 4 && (
-                  <Chip
-                    iconStyle={{ height: 10, width: 10 }}
-                    containerStyle={tw(
-                      `m-1 border-gray-600 p-2 ${getSentimentColor(score_tag)}`
-                    )}
-                    label={text}
-                    labelStyle={tw(
-                      `${
-                        score_tag == "NONE" ? "text-gray-200" : "text-gray-800"
-                      }`
-                    )}
-                  />
-                )
-            )}
-          </View>
-          <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
-            Gallery
-          </Text>
-          <View style={tw("flex justify-center mx-4")}>
-            <Carousel
-              containerStyle={{
-                height: 200,
-              }}
-              loop
-              pageControlProps={{
-                size: 10,
-                containerStyle: styles.loopCarousel,
-              }}
-              pageControlPosition={Carousel.pageControlPositions.OVER}
-            >
-              {placeImages?.map((image, i) => (
-                <View flex centerV key={i}>
-                  <Image
-                    resizeMode="cover"
-                    overlayType={Image.overlayTypes.BOTTOM}
-                    style={{ flex: 1 }}
-                    source={{
-                      uri: image.src,
-                    }}
-                  />
-                </View>
-              ))}
-            </Carousel>
-          </View>
-        </>
-      )}
+            {placeImages?.map((image, i) => (
+              <View flex centerV key={i}>
+                <Image
+                  resizeMode="cover"
+                  overlayType={Image.overlayTypes.BOTTOM}
+                  style={{ flex: 1 }}
+                  source={{
+                    uri: image.src,
+                  }}
+                />
+              </View>
+            ))}
+          </Carousel>
+        </View>
+      </>
     </View>
   );
 };
