@@ -63,6 +63,7 @@ const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
           style: "default",
         },
       ],
+      
       {
         cancelable: true,
         onDismiss: () =>

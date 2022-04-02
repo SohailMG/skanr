@@ -27,12 +27,12 @@ import useLocation from "../hooks/useLocation";
 import { setUserLocation } from "../slices/appSlice";
 import { reverseGeocode } from "../modules/PlacesApi";
 import { Modal } from "react-native-ui-lib";
+import Loading from "../components/loaders/Loading";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const { userLocation } = useSelector((state) => state.appReducer);
   const { theme } = useSelector((state) => state.themeReducer);
-  const location = useLocation();
   const navigation = useNavigation();
   const { user } = useAuth();
   const [locationRetrieved, setLocationRetrieved] = useState(false);
@@ -57,19 +57,14 @@ const HomeScreen = () => {
   // get user location
   useEffect(() => {
     (async () => {
-      const [currentLocation] = location;
-
-      if (currentLocation) {
-        dispatch(setUserLocation(currentLocation));
-        const userFormattedAddress = await reverseGeocode(
-          currentLocation.coords.latitude,
-          currentLocation.coords.longitude
-        );
-        setuserAddress(userFormattedAddress);
-        setLocationRetrieved(true);
-      }
+      const userFormattedAddress = await reverseGeocode(
+        userLocation.coords.latitude,
+        userLocation.coords.longitude
+      );
+      setuserAddress(userFormattedAddress);
+      setLocationRetrieved(true);
     })();
-  }, [location]);
+  }, [userLocation]);
 
   return (
     <View

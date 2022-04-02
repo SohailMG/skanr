@@ -4,7 +4,7 @@
     "slug": "skanr-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splashIcon.png",
+    "icon": "./assets/splashLogo.png",
     "splash": {
       "image": "./assets/splash-dark.png",
       "resizeMode": "contain",

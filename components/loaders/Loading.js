@@ -5,6 +5,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { BallIndicator, WaveIndicator } from "react-native-indicators";
 import SVGatorComponent from "./SVGatorComponent";
 import { useSelector } from "react-redux";
+
 const Loading = ({ text, color }) => {
   const { theme } = useSelector((state) => state.themeReducer);
   return (
@@ -15,6 +16,14 @@ const Loading = ({ text, color }) => {
       ]}
     >
       <SVGatorComponent />
+      <Text
+        style={[
+          tw(" font-semibold absolute "),
+          { color: theme.fontColor, bottom: "35%" },
+        ]}
+      >
+        {text}...
+      </Text>
     </View>
   );
 };
