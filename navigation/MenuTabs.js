@@ -30,6 +30,7 @@ import { COLORS } from "../modules/themeColors";
 import ReviewsScreen from "../screens/ReviewsScreen";
 import PlaceScreen from "../screens/PlaceScreen";
 import Tabs from "./Tabs";
+import HeroScreen from "../screens/HeroScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +45,7 @@ const MenuTabs = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Group>
-          {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
+          <Stack.Screen name="Hero" component={HeroScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>

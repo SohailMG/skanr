@@ -12,9 +12,11 @@ import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
 import GoogleSvg from "../assets/google.svg";
 import { useNavigation } from "@react-navigation/core";
+import { useSelector } from "react-redux";
 const LoginForm = () => {
   const { TextField } = Incubator;
   const { loginUser, error, loading, signInWithGoogle } = useAuth();
+  const { theme } = useSelector((state) => state.themeReducer);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
@@ -31,14 +33,14 @@ const LoginForm = () => {
         <View
           style={[
             tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-            { backgroundColor: "#EEEEEE" },
+            { backgroundColor: theme.foreground },
           ]}
         >
           <MaterialIcons
             style={tw("mr-2")}
             name="email"
             size={30}
-            color="gray"
+            color={theme.fontColor}
           />
           <TextField
             keyboardAppearance="dark"
@@ -62,10 +64,15 @@ const LoginForm = () => {
         <View
           style={[
             tw("flex flex-row mt-4 items-end p-2 rounded-xl"),
-            { backgroundColor: "#EEEEEE" },
+            { backgroundColor: theme.foreground },
           ]}
         >
-          <Entypo style={tw("mr-2")} name="lock" size={30} color="gray" />
+          <Entypo
+            style={tw("mr-2")}
+            name="lock"
+            size={30}
+            color={theme.fontColor}
+          />
           <TextField
             keyboardType="visible-password"
             autoComplete="password"
@@ -111,8 +118,9 @@ const LoginForm = () => {
             onPress={() => navigation.navigate("Modal")}
             style={[
               tw(
-                "flex flex-row items-center bg-gray-800 p-4 rounded-xl w-40 justify-center mt-10 self-center"
+                "flex flex-row items-center  p-4 rounded-xl w-40 justify-center mt-10 self-center"
               ),
+              { backgroundColor: theme.fontColor },
             ]}
           >
             <Text style={tw("text-2xl font-semibold text-gray-200 mr-2")}>
@@ -132,7 +140,7 @@ const LoginForm = () => {
             { alignItems: "center" },
           ]}
         >
-          <Text style={tw("text-gray-200 font-semibold text-xl")}>Or</Text>
+          <Text style={tw("text-gray-800 font-semibold text-xl")}>Or</Text>
           <Text style={tw("text-gray-600 font-semibold text-lg")}>
             Continue with Google
           </Text>

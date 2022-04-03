@@ -34,9 +34,6 @@ const LoginScreen = () => {
       <Text style={tw("text-4xl ml-10 text-gray-600 font-semibold")}>
         Welcome
       </Text>
-      <Text style={tw("text-lg ml-10 text-gray-400 w-60")}>
-        Get place details from just a simple click.
-      </Text>
       <LoginForm />
     </View>
   );
