@@ -27,13 +27,14 @@ import { fetchPlaceImages } from "../modules/PlacesApi";
 import { BallIndicator } from "react-native-indicators";
 import Loading from "../components/loaders/Loading";
 import ListSkeleton from "../components/loaders/ListSkeleton";
+import SentimentPie from "../components/SentimentPie";
 
 const PlaceScreen = () => {
   const dispatch = useDispatch();
   const { recents } = useSelector((state) => state.appReducer);
   const [shortReviews, setShortReviews] = useState([]);
   const [placeImages, setPlaceImages] = useState(null);
-
+  const { theme } = useSelector((state) => state.themeReducer);
   const getSentimentColor = (sentiment) => {
     if (sentiment === "N+") return ["bg-red-500"];
     if (sentiment === "N") return ["bg-red-300"];
@@ -52,10 +53,10 @@ const PlaceScreen = () => {
     })();
   }, [recents]);
 
-  if (!placeImages) return <Loading />;
+  // if (!placeImages) return <Loading />;
 
   return (
-    <View style={[tw("flex-1"), { backgroundColor: "#222A30" }]}>
+    <View style={[tw("flex-1"), { backgroundColor: theme.background }]}>
       <ImageBackground
         resizeMode="cover"
         style={[tw("h-80"), { width: "100%" }]}
@@ -105,33 +106,18 @@ const PlaceScreen = () => {
           </View>
         </View>
       </ImageBackground>
-      <>
-        <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
-          Reviews
-        </Text>
-        <View
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text
+          style={[tw("text-xl  font-bold m-4"), { color: theme.fontColor }]}
         >
-          {shortReviews?.map(
-            ({ text, score_tag }) =>
-              text.length < 30 &&
-              text.length > 4 && (
-                <Chip
-                  iconStyle={{ height: 10, width: 10 }}
-                  containerStyle={tw(
-                    `m-1 border-gray-600 p-2 ${getSentimentColor(score_tag)}`
-                  )}
-                  label={text}
-                  labelStyle={tw(
-                    `${score_tag == "NONE" ? "text-gray-200" : "text-gray-800"}`
-                  )}
-                />
-              )
-          )}
+          Sentiment
+        </Text>
+        <View style={tw("my-4")}>
+          <SentimentPie placeData={recents.placeDetails} />
         </View>
-        <Text style={tw("text-xl text-gray-300 font-semibold m-4")}>
+        <Text
+          style={[tw("text-xl  font-bold m-4"), { color: theme.fontColor }]}
+        >
           Gallery
         </Text>
         <View style={tw("flex justify-center mx-4")}>
@@ -160,7 +146,7 @@ const PlaceScreen = () => {
             ))}
           </Carousel>
         </View>
-      </>
+      </ScrollView>
     </View>
   );
 };

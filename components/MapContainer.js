@@ -6,7 +6,7 @@ const MapContainer = ({ location, restaurant, mapStyle }) => {
 
   return (
     <MapView
-      userInterfaceStyle={"dark"}
+      userInterfaceStyle={"light"}
       mapType={"mutedStandard"}
       showsBuildings={false}
       scrollEnabled={false}

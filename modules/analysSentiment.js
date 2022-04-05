@@ -54,7 +54,7 @@ export const analyseSentiment = async (sentiment) => {
     const sentPercentage = (count / 100) * tags.length;
     sentimentSet.add({
       name,
-      population: count,
+      count,
       color,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,

@@ -60,7 +60,7 @@ export default Tabs;
 const styles = StyleSheet.create({
   tabStyle: {
     height: 70,
-    borderRadius: 50,
+    borderRadius: 20,
     position: "absolute",
     bottom: 20,
     width: "90%",

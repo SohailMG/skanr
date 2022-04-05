@@ -33,6 +33,8 @@ import {
 } from "../controllers/dbHandlers";
 import useAuth from "../hooks/useAuth";
 import { classifyPlaceOutdoorImage } from "../modules/VisionAi";
+import { MotiView } from "moti";
+import Stars from "react-native-stars";
 
 const PlaceDetails = ({ placeId }) => {
   // Redux store dispatcher
@@ -42,7 +44,7 @@ const PlaceDetails = ({ placeId }) => {
   const navigation = useNavigation();
   const [placeDetails, setPlaceDetails] = useState(null);
   const [placeGallery, setPlaceGallery] = useState(null);
-  const [endSpin, setEndSpin] = useState(false);
+  const [thumbNail, setThumbNail] = useState(null);
   useEffect(() => {
     // fetching place details
     (async () => {
@@ -64,6 +66,8 @@ const PlaceDetails = ({ placeId }) => {
           placeGallery,
           placeId
         );
+        setThumbNail(outDoorImg);
+        console.log(outDoorImg);
         storePlaceToRecents(user, placeDetails, outDoorImg);
       } catch (err) {
         console.error("Failed -> ", err);
@@ -93,21 +97,20 @@ const PlaceDetails = ({ placeId }) => {
     );
   }
   return (
-    <View style={tw("m-4")}>
-      {/* {placeDetails && ( */}
-      <View style={tw("flex mb-4 flex-row items-center")}>
-        <View style={[tw("flex mr-2 flex-row items-center  p-1 rounded-xl")]}>
-          <Text style={[tw("text-white text-xl font-semibold")]}>
-            {placeDetails?.rating}
-          </Text>
-          <AntDesign name="star" size={20} color="yellow" />
-        </View>
-        {/* restaurant name */}
-        <Text style={[tw("text-white"), { fontSize: 25, fontWeight: "800" }]}>
-          {placeDetails?.name}
-        </Text>
-        {/* ratings */}
-      </View>
+    <MotiView
+      from={{
+        opacity: 0,
+        scale: 0.5,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      transition={{
+        type: "timing",
+      }}
+      style={tw("m-4 flex")}
+    >
       {/* map view of place  */}
       {placeDetails && (
         <MapContainer
@@ -115,48 +118,38 @@ const PlaceDetails = ({ placeId }) => {
           restaurant={placeDetails?.name}
         />
       )}
+      {/* place name */}
+      <View
+        style={tw(
+          "flex self-center mb-4 flex-row items-center mt-4 text-center"
+        )}
+      >
+        {/* restaurant name */}
+        <Text
+          style={[
+            tw("text-white text-center"),
+            { fontSize: 25, fontWeight: "800" },
+          ]}
+        >
+          {placeDetails?.name}
+        </Text>
+        {/* ratings */}
+      </View>
       {/* middle list view */}
-      <View style={tw("flex flex-row items-center")}>
-        <View
-          style={tw(
-            "mx-2 flex items-center  px-2 flex-row border-r border-gray-500 mt-4 items-center"
-          )}
-        >
-          <Text
-            style={[tw("text-gray-400 mr-2 font-semibold "), { fontSize: 15 }]}
-          >
-            {"Vegan"}
-          </Text>
-          <AntDesign name="check" size={20} color="green" />
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            Linking.openURL(placeDetails.website);
-          }}
-          style={tw(
-            "mx-2 flex flex-row items-center  mt-4 px-2 border-r border-gray-500 items-center"
-          )}
-        >
-          <Text
-            style={[tw("text-gray-400 mr-2 font-semibold "), { fontSize: 15 }]}
-          >
-            Website
-          </Text>
-          <FontAwesome5 name="globe" size={20} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            Linking.openURL(`tel:${placeDetails.number}`);
-          }}
-          style={tw("mx-2 flex flex-row items-center  mt-4 px-2  items-center")}
-        >
-          <Text
-            style={[tw("text-gray-400 mr-2 font-semibold "), { fontSize: 15 }]}
-          >
-            {placeDetails?.number || "Unavailable"}
-          </Text>
-          <Entypo name="phone" size={20} color="cyan" />
-        </TouchableOpacity>
+      <View style={tw("self-center flex flex-row  items-center")}>
+        <Stars
+          display={placeDetails?.rating}
+          half={true}
+          spacing={2}
+          count={5}
+          starSize={20}
+          fullStar={<MaterialIcons name="star" size={15} color="orange" />}
+          emptyStar={
+            <MaterialIcons name="star-outline" size={15} color="orange" />
+          }
+          halfStar={<MaterialIcons name="star-half" size={15} color="orange" />}
+        />
+        <Text style={tw("text-white font-bold")}>{placeDetails?.rating}</Text>
       </View>
       {/* address blovk */}
       <View style={tw("flex m-2 mt-4 flex-row items-center")}>
@@ -235,7 +228,7 @@ const PlaceDetails = ({ placeId }) => {
         </TouchableOpacity>
       )}
       {/* )} */}
-    </View>
+    </MotiView>
   );
 };
 

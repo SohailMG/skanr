@@ -39,6 +39,7 @@
     "lottie-react-native": "^5.0.1",
     "metro-config": "^0.68.0",
     "moment": "^2.29.1",
+    "moti": "^0.17.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
@@ -76,6 +77,7 @@
     "react-native-spinkit": "^1.5.1",
     "react-native-stars": "^1.2.2",
     "react-native-svg": "^12.1.1",
+    "react-native-svg-charts": "^5.4.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-svg-uri": "^1.2.3",
     "react-native-swipe-gestures": "^1.0.5",
@@ -87,7 +89,8 @@
     "react-progressbar-semicircle": "^1.2.1",
     "react-redux": "^7.2.6",
     "rn-fetch-blob": "^0.12.0",
-    "tailwind-rn": "^3.0.1"
+    "tailwind-rn": "^3.0.1",
+    "victory-native": "^36.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

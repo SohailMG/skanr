@@ -48,30 +48,30 @@ const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   const handleClosePress = () => {
     setPlaceNotFound(false);
     bottomSheetRef.current.close();
-    Alert.alert(
-      "Scan Results",
-      "Was the scanned place correct?",
-      [
-        {
-          text: "No",
-          onPress: () => saveScanResults("FailedScans"),
-          style: "destructive",
-        },
-        {
-          text: "Yes",
-          onPress: () => saveScanResults("SuccessfulScans"),
-          style: "default",
-        },
-      ],
-      
-      {
-        cancelable: true,
-        onDismiss: () =>
-          console.log(
-            "This alert was dismissed by tapping outside of the alert dialog."
-          ),
-      }
-    );
+    // Alert.alert(
+    //   "Scan Results",
+    //   "Was the scanned place correct?",
+    //   [
+    //     {
+    //       text: "No",
+    //       onPress: () => saveScanResults("FailedScans"),
+    //       style: "destructive",
+    //     },
+    //     {
+    //       text: "Yes",
+    //       onPress: () => saveScanResults("SuccessfulScans"),
+    //       style: "default",
+    //     },
+    //   ],
+
+    //   {
+    //     cancelable: true,
+    //     onDismiss: () =>
+    //       console.log(
+    //         "This alert was dismissed by tapping outside of the alert dialog."
+    //       ),
+    //   }
+    // );
   };
   // handle modal open
   const handleOpenPress = () => {

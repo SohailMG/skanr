@@ -109,6 +109,8 @@ const CameraScreen = () => {
       // navigation.navigate("Results");
     } catch (err) {
       setScanning(false);
+    } finally {
+      setScanning(false);
     }
   };
 
