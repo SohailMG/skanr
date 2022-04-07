@@ -171,3 +171,33 @@ export const saveScanResults = async (result) => {
       );
     });
 };
+
+export const addLabelsToDataset = async (labelsAnnotations) => {
+  const docRef = doc(db, "FoodLabels", "labels");
+  const docSnap = await getDoc(docRef);
+
+  const labels = labelsAnnotations.map((label) => label.description);
+  const currentLabels = docSnap.exists() ? docSnap.data().labels : [];
+  const newLabels = Array.from(new Set([...currentLabels, ...labels]));
+  setDoc(doc(db, "FoodLabels", "labels"), { labels: newLabels })
+    .then(() => {
+      console.log("[Database] => Added new labels to dataset");
+    })
+    .catch((error) => {
+      console.log(
+        "[Database] => Failed to add new labels to dataset",
+        error.message
+      );
+    });
+};
+
+export const getFoodLabels = async () => {
+  const docRef = doc(db, "FoodLabels", "labels");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    console.log(docSnap.data().labels);
+    return docSnap.data().labels;
+  } else {
+    return false;
+  }
+};

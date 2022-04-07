@@ -3,7 +3,11 @@ import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
 import { foodLabels, foodTypes } from "../foodLabels";
-import { storeLabelledImages } from "../controllers/dbHandlers";
+import {
+  addLabelsToDataset,
+  getFoodLabels,
+  storeLabelledImages,
+} from "../controllers/dbHandlers";
 
 const apiRequest = {
   url: "https://vision.googleapis.com/v1/images:annotate?key=",
@@ -81,20 +85,24 @@ export async function classifyBatchOfImages(images, placeId) {
     const base64 = await resizeImage(image.src);
     const response = await classifyImage(base64);
     const labels = response.responses[0].labelAnnotations;
+    const dataset = await getFoodLabels();
+
     const imgLabels = [];
     // extracting labels
     labels.forEach((label) => {
       imgLabels.push("general");
       if (label.description.toLowerCase() === "menu")
         imgLabels.push(label.description);
-      if (foodLabels.includes(label.description) && label.score > 0.7) {
+      if (dataset.includes(label.description) && label.score > 0.7) {
         imgLabels.push(label.description);
       }
     });
     if (imgLabels.length > 0)
       labelledImages.push({ imageUri: image.src, labels: imgLabels });
   }
-  const response = await storeLabelledImages(labelledImages, placeId);
+  await storeLabelledImages(labelledImages, placeId);
+  // adding new labels to dataset
+  // await addLabelsToDataset(labels);
   return labelledImages;
 }
 
@@ -117,10 +125,8 @@ export const classifyPlaceOutdoorImage = async (images, placeId) => {
     ];
     let outDoorImg = "";
     for (let image of images) {
-      console.log("[VisionAi] => Image 1: " + image.src);
       const base64 = await resizeImage(image.src);
       const response = await classifyImage(base64);
-      console.log("[VisionAi] => Image 2: " + response);
       const labels = response.responses[0].labelAnnotations;
       // console.log(labels);
       // extracting labels
@@ -131,13 +137,13 @@ export const classifyPlaceOutdoorImage = async (images, placeId) => {
             "[VisionAi] => Detected outdoor Image showing " + label.description
           );
           outDoorImg = image.src;
-          return;
+          return outDoorImg;
         } else if (possibleLabels.includes(label.description.toLowerCase())) {
           console.log(
             "[VisionAi] => Detected outdoor Image showing " + label.description
           );
           outDoorImg = image.src;
-          return;
+          return outDoorImg;
         }
       });
     }

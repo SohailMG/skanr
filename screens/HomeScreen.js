@@ -92,7 +92,7 @@ const HomeScreen = () => {
           style={tw("self-center")}
           name="search-location"
           size={24}
-          color="#ccc"
+          color={theme.fontColor}
         />
         <GooglePlacesAutocomplete
           fetchDetails={true}

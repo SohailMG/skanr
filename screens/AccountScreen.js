@@ -52,16 +52,22 @@ const AccountScreen = () => {
           disabled={true}
           onPress={editForms}
           style={[
-            tw("flex flex-row items-center justify-center p-2 rounded-full "),
-            { width: 90, backgroundColor: theme.fontColor },
-            styles.boxShadow,
+            tw("flex flex-row items-center justify-center p-2 rounded-xl "),
+            { width: 90, backgroundColor: theme.foreground },
           ]}
         >
-          <Text style={tw("font-semibold text-gray-200 mr-2")}>Edit</Text>
+          <Text
+            style={[
+              tw("font-semibold text-gray-200 mr-2"),
+              { color: theme.fontColor },
+            ]}
+          >
+            Edit
+          </Text>
           <AntDesign
             name="edit"
             size={20}
-            color={theme.background}
+            color={theme.fontColor}
             onPress={editForms}
           />
         </TouchableOpacity>
@@ -69,14 +75,20 @@ const AccountScreen = () => {
           onPress={logout}
           style={[
             tw(
-              "flex justify-center flex-row items-center p-2 bg-white rounded-full "
+              "flex justify-center flex-row items-center p-2 bg-white rounded-xl "
             ),
-            { width: 90, backgroundColor: theme.fontColor },
-            styles.boxShadow,
+            { width: 90, backgroundColor: theme.foreground },
           ]}
         >
-          <Text style={tw("font-bold text-gray-200 mr-2")}>Logout</Text>
-          <MaterialIcons name="logout" size={20} color={theme.background} />
+          <Text
+            style={[
+              tw("font-bold text-gray-200 mr-2"),
+              { color: theme.fontColor },
+            ]}
+          >
+            Logout
+          </Text>
+          <MaterialIcons name="logout" size={20} color={theme.fontColor} />
         </TouchableOpacity>
       </SafeAreaView>
 
@@ -99,7 +111,7 @@ const AccountScreen = () => {
         </Text>
         <View
           style={[
-            tw("flex mt-2 flex-row items-center "),
+            tw("flex mt-2 flex-row items-center self-center"),
             styles.input,
             { backgroundColor: theme.foreground },
           ]}
@@ -116,20 +128,6 @@ const AccountScreen = () => {
             ref={inputRef}
             editable={activeForms}
             value={user?.email}
-          />
-        </View>
-        <View
-          style={[
-            tw("flex flex-row items-center "),
-            styles.input,
-            { backgroundColor: theme.foreground },
-          ]}
-        >
-          <Entypo style={tw("mr-2")} name="lock" size={24} color="lightgray" />
-          <TextInput
-            style={{ color: theme.fontColor }}
-            editable={activeForms}
-            value={"********"}
           />
         </View>
       </View>
@@ -220,13 +218,13 @@ const AccountScreen = () => {
       <TouchableOpacity
         style={[
           tw(
-            " self-start ml-4 mt-6 bg-gray-200 rounded-xl p-2 w-40 flex flex-row items-center"
+            " self-center ml-4 mt-10  rounded-xl p-2 w-40 flex flex-row items-center"
           ),
-          { backgroundColor: theme.fontColor },
+          { backgroundColor: theme.foreground },
         ]}
         onPress={() => deleteRecents(user.uid)}
       >
-        <Text style={[tw("text-lg font-semibold text-gray-200 mr-2")]}>
+        <Text style={[tw("text-lg font-semibold  mr-2"), { color: "red" }]}>
           Clear Recents
         </Text>
         <MaterialIcons name="delete" size={24} color="red" />

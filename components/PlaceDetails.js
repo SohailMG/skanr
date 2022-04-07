@@ -67,7 +67,6 @@ const PlaceDetails = ({ placeId }) => {
           placeId
         );
         setThumbNail(outDoorImg);
-        console.log(outDoorImg);
         storePlaceToRecents(user, placeDetails, outDoorImg);
       } catch (err) {
         console.error("Failed -> ", err);
