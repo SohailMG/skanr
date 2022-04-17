@@ -7,7 +7,7 @@ import {
   Linking,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-rn";
 import Stars from "react-native-stars";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -21,8 +21,11 @@ import {
 } from "@expo/vector-icons";
 import { setRecents } from "../slices/appSlice";
 import { useNavigation } from "@react-navigation/native";
+import { Carousel } from "react-native-ui-lib";
+import { fetchPlaceImages } from "../modules/PlacesApi";
 
 const PlaceContainer = ({ placeDetails, outDoorImg }) => {
+  const [placeImages, setPlaceImages] = useState([]);
   const { theme } = useSelector((state) => state.themeReducer);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -32,19 +35,51 @@ const PlaceContainer = ({ placeDetails, outDoorImg }) => {
     navigation.navigate("Place");
   };
 
+  useEffect(() => {
+    (async () => {
+      const imageUris = await fetchPlaceImages(placeDetails);
+      setPlaceImages(imageUris);
+    })();
+  }, []);
+
   return (
-    <TouchableOpacity
-      onPress={() => openRecent({ placeDetails, outDoorImg })}
+    <View
       style={[
         tw(" flex   rounded-2xl p-2"),
         { width: "100%", height: 300, backgroundColor: theme.foreground },
       ]}
     >
       {/* top half */}
-      <Image
-        source={{ uri: outDoorImg }}
-        style={tw("h-1/2 w-full rounded-2xl ")}
-      />
+      <Carousel
+        containerStyle={tw("h-1/2 w-full rounded-2xl ")}
+        loop
+        pageControlProps={{
+          size: 10,
+          containerStyle: styles.loopCarousel,
+        }}
+        pageControlPosition={Carousel.pageControlPositions.OVER}
+      >
+        <View flex centerV key={outDoorImg}>
+          <Image
+            resizeMode="cover"
+            style={{ flex: 1, borderRadius: 20 }}
+            source={{
+              uri: outDoorImg,
+            }}
+          />
+        </View>
+        {placeImages?.map((image) => (
+          <View flex centerV key={image.src}>
+            <Image
+              resizeMode="cover"
+              style={{ flex: 1, borderRadius: 20 }}
+              source={{
+                uri: image.src,
+              }}
+            />
+          </View>
+        ))}
+      </Carousel>
       {/* Bottom half */}
       <View style={tw("p-2 mt-2")}>
         <View style={tw("flex  items-center")}>
@@ -146,10 +181,16 @@ const PlaceContainer = ({ placeDetails, outDoorImg }) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 export default PlaceContainer;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loopCarousel: {
+    position: "absolute",
+    bottom: 15,
+    left: 10,
+  },
+});

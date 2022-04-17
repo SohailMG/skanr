@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  // Creates a new user in the database and logs them in
   const createAccountAndLogin = async (email, password, fullName, avatar) => {
     setLoading(true);
     try {

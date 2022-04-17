@@ -59,7 +59,7 @@ export function findBestMatch(places, extractedText) {
  * @param {string} targetStr text extracted from image to be matched against place name
  * @returns {number} score of best possible match for text from image
  */
-function computeMatchScore(targetStr, textFromImg) {
+export function computeMatchScore(targetStr, textFromImg) {
   // if strings are identical
   if (targetStr === textFromImg) return 1;
   // if strings are not empty

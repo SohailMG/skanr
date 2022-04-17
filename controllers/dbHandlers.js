@@ -176,7 +176,7 @@ export const addLabelsToDataset = async (labelsAnnotations) => {
   const docRef = doc(db, "FoodLabels", "labels");
   const docSnap = await getDoc(docRef);
 
-  const labels = labelsAnnotations.map((label) => label.description);
+  const labels = labelsAnnotations.map((label) => label.description);h
   const currentLabels = docSnap.exists() ? docSnap.data().labels : [];
   const newLabels = Array.from(new Set([...currentLabels, ...labels]));
   setDoc(doc(db, "FoodLabels", "labels"), { labels: newLabels })

@@ -1,6 +1,4 @@
-// import { bookTitlesDataset, writeToFile } from "./fileReader.js";
-// import { fetchNearbyPlaces } from "./utils/placesApi.js";
-// import { classifyImageFromBucket } from "./utils/visionAi.js";
+
 /**
  * takes a string and creates ngrams based on a given size n
  * @param {string} srcStr target string to be matched against
@@ -40,14 +38,13 @@ function getStringSimilarity(str1, str2) {
 }
 
 
-export function findBestMatch(places,imgFullText){
+export function nGramSearch(places,imgFullText){
   
   let maxScore = -Infinity;
   let bestMatch = null;
   for(let place of places){
     // computing similarity score
     const score = getStringSimilarity(place.name, imgFullText);
-    console.log({score,name:place.name})
     // updating current best match
     if(score > maxScore){
       maxScore = score;
@@ -56,14 +53,3 @@ export function findBestMatch(places,imgFullText){
   }
   return {score: maxScore, bestMatch: bestMatch.name,placeId:bestMatch.place_id}
 }
-
-
-// (async () =>{
-//   const { fullTextAnnotation } = await classifyImageFromBucket(
-//     "gs://skanr-app.appspot.com/kfc.png"
-//   );
-//   const fullText = fullTextAnnotation.text.replace(/\n|\r/g, " ");
-//   console.log(fullText);
-//   const places = await fetchNearbyPlaces();
-//   console.log(findBestMatch(places, fullText));
-// })()

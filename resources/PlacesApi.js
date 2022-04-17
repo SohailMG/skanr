@@ -96,6 +96,7 @@ export async function fetchNearbyPlaces(userLocation, extractedText, keyword) {
  */
 export async function fetchPlaceImages(placeDetails) {
   const promises = [];
+  // looping through array of photo references
   placeDetails.photos.slice(0, 10).forEach(({ photo_reference }) => {
     promises.push(
       axios.get(
@@ -106,8 +107,10 @@ export async function fetchPlaceImages(placeDetails) {
   return Promise.all(promises)
     .then((responses) => {
       const photoUrls = [];
+      // extracting image urls from response
       responses.forEach((response, index) => {
         const photoUrl = response.request.responseURL;
+        // storing image uri in array
         photoUrls.push({ src: photoUrl, id: index + 100 });
       });
       return photoUrls;
@@ -120,9 +123,12 @@ export async function reverseGeocode(lat, lng) {
     lat + "," + lng
   }&key=${GOOGLE_PLACES_API_KEY}`;
 
-  return axios.get(url).then((response) => {
-    const address = response.data.plus_code.compound_code.split(" ");
-    const formattedAddress = address[1] + address[2];
-    return formattedAddress;
-  });
+  return axios
+    .get(url)
+    .then((response) => {
+      const address = response.data.plus_code.compound_code.split(" ");
+      const formattedAddress = address[1] + address[2];
+      return formattedAddress;
+    })
+    .catch((err) => console.error(err));
 }

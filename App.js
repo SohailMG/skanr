@@ -22,7 +22,7 @@ Updated : 2022/01/04
 export default function App() {
   const location = useLocation();
   useEffect(() => {
-    (async () => {
+    (() => {
       const [currentLocation] = location;
 
       if (currentLocation) {

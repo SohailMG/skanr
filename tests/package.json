@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "perf_hooks": "^0.0.1",
-    "performance": "^1.4.0"
+    "performance": "^1.4.0",
+    "present": "^1.0.0"
   }
 }

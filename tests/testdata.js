@@ -1,0 +1,16 @@
+export const testData = [
+  ["Subway", "subway.png"],
+  ["Saravanaa Bhavan", "saravanna.png"],
+  ["Pizza Inn rayners lane", "pizzainn.png"],
+  ["Venue 5", "venu-5.png"],
+  ["KFC London", "kfc.png"],
+  ["Wenzel's the Bakers", "wenzel.png"],
+  ["Imperial Cafe", "imperial-cafe.png"],
+  ["Chicken Cottage", "chicken-cottage.png"],
+  ["Fabs Peri Peri Chicken & Pizza", "fabs.png"],
+  ["Bamboo House", "bamboo-house.png"],
+  ["Cheatmeals Rayners lane", "cheat-meals.png"],
+  ["Yaal Express Rayners Lane", "yallexpress.png"],
+  ["Shree Sai VadaPav", "shree-sai.png"],
+  ["Freshly Grilled Peri Peri Chicken", "freshly-grilled.png"],
+];
