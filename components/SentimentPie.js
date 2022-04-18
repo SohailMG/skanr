@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import tw from "tailwind-rn";
 import React, { useEffect, useState } from "react";
 import { PieChart } from "react-native-svg-charts";
-import { analyseReviews, analyseSentiment } from "../modules/analysSentiment";
+import { analyseReviews, analyseSentiment } from "../resources/analysSentiment";
 import { useSelector } from "react-redux";
 import { Circle, G, Line, Text } from "react-native-svg";
 import { ProgressChart } from "react-native-chart-kit";

@@ -20,8 +20,8 @@ import ScrollingButtonMenu from "react-native-scroll-menu";
 import * as IND from "react-native-indicators";
 import { setDiateryPref } from "../slices/placeDataSlice";
 import PlaceModal from "../components/PlaceModal";
-import { fetchNearbyPlaces } from "../modules/PlacesApi";
-import { classifyImage, resizeImage } from "../modules/VisionAi";
+import { fetchNearbyPlaces } from "../resources/PlacesApi";
+import { classifyImage, resizeImage } from "../resources/VisionAi";
 import { Button } from "react-native-ui-lib";
 import { Feather } from "@expo/vector-icons";
 

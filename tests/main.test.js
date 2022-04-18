@@ -1,6 +1,11 @@
-import { findBestMatch } from "./BestPlaceMatch.js";
-import { testData } from "./testdata.js";
-import { fetchNearbyPlaces } from "./utils/placesApi.js";
-import { classifyImageFromBucket } from "./utils/visionAi.js";
+import React from "react";
+import renderer from "react-test-renderer";
 
-// testing if 
+import App from "../App";
+
+describe("<App />", () => {
+  it("has 1 child", () => {
+    const tree = renderer.create(<App />).toJSON();
+    expect(tree.children.length).toBe(1);
+  });
+});

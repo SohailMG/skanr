@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { Theme } from "../modules/themeColors.js";
+import { Theme } from "../resources/themeColors.js";
 
 const themeSlice = createSlice({
   name: "recents",

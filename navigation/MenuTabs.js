@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 import PlaceGallery from "../screens/PlaceGallery";
 import useLocation from "../hooks/useLocation";
 import ModalScreen from "../screens/ModalScreen";
-import { COLORS } from "../modules/themeColors";
+import { COLORS } from "../resources/themeColors";
 import ReviewsScreen from "../screens/ReviewsScreen";
 import PlaceScreen from "../screens/PlaceScreen";
 import Tabs from "./Tabs";

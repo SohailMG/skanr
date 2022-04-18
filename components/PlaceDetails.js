@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "tailwind-rn";
-import { fetchPlaceDetails, fetchPlaceImages } from "../modules/PlacesApi";
+import { fetchPlaceDetails, fetchPlaceImages } from "../resources/PlacesApi";
 import {
   AntDesign,
   FontAwesome5,
@@ -32,7 +32,7 @@ import {
   uploadToRecents,
 } from "../controllers/dbHandlers";
 import useAuth from "../hooks/useAuth";
-import { classifyPlaceOutdoorImage } from "../modules/VisionAi";
+import { classifyPlaceOutdoorImage } from "../resources/VisionAi";
 import { MotiView } from "moti";
 import Stars from "react-native-stars";
 

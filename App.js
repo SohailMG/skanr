@@ -13,7 +13,7 @@ import { store } from "./store";
 import { createContext, useEffect } from "react";
 import useLocation from "./hooks/useLocation";
 import Loading from "./components/loaders/Loading";
-import { reverseGeocode } from "./modules/PlacesApi";
+import { reverseGeocode } from "./resources/PlacesApi";
 import { setUserLocation } from "./slices/appSlice";
 /* 
 Author : Sohail GSais 

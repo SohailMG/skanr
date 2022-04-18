@@ -37,7 +37,6 @@ export function findBestMatch(places, extractedText) {
     }
     results.push({string:place.name, score: currentScore});
   }
-  console.table(results)
   // Case 3 - No match is found i.e, both strings are different
   if (bestScore === 0) {
     console.log(
@@ -60,10 +59,11 @@ export function findBestMatch(places, extractedText) {
  * @returns {number} score of best possible match for text from image
  */
 export function computeMatchScore(targetStr, textFromImg) {
-  // if strings are identical
-  if (targetStr === textFromImg) return 1;
+  if(!targetStr || !textFromImg) return 0;
   // if strings are not empty
   if (targetStr.length > 0 && textFromImg.length > 0) {
+  // if strings are identical
+  if (targetStr === textFromImg) return 1;
     // splitting both strings into array of words
     const targetTokens = tokenizeStr(targetStr);
     const imageTextArr = tokenizeStr(textFromImg);

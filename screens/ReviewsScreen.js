@@ -2,7 +2,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "tailwind-rn";
-import { analyseReviews, analyseSentiment } from "../modules/analysSentiment";
+import { analyseReviews, analyseSentiment } from "../resources/analysSentiment";
 import { useSelector } from "react-redux";
 import { PieChart, ProgressChart } from "react-native-chart-kit";
 import { Chip } from "react-native-ui-lib";

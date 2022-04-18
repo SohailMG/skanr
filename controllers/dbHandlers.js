@@ -137,12 +137,16 @@ const alreadyExists = (records, placeId) => {
 };
 
 export const deleteRecents = async (userId) => {
+  console.log(
+    "🚀 ~ file: dbHandlers.js ~ line 140 ~ deleteRecents ~ userId",
+    userId
+  );
   const docRef = doc(db, "recents", userId);
   // const docSnap = await getDoc(docRef);
 
   deleteDoc(docRef)
     .then((response) => {
-      console.log(response);
+      return response;
     })
     .catch((err) => {
       console.log("[Database] => Failed to delete recenets -> ", err);
@@ -176,7 +180,8 @@ export const addLabelsToDataset = async (labelsAnnotations) => {
   const docRef = doc(db, "FoodLabels", "labels");
   const docSnap = await getDoc(docRef);
 
-  const labels = labelsAnnotations.map((label) => label.description);h
+  const labels = labelsAnnotations.map((label) => label.description);
+  h;
   const currentLabels = docSnap.exists() ? docSnap.data().labels : [];
   const newLabels = Array.from(new Set([...currentLabels, ...labels]));
   setDoc(doc(db, "FoodLabels", "labels"), { labels: newLabels })

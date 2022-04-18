@@ -22,7 +22,7 @@ import {
 import { setRecents } from "../slices/appSlice";
 import { useNavigation } from "@react-navigation/native";
 import { Carousel } from "react-native-ui-lib";
-import { fetchPlaceImages } from "../modules/PlacesApi";
+import { fetchPlaceImages } from "../resources/PlacesApi";
 
 const PlaceContainer = ({ placeDetails, outDoorImg }) => {
   const [placeImages, setPlaceImages] = useState([]);
@@ -51,6 +51,7 @@ const PlaceContainer = ({ placeDetails, outDoorImg }) => {
     >
       {/* top half */}
       <Carousel
+        autoplay
         containerStyle={tw("h-1/2 w-full rounded-2xl ")}
         loop
         pageControlProps={{
