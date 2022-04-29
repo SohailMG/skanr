@@ -18,7 +18,7 @@ const ReviewBox = ({ review, lines, color }) => {
         />
         <View style={tw("flex items-start mt-2")}>
           <Text
-            style={[tw(" font-semibold text-md"), { color: theme.fontColor }]}
+            style={[tw(" font-semibold"), { color: theme.fontColor }]}
           >
             {review.author_name.toLowerCase()}
           </Text>
@@ -43,7 +43,10 @@ const ReviewBox = ({ review, lines, color }) => {
           </View>
         </View>
       </View>
-      <Text numberOfLines={lines} style={tw("p-2 text-gray-600")}>
+      <Text
+        numberOfLines={lines}
+        style={[tw("p-2"), { color: theme.fontColor }]}
+      >
         {review.text}
       </Text>
     </View>
@@ -53,4 +56,3 @@ const ReviewBox = ({ review, lines, color }) => {
 export default ReviewBox;
 
 const styles = StyleSheet.create({});
-// freshly;

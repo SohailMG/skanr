@@ -30,7 +30,7 @@ export function findBestMatch(places, extractedText) {
   // looping though array of place names
   for (let place of places) {
     const currentScore = computeMatchScore(place.name, extractedText);
-    console.log({currentScore,text:place.name})
+    console.log({ currentScore, text: place.name });
     // case 2 - keep updating score with best matching string
     if (currentScore > bestScore) {
       bestScore = currentScore;
@@ -75,7 +75,9 @@ export function computeMatchScore(targetStr, textFromImg) {
     // looping through words in extracted textBlocks
     for (let token of targetTokens) {
       for (let i = 0; i < imageTextArr.length; i++) {
+        // checking if tokens are equal
         if (imageTextArr[i] == token) {
+          // adding extra score if string begins with current token
           if (!checkedStrStart && targetTokens[0] === imageTextArr[i]) {
             extraScore += 0.5;
             checkedStrStart = true;
@@ -92,5 +94,3 @@ export function computeMatchScore(targetStr, textFromImg) {
   }
   return 0.0;
 }
-
-// subway

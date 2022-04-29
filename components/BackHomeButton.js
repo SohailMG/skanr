@@ -3,7 +3,7 @@ import tw from "tailwind-rn";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessage } from "../slices/appSlice";
+import { setScanActive } from "../slices/appSlice";
 import { setPlaceData } from "../slices/placeDataSlice";
 
 const BackHomeButton = () => {
@@ -13,7 +13,7 @@ const BackHomeButton = () => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate("Home");
-        dispatch(setMessage(false));
+        dispatch(setScanActive(false));
         dispatch(setPlaceData(null));
       }}
       style={[

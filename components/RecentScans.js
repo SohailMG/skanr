@@ -11,7 +11,7 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import tw from "tailwind-rn";
-import { fetchRecentsFromDb } from "../controllers/dbHandlers";
+import { fetchRecentsFromDb } from "../resources/dbHandlers";
 import { Entypo, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
 import moment from "moment";

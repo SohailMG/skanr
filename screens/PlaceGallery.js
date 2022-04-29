@@ -6,7 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Gallery } from "react-native-gallery-view";
 import { useEffect, useState } from "react";
 import { classifyBatchOfImages } from "../resources/VisionAi";
-import { fetchPlaceGallery } from "../controllers/dbHandlers";
+import { fetchPlaceGallery } from "../resources/dbHandlers";
 import { image } from "@tensorflow/tfjs";
 import { Button } from "react-native-ui-lib";
 import ScrollingButtonMenu from "react-native-scroll-menu";

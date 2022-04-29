@@ -7,7 +7,7 @@ import {
   addLabelsToDataset,
   getFoodLabels,
   storeLabelledImages,
-} from "../controllers/dbHandlers";
+} from "../resources/dbHandlers";
 
 const apiRequest = {
   url: "https://vision.googleapis.com/v1/images:annotate?key=",

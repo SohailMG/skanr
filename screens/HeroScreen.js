@@ -16,17 +16,25 @@ const HeroScreen = () => {
   const { theme } = useSelector((state) => state.themeReducer);
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={tw("flex items-center justify-center")}>
+    <SafeAreaView
+      style={[
+        tw("flex-1 items-center justify-center"),
+        { backgroundColor: theme.background },
+      ]}
+    >
       {/* Hero icon svg */}
       <View style={tw("mt-6")}>
         <HeroSvg />
       </View>
       <Text
-        style={[tw("text-xl font-semibold  mt-10"), { color: theme.fontColor }]}
+        style={[
+          tw("text-2xl font-semibold  mt-10"),
+          { color: theme.fontColor },
+        ]}
       >
         Get started with
       </Text>
-      <Text style={[tw("text-2xl font-bold"), { color: "#312070" }]}>
+      <Text style={[tw("text-2xl font-bold mt-2"), { color: "#312070" }]}>
         SKANR
       </Text>
       <Text

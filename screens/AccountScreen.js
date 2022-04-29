@@ -28,7 +28,7 @@ import VeganIcon from "../assets/veganIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../slices/themeSlice";
 import { setDiateryPref } from "../slices/placeDataSlice";
-import { deleteRecents } from "../controllers/dbHandlers";
+import { deleteRecents } from "../resources/dbHandlers";
 import { setUserLocation } from "../slices/appSlice";
 
 const { TextField } = Incubator;

@@ -14,21 +14,24 @@ import Loading from "../components/loaders/Loading";
 const ReviewsScreen = () => {
   const { placeData } = useSelector((state) => state.placeReducer);
   const { theme } = useSelector((state) => state.themeReducer);
-
   const [sentimentData, setSentimentData] = useState(null);
   const [shortReviews, setShortReviews] = useState([]);
 
   useEffect(() => {
     (async () => {
+      // fetching sentiment on reviews
       const response = await analyseReviews(placeData.reviews);
       setShortReviews(response.sentimentArr);
+      // building data structure for sentiment pie chart
       const sentiments = await analyseSentiment(response);
-      setSentimentData(Array.from(sentiments));
+      setSentimentData(
+        Array.from(sentiments).filter((sentiment) => sentiment.count > 0)
+      );
     })();
   }, [placeData]);
 
   if (!sentimentData)
-    return <Loading text={"loading reviews...."} color={theme.background} />;
+    return <Loading text={"Loading reviews...."} color={theme.background} />;
 
   return (
     <SafeAreaView style={[tw("flex-1"), { backgroundColor: theme.background }]}>
@@ -51,7 +54,7 @@ const ReviewsScreen = () => {
             style={tw("ml-2")}
             name="piechart"
             size={24}
-            color="black"
+            color={theme.fontColor}
           />
         </View>
         {sentimentData && (
@@ -65,7 +68,7 @@ const ReviewsScreen = () => {
               data={sentimentData}
               width={Dimensions.get("window").width - 50}
               height={200}
-              accessor={"population"}
+              accessor={"count"}
               chartConfig={{
                 backgroundColor: "transparent",
                 decimalPlaces: 2, // optional, defaults to 2dp
@@ -91,7 +94,7 @@ const ReviewsScreen = () => {
             style={tw("ml-2")}
             name="sentiment-very-satisfied"
             size={24}
-            color="black"
+            color={theme.fontColor}
           />
         </View>
         <View style={[tw("mx-4 flex flex-row "), { flexWrap: "wrap" }]}>
@@ -100,6 +103,7 @@ const ReviewsScreen = () => {
               text.length < 30 &&
               text.length > 4 && (
                 <Chip
+                  key={Math.random()}
                   iconStyle={{ height: 10, width: 10 }}
                   containerStyle={tw(
                     `m-1  p-2 ${score_tag.includes("P") && "bg-green-500"} ${
@@ -107,7 +111,7 @@ const ReviewsScreen = () => {
                     }`
                   )}
                   label={text}
-                  labelStyle={tw("text-gray-600")}
+                  labelStyle={{ color: theme.fontColor }}
                 />
               )
           )}

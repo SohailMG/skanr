@@ -19,7 +19,7 @@ import { useState } from "react";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import PlaceDetails from "./PlaceDetails";
-import { saveScanResults } from "../controllers/dbHandlers";
+import { saveScanResults } from "../resources/dbHandlers";
 
 const PlaceModal = ({ placeId, scanFailed, setPlaceNotFound }, ref) => {
   // const { placeId } = useSelector((state) => state.appReducer);

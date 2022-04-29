@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const appSlice = createSlice({
   name: "message",
   initialState: {
-    message: false,
+    scanActive: false,
     imageUri: null,
     isScanning: false,
     userLocation: null,
@@ -18,8 +18,8 @@ const appSlice = createSlice({
     setRecents(state, action) {
       state.recents = action.payload;
     },
-    setMessage(state, action) {
-      state.message = action.payload;
+    setScanActive(state, action) {
+      state.scanActive = action.payload;
     },
     setIsScanning(state, action) {
       state.isScanning = action.payload;
@@ -38,7 +38,7 @@ const appSlice = createSlice({
 });
 
 export const {
-  setMessage,
+  setScanActive,
   setIsScanning,
   setImageUri,
   setUserLocation,

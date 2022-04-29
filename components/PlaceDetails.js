@@ -27,10 +27,7 @@ import { useDispatch } from "react-redux";
 import { setPlaceData, setPlaceImages } from "../slices/placeDataSlice";
 import { useNavigation } from "@react-navigation/native";
 import ReviewBox from "./ReviewBox";
-import {
-  storePlaceToRecents,
-  uploadToRecents,
-} from "../controllers/dbHandlers";
+import { storePlaceToRecents, uploadToRecents } from "../resources/dbHandlers";
 import useAuth from "../hooks/useAuth";
 import { classifyPlaceOutdoorImage } from "../resources/VisionAi";
 import { MotiView } from "moti";
@@ -62,6 +59,7 @@ const PlaceDetails = ({ placeId }) => {
   useEffect(() => {
     (async () => {
       try {
+        // performing image classification to find image showing place outdoor
         const outDoorImg = await classifyPlaceOutdoorImage(
           placeGallery,
           placeId
